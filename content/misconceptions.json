@@ -1,0 +1,74 @@
+[
+  {
+    "id": "current_consumed",
+    "concept_id": "series_current",
+    "description": "Believes a component uses up current, so less current leaves it than enters.",
+    "example_wordings": [
+      "the first bulb used up half",
+      "the bulb eats some of the current"
+    ]
+  },
+  {
+    "id": "series_parallel_confusion",
+    "concept_id": "series_current",
+    "description": "Believes current splits between components in series, as it does between parallel branches.",
+    "example_wordings": [
+      "the current splits between them",
+      "each bulb gets a share of the current"
+    ]
+  },
+  {
+    "id": "identical_implies_equal",
+    "concept_id": "series_current",
+    "description": "Gets equal currents only because the components are identical, not because they are in series.",
+    "example_wordings": [
+      "the bulbs are identical",
+      "same bulbs so same current"
+    ]
+  },
+  {
+    "id": "parallel_resistance_adds",
+    "concept_id": "parallel_resistance",
+    "description": "Believes adding a resistor in parallel raises total resistance.",
+    "example_wordings": [
+      "more resistors means more resistance",
+      "just add the two resistances"
+    ]
+  },
+  {
+    "id": "voltage_is_current",
+    "concept_id": "potential_difference",
+    "description": "Treats voltage and current as the same thing, or believes voltage needs current to exist.",
+    "example_wordings": [
+      "no current so there is no voltage",
+      "the voltage flows through the wire"
+    ]
+  },
+  {
+    "id": "battery_constant_current",
+    "concept_id": "ohms_law",
+    "description": "Believes a battery delivers the same current in any circuit.",
+    "example_wordings": [
+      "the battery always gives the same current",
+      "same battery so same current"
+    ]
+  },
+  {
+    "id": "resistance_always_brighter",
+    "concept_id": "electric_power",
+    "description": "Believes more resistance always means more power, ignoring what stays fixed in the circuit.",
+    "example_wordings": [
+      "higher resistance means it glows more",
+      "more resistance so more power"
+    ]
+  },
+  {
+    "id": "thicker_wire_more_resistance",
+    "concept_id": "resistance_factors",
+    "description": "Believes a thicker wire has more resistance.",
+    "example_wordings": [
+      "thicker wire has more material to resist",
+      "a fat wire blocks more current"
+    ]
+  }
+]

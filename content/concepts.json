@@ -1,0 +1,264 @@
+[
+  {
+    "id": "electric_charge",
+    "name": "Electric charge",
+    "chapter": "Electricity",
+    "description": "Charge is the property that lets particles exert electric forces; it is measured in coulombs.",
+    "prerequisites": []
+  },
+  {
+    "id": "electric_current",
+    "name": "Electric current",
+    "chapter": "Electricity",
+    "description": "Current is the rate at which charge flows, measured in amperes.",
+    "prerequisites": [
+      "electric_charge"
+    ]
+  },
+  {
+    "id": "potential_difference",
+    "name": "Potential difference",
+    "chapter": "Electricity",
+    "description": "Potential difference is the work done per unit charge between two points, measured in volts.",
+    "prerequisites": [
+      "electric_current"
+    ]
+  },
+  {
+    "id": "ohms_law",
+    "name": "Ohm's law",
+    "chapter": "Electricity",
+    "description": "At constant temperature, the current through a conductor is proportional to the potential difference across it (V = IR).",
+    "prerequisites": [
+      "electric_current",
+      "potential_difference"
+    ]
+  },
+  {
+    "id": "resistance_factors",
+    "name": "Factors affecting resistance",
+    "chapter": "Electricity",
+    "description": "Resistance depends on a conductor's length, cross-sectional area and material.",
+    "prerequisites": [
+      "ohms_law"
+    ]
+  },
+  {
+    "id": "series_current",
+    "name": "Current in a series circuit",
+    "chapter": "Electricity",
+    "description": "The same current flows through every component in series.",
+    "prerequisites": [
+      "electric_current"
+    ]
+  },
+  {
+    "id": "series_resistance",
+    "name": "Resistors in series",
+    "chapter": "Electricity",
+    "description": "The total resistance of resistors in series is the sum of their resistances.",
+    "prerequisites": [
+      "series_current",
+      "ohms_law"
+    ]
+  },
+  {
+    "id": "parallel_current",
+    "name": "Current in a parallel circuit",
+    "chapter": "Electricity",
+    "description": "In parallel, each branch has the same potential difference and the branch currents add up to the total current.",
+    "prerequisites": [
+      "series_current",
+      "potential_difference"
+    ]
+  },
+  {
+    "id": "parallel_resistance",
+    "name": "Resistors in parallel",
+    "chapter": "Electricity",
+    "description": "The reciprocal of the total resistance in parallel is the sum of the reciprocals, so the total is smaller than any branch.",
+    "prerequisites": [
+      "parallel_current",
+      "ohms_law"
+    ]
+  },
+  {
+    "id": "electric_power",
+    "name": "Electric power",
+    "chapter": "Electricity",
+    "description": "Electric power is the rate of using electrical energy (P = VI).",
+    "prerequisites": [
+      "ohms_law"
+    ]
+  },
+  {
+    "id": "electric_energy",
+    "name": "Electrical energy",
+    "chapter": "Electricity",
+    "description": "Electrical energy used is power multiplied by time, and is commonly measured in kilowatt-hours.",
+    "prerequisites": [
+      "electric_power"
+    ]
+  },
+  {
+    "id": "heating_effect",
+    "name": "Heating effect of current",
+    "chapter": "Electricity",
+    "description": "Current through a resistor produces heat according to Joule's law (H = I^2 R t).",
+    "prerequisites": [
+      "electric_power"
+    ]
+  },
+  {
+    "id": "reflection_laws",
+    "name": "Laws of reflection",
+    "chapter": "Light",
+    "description": "The angle of incidence equals the angle of reflection, and both rays lie in the same plane as the normal.",
+    "prerequisites": []
+  },
+  {
+    "id": "spherical_mirrors",
+    "name": "Spherical mirrors",
+    "chapter": "Light",
+    "description": "Concave and convex mirrors form images that depend on the object's position.",
+    "prerequisites": [
+      "reflection_laws"
+    ]
+  },
+  {
+    "id": "mirror_formula",
+    "name": "Mirror formula and magnification",
+    "chapter": "Light",
+    "description": "The mirror formula relates object distance, image distance and focal length.",
+    "prerequisites": [
+      "spherical_mirrors"
+    ]
+  },
+  {
+    "id": "refraction_laws",
+    "name": "Laws of refraction",
+    "chapter": "Light",
+    "description": "Light bends at a boundary between media according to Snell's law.",
+    "prerequisites": [
+      "reflection_laws"
+    ]
+  },
+  {
+    "id": "refractive_index",
+    "name": "Refractive index",
+    "chapter": "Light",
+    "description": "Refractive index compares the speed of light in a medium with its speed in another medium.",
+    "prerequisites": [
+      "refraction_laws"
+    ]
+  },
+  {
+    "id": "spherical_lenses",
+    "name": "Spherical lenses",
+    "chapter": "Light",
+    "description": "Convex and concave lenses form images by refraction.",
+    "prerequisites": [
+      "refraction_laws"
+    ]
+  },
+  {
+    "id": "lens_formula_power",
+    "name": "Lens formula and power",
+    "chapter": "Light",
+    "description": "The lens formula relates distances and focal length, and power is the reciprocal of focal length in metres.",
+    "prerequisites": [
+      "spherical_lenses"
+    ]
+  },
+  {
+    "id": "eye_accommodation",
+    "name": "The eye and accommodation",
+    "chapter": "The Human Eye",
+    "description": "The eye lens changes its focal length to focus objects at different distances.",
+    "prerequisites": [
+      "spherical_lenses"
+    ]
+  },
+  {
+    "id": "vision_defects",
+    "name": "Defects of vision",
+    "chapter": "The Human Eye",
+    "description": "Myopia, hypermetropia and presbyopia are corrected with suitable lenses.",
+    "prerequisites": [
+      "eye_accommodation",
+      "lens_formula_power"
+    ]
+  },
+  {
+    "id": "prism_dispersion",
+    "name": "Refraction through a prism and dispersion",
+    "chapter": "The Human Eye",
+    "description": "A prism splits white light into colours because each colour bends by a different amount.",
+    "prerequisites": [
+      "refractive_index"
+    ]
+  },
+  {
+    "id": "atmospheric_effects",
+    "name": "Atmospheric refraction and scattering",
+    "chapter": "The Human Eye",
+    "description": "Atmospheric refraction and scattering explain twinkling stars and the colours of the sky.",
+    "prerequisites": [
+      "prism_dispersion"
+    ]
+  },
+  {
+    "id": "magnetic_field_lines",
+    "name": "Magnetic field lines",
+    "chapter": "Magnetic Effects",
+    "description": "Field lines show the direction and relative strength of a magnetic field.",
+    "prerequisites": []
+  },
+  {
+    "id": "field_straight_conductor",
+    "name": "Field around a straight conductor",
+    "chapter": "Magnetic Effects",
+    "description": "A current in a straight conductor produces circular field lines given by the right-hand thumb rule.",
+    "prerequisites": [
+      "magnetic_field_lines",
+      "electric_current"
+    ]
+  },
+  {
+    "id": "field_circular_loop",
+    "name": "Field of a circular loop",
+    "chapter": "Magnetic Effects",
+    "description": "The field of a current-carrying loop is strongest near the wire and grows with current and turns.",
+    "prerequisites": [
+      "field_straight_conductor"
+    ]
+  },
+  {
+    "id": "solenoid_field",
+    "name": "Field of a solenoid",
+    "chapter": "Magnetic Effects",
+    "description": "A solenoid produces a nearly uniform field inside, similar to a bar magnet's field outside.",
+    "prerequisites": [
+      "field_circular_loop"
+    ]
+  },
+  {
+    "id": "force_on_conductor",
+    "name": "Force on a current-carrying conductor",
+    "chapter": "Magnetic Effects",
+    "description": "A conductor carrying current in a magnetic field feels a force given by Fleming's left-hand rule.",
+    "prerequisites": [
+      "field_straight_conductor"
+    ]
+  },
+  {
+    "id": "domestic_circuits",
+    "name": "Domestic electric circuits",
+    "chapter": "Magnetic Effects",
+    "description": "Homes use parallel wiring with live, neutral and earth wires, protected by fuses.",
+    "prerequisites": [
+      "parallel_current",
+      "electric_power"
+    ]
+  }
+]
