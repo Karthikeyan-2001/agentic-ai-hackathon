@@ -8,7 +8,7 @@ from sqlmodel import Session, delete, select
 from agent.content import Content
 from agent.loop import apply_answer, new_snapshot
 from api import store
-from api.models import AnswerRow, ConceptStateRow, MisconceptionStateRow, QuestionState, Student
+from api.models import AnswerRow, ConceptStateRow, MisconceptionStateRow, QuestionBaseline, QuestionState, Student
 from engine.elo import expected, starting_elo
 from engine.types import Diagnosis, Option, Question
 
@@ -106,6 +106,11 @@ def seed_class(session_factory: Callable[[], Session], content: Content, now: da
                     moment,
                 )
                 session.flush()
+        session.exec(delete(QuestionBaseline))
+        for row in session.exec(select(QuestionState)).all():
+            session.add(
+                QuestionBaseline(question_id=row.question_id, difficulty_elo=row.difficulty_elo, attempts=row.attempts)
+            )
         session.commit()
     return STUDENT_COUNT
 

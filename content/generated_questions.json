@@ -581,9 +581,7 @@
         "id": "a",
         "text": "6 ohm",
         "is_correct": false,
-        "misconception_ids": [
-          "parallel_resistance_adds"
-        ]
+        "misconception_ids": []
       },
       {
         "id": "b",
@@ -595,7 +593,9 @@
         "id": "c",
         "text": "14 ohm",
         "is_correct": false,
-        "misconception_ids": []
+        "misconception_ids": [
+          "parallel_resistance_adds"
+        ]
       },
       {
         "id": "d",

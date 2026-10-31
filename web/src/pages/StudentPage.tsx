@@ -13,6 +13,7 @@ export function StudentPage() {
   const [next, setNext] = useState<NextResponse | null>(null)
   const [state, setState] = useState<StudentState | null>(null)
   const [result, setResult] = useState<AnswerResponse | null>(null)
+  const [formVersion, setFormVersion] = useState(0)
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState('')
 
@@ -24,6 +25,7 @@ export function StudentPage() {
       setNext(nextResponse)
       setState(stateResponse)
       setResult(null)
+      setFormVersion((version) => version + 1)
     } catch (caught) {
       setError(caught instanceof Error ? caught.message : 'Something went wrong.')
     } finally {
@@ -123,7 +125,7 @@ export function StudentPage() {
           {result ? (
             <ResultCard result={result} loading={busy} onNext={() => void load(studentId)} />
           ) : next?.question ? (
-            <QuestionCard key={next.question.id} question={next.question} submitting={busy} onSubmit={submit} />
+            <QuestionCard key={formVersion} question={next.question} submitting={busy} onSubmit={submit} />
           ) : (
             next && (
               <section className="rounded-lg border border-line bg-card p-6">

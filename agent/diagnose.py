@@ -44,7 +44,7 @@ def _normalise(text: str) -> str:
 def validate_diagnosis(diagnosis: Diagnosis, reasoning: str, valid_ids: set[str]) -> Diagnosis:
     quote = diagnosis.evidence_quote
     confidence = diagnosis.confidence
-    if quote is not None and _normalise(quote) not in _normalise(reasoning):
+    if quote is not None and (not quote.strip() or _normalise(quote) not in _normalise(reasoning)):
         quote = None
         confidence = min(confidence, UNVERIFIED_CONFIDENCE)
     error_type: ErrorType = diagnosis.error_type

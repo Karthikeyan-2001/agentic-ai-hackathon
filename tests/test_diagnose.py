@@ -173,3 +173,10 @@ def test_schema_restricts_ids_to_catalogue(content, demo):
     diagnose(question, option, False, "dunno", content, FakeLLM(responder))
     with pytest.raises(ValidationError):
         captured["schema"](error_type="misconception", misconception_id="ghost", confidence=0.9)
+
+
+@pytest.mark.parametrize("quote", ["", "   "])
+def test_blank_quote_is_not_evidence(quote):
+    result = validate_diagnosis(named(evidence_quote=quote), TEXT, IDS)
+    assert result.evidence_quote is None
+    assert result.error_type == "unclear" and result.misconception_id is None

@@ -248,7 +248,7 @@ def reset_clock(request: Request) -> dict:
 @router.post("/demo/reset")
 def reset_demo(request: Request) -> dict:
     with request.app.state.session_factory() as session:
-        store.reset_demo(session)
+        store.reset_demo(session, request.app.state.content)
     return {"status": "ok"}
 
 

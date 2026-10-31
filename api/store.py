@@ -14,6 +14,7 @@ from api.models import (
     GeneratedQuestionRow,
     LlmCache,
     MisconceptionStateRow,
+    QuestionBaseline,
     QuestionState,
     Student,
 )
@@ -81,7 +82,7 @@ def initialise(session: Session, content: Content) -> None:
     session.commit()
 
 
-def reset_demo(session: Session) -> None:
+def reset_demo(session: Session, content: Content) -> None:
     for student_id, _, pinned, complete in DEMO_STUDENTS:
         session.exec(delete(AnswerRow).where(AnswerRow.student_id == student_id))
         session.exec(delete(ConceptStateRow).where(ConceptStateRow.student_id == student_id))
@@ -92,6 +93,15 @@ def reset_demo(session: Session) -> None:
         student.diagnostic_complete = complete
         clear_served(student)
         session.add(student)
+    for row in session.exec(select(QuestionState)).all():
+        baseline = session.get(QuestionBaseline, row.question_id)
+        if baseline is not None:
+            row.difficulty_elo = baseline.difficulty_elo
+            row.attempts = baseline.attempts
+        elif row.question_id in content.questions:
+            row.difficulty_elo = starting_elo(content.questions[row.question_id].difficulty_prior)
+            row.attempts = 0
+        session.add(row)
     set_offset_days(session, 0)
     session.commit()
 

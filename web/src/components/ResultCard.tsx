@@ -17,6 +17,8 @@ interface Props {
 
 export function ResultCard({ result, onNext, loading }: Props) {
   const { diagnosis } = result
+  // Code marks the answer, so a wrong answer can't be described as sound whatever the model replied.
+  const titleType = !result.correct && diagnosis.error_type === 'none' ? 'unclear' : diagnosis.error_type
   const flawedButCorrect = result.correct && diagnosis.error_type === 'misconception'
   const main = result.mastery_changes[0]
 
@@ -29,7 +31,7 @@ export function ResultCard({ result, onNext, loading }: Props) {
       >
         {result.correct ? 'Correct answer' : 'Wrong answer'}
       </p>
-      <h2 className="mt-3 text-xl font-semibold">{DIAGNOSIS_TITLE[diagnosis.error_type]}</h2>
+      <h2 className="mt-3 text-xl font-semibold">{DIAGNOSIS_TITLE[titleType]}</h2>
 
       {diagnosis.misconception_description && <p className="mt-2 text-base">{diagnosis.misconception_description}</p>}
       {diagnosis.evidence_quote && (

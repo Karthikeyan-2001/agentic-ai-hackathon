@@ -211,3 +211,29 @@ def test_assignment_is_repeatable_and_varies_by_question(content):
     generate_question("ohms_law", "g3", content, llm)
     assert len(prompts) >= 2
     assert llm.calls[0][1] == llm.calls[1][1]
+
+
+def test_verify_rejects_adds_tag_that_is_not_the_sum():
+    question = good(
+        stem="A 4 ohm and a 10 ohm resistor are in parallel. What is the total resistance?",
+        function="parallel_resistance",
+        args=[4, 10],
+        options=[
+            GeneratedOption(value=2.86, misconception_id=None),
+            GeneratedOption(value=6, misconception_id="parallel_resistance_adds"),
+        ],
+    )
+    assert "sum" in verify_generated(question, "parallel_resistance", {"parallel_resistance_adds"})
+
+
+def test_verify_accepts_adds_tag_on_the_sum():
+    question = good(
+        stem="A 4 ohm and a 10 ohm resistor are in parallel. What is the total resistance?",
+        function="parallel_resistance",
+        args=[4, 10],
+        options=[
+            GeneratedOption(value=2.86, misconception_id=None),
+            GeneratedOption(value=14, misconception_id="parallel_resistance_adds"),
+        ],
+    )
+    assert verify_generated(question, "parallel_resistance", {"parallel_resistance_adds"}) is None

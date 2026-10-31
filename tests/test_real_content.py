@@ -1,3 +1,4 @@
+import re
 from pathlib import Path
 
 import pytest
@@ -50,3 +51,13 @@ def test_no_other_question_has_options_for_two_demo_misconceptions(content):
             continue
         probed = {m for o in question.options for m in o.misconception_ids}
         assert len(probed & DEMO_MISCONCEPTIONS) <= 1, question.id
+
+
+def test_generated_adds_tags_equal_the_sum_of_the_resistances(content):
+    for question in content.questions.values():
+        if question.source != "generated":
+            continue
+        numbers = [float(n) for n in re.findall(r"\d+(?:\.\d+)?", question.stem)]
+        for option in question.options:
+            if "parallel_resistance_adds" in option.misconception_ids:
+                assert float(option.text.split()[0]) == sum(numbers), question.id

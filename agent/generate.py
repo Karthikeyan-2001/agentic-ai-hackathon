@@ -121,6 +121,8 @@ def verify_generated(g: GeneratedQuestion, concept_id: str, valid_ids: set[str])
     for option in g.options:
         if option.misconception_id is not None and option.misconception_id not in valid_ids:
             return f"unknown misconception {option.misconception_id}"
+        if option.misconception_id == "parallel_resistance_adds" and not _matches(option.value, sum(g.args)):
+            return f"parallel_resistance_adds must tag the sum {sum(g.args):g}"
     return None
 
 

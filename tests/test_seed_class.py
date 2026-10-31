@@ -136,3 +136,38 @@ def test_plan_route_reports_llm_failure(tmp_path, content_dir):
     seed(app)
     with TestClient(app) as client:
         assert client.post("/api/class/plan").status_code == 503
+
+
+def _question_state(app, question_id):
+    from api.models import QuestionState
+
+    with app.state.session_factory() as session:
+        row = session.get(QuestionState, question_id)
+        return row.difficulty_elo, row.attempts
+
+
+def _answer_demo_question(client):
+    question = client.get("/api/students/A/next").json()["question"]
+    client.post(
+        "/api/students/A/answers",
+        json={"question_id": question["id"], "option_id": "b", "reasoning": "   ", "confidence_tap": "sure"},
+    )
+
+
+def test_demo_reset_restores_seeded_question_difficulty(app):
+    seed(app)
+    before = _question_state(app, "q_series_two_bulbs")
+    with TestClient(app) as client:
+        _answer_demo_question(client)
+        assert _question_state(app, "q_series_two_bulbs") != before
+        client.post("/api/demo/reset")
+    assert _question_state(app, "q_series_two_bulbs") == before
+
+
+def test_demo_reset_restores_starting_difficulty_without_a_seed(app):
+    before = _question_state(app, "q_series_two_bulbs")
+    assert before == (1350.0, 0)
+    with TestClient(app) as client:
+        _answer_demo_question(client)
+        client.post("/api/demo/reset")
+    assert _question_state(app, "q_series_two_bulbs") == before

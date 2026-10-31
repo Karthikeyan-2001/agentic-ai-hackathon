@@ -51,6 +51,14 @@ class QuestionState(SQLModel, table=True):
     attempts: int = 0
 
 
+class QuestionBaseline(SQLModel, table=True):
+    """Question difficulty right after seeding, so Reset demo can undo demo answers."""
+
+    question_id: str = Field(primary_key=True)
+    difficulty_elo: float
+    attempts: int
+
+
 class GeneratedQuestionRow(SQLModel, table=True):
     id: str = Field(primary_key=True)
     question_json: str
