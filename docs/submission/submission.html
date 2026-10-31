@@ -128,7 +128,7 @@
 
   <figure style="width:88%;margin-left:auto;margin-right:auto">
     <img src="images/diagnosis.jpg" alt="Student A diagnosis on the landing page">
-    <figcaption>Figure 1. Student A's diagnosis, recorded from a real run on the local model. The tutor quotes the student's words, lowers mastery from 30% to 5%, keeps two explanations open (72% and 24%), and picks a question to separate them.</figcaption>
+    <figcaption>Figure 1. Student A's diagnosis, recorded from a real run on the local model. Student A answered 5 times (the correct answer is 4) and explained "It counts up to and including 5". The tutor names the false belief behind that sentence, lowers A's mastery of the concept from 30% to 5%, and keeps two possible explanations open: 72% that A thinks range includes its stop value, and 24% that A thinks the stop value is the number of repeats. It then asks about range(3, 7): only the leading belief leads to the answer 7, so A's next answer confirms or weakens it.</figcaption>
   </figure>
 
   <div class="callout"><b>Our main design rule: the LLM interprets and the code decides.</b> The language model only reads the student's reasoning and returns structured data. Tested, deterministic code marks every answer, changes every score and chooses every question. Code written by the LLM is never run. This makes every number on screen explainable and testable.</div>
@@ -507,7 +507,7 @@ Learning: p'' = p' + (1-p')·T</pre>
   <p>When two misconceptions are both plausible, every available question gets a score:</p>
   <pre>score = sum of p(m) for each of the top-two misconceptions that has an option in the question
         + 0.5 if both have options and those options are different</pre>
-  <p>The highest score wins. A question where the two beliefs lead to <i>different</i> wrong answers tells them apart in one step. For Student A, "What is the last number printed by <code>range(3, 7)</code>?" separates "includes the stop" from "stop is the count".</p>
+  <p>The highest score wins. A question where the two beliefs lead to <i>different</i> wrong answers tells them apart in one step. When no such question is available, the question that tests the leading belief scores highest. For Student A, the leading belief is "range includes the stop" (72%), so the tutor asks "What is the last number printed by <code>range(3, 7)</code>?". Only that belief leads to the answer 7, so the reply confirms or weakens it.</p>
 
   <h3>7.2 Generating questions safely</h3>
   <p>When a weak concept runs out of unseen questions, the agent can generate a new one. To avoid wrong answer keys, <b>the LLM never writes the code or the answer</b>:</p>
