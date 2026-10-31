@@ -1,27 +1,31 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { ApiError, api } from '../api'
+import { useAuth } from '../auth'
 import { ConceptGraph } from '../components/ConceptGraph'
 import { QuestionCard, type AnswerDraft } from '../components/QuestionCard'
 import { ResultCard } from '../components/ResultCard'
 import { ReviewsPanel } from '../components/ReviewsPanel'
 import { ThinkingPanel } from '../components/ThinkingPanel'
-import type { AnswerResponse, NextResponse, Student, StudentState } from '../types'
+import type { AnswerResponse, NextResponse, StudentState } from '../types'
 
 export function StudentPage() {
-  const [students, setStudents] = useState<Student[]>([])
-  const [studentId, setStudentId] = useState('')
+  const { session } = useAuth()
+  const studentId = session?.student_id ?? ''
   const [next, setNext] = useState<NextResponse | null>(null)
   const [state, setState] = useState<StudentState | null>(null)
   const [result, setResult] = useState<AnswerResponse | null>(null)
   const [formVersion, setFormVersion] = useState(0)
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState('')
+  const submitting = useRef(false)
+  const view = useRef({ questionId: '', showingResult: false, busy: false })
+  view.current = { questionId: next?.question?.id ?? '', showingResult: result !== null, busy }
 
-  const load = useCallback(async (id: string) => {
+  const load = useCallback(async () => {
     setError('')
     setBusy(true)
     try {
-      const [nextResponse, stateResponse] = await Promise.all([api.next(id), api.state(id)])
+      const [nextResponse, stateResponse] = await Promise.all([api.next(studentId), api.state(studentId)])
       setNext(nextResponse)
       setState(stateResponse)
       setResult(null)
@@ -31,24 +35,33 @@ export function StudentPage() {
     } finally {
       setBusy(false)
     }
-  }, [])
-
-  const loadStudents = useCallback(async () => {
-    const list = await api.students()
-    setStudents(list)
-    setStudentId((current) => current || list[0]?.id || '')
-  }, [])
+  }, [studentId])
 
   useEffect(() => {
-    loadStudents().catch((caught) => setError(caught instanceof Error ? caught.message : 'Something went wrong.'))
-  }, [loadStudents])
+    void load()
+  }, [load])
 
+  // The teacher can jump the clock or reset the demo from another window, so catch up when this one regains focus.
   useEffect(() => {
-    if (studentId) void load(studentId)
-  }, [studentId, load])
+    async function refresh() {
+      if (view.current.busy) return
+      const [nextResponse, stateResponse] = await Promise.all([api.next(studentId), api.state(studentId)])
+      setState(stateResponse)
+      const changed = (nextResponse.question?.id ?? '') !== view.current.questionId
+      if (changed && !view.current.showingResult) {
+        setNext(nextResponse)
+        setFormVersion((version) => version + 1)
+      }
+    }
+    const onFocus = () => void refresh().catch(() => undefined)
+    window.addEventListener('focus', onFocus)
+    return () => window.removeEventListener('focus', onFocus)
+  }, [studentId])
 
   async function submit(draft: AnswerDraft) {
-    if (!next?.question || busy) return
+    // A ref blocks a second click before React has rerendered with the disabled button.
+    if (!next?.question || busy || submitting.current) return
+    submitting.current = true
     setBusy(true)
     setError('')
     try {
@@ -57,84 +70,39 @@ export function StudentPage() {
       setState(await api.state(studentId))
     } catch (caught) {
       if (caught instanceof ApiError && caught.status === 409) {
-        await load(studentId)
+        await load()
       } else {
         setError(caught instanceof Error ? caught.message : 'Something went wrong.')
       }
     } finally {
+      submitting.current = false
       setBusy(false)
     }
-  }
-
-  async function jump() {
-    setBusy(true)
-    try {
-      await api.advanceClock(7)
-    } finally {
-      setBusy(false)
-    }
-    await load(studentId)
-  }
-
-  async function resetDemo() {
-    setBusy(true)
-    try {
-      await api.resetDemo()
-    } finally {
-      setBusy(false)
-    }
-    await load(studentId)
   }
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-6">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <label className="flex items-center gap-2 text-sm font-semibold">
-          Student
-          <select
-            value={studentId}
-            onChange={(event) => setStudentId(event.target.value)}
-            className="rounded-md border border-line bg-card px-3 py-2 font-normal"
-          >
-            {students.map((student) => (
-              <option key={student.id} value={student.id}>
-                {student.name}
-                {student.diagnostic_complete ? '' : ' (diagnostic)'}
-              </option>
-            ))}
-          </select>
-        </label>
-        <button
-          type="button"
-          onClick={resetDemo}
-          disabled={busy}
-          className="rounded-md border border-line bg-card px-3 py-2 text-sm hover:border-mute disabled:opacity-40"
-        >
-          Reset demo
-        </button>
-      </div>
-
       {error && (
-        <p role="alert" className="mt-4 rounded-md bg-bad-soft px-4 py-3 text-bad">
+        <p role="alert" className="mb-4 rounded-md bg-bad-soft px-4 py-3 text-bad">
           {error}
         </p>
       )}
 
-      <div className="mt-4 grid gap-4 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
+      <div className="grid gap-4 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
         <div className="space-y-4">
           {result ? (
-            <ResultCard result={result} loading={busy} onNext={() => void load(studentId)} />
+            <ResultCard result={result} loading={busy} onNext={() => void load()} />
           ) : next?.question ? (
             <QuestionCard key={formVersion} question={next.question} submitting={busy} onSubmit={submit} />
           ) : (
             next && (
               <section className="rounded-lg border border-line bg-card p-6">
                 <h2 className="text-xl font-semibold">All caught up</h2>
-                <p className="mt-2 text-mute">Nothing needs practice right now. Jump ahead to see reviews come due.</p>
+                <p className="mt-2 text-mute">Nothing needs practice right now. Check back when a review comes due.</p>
               </section>
             )
           )}
-          {state && <ReviewsPanel state={state} busy={busy} onJump={jump} />}
+          {state && <ReviewsPanel state={state} />}
         </div>
         <ThinkingPanel next={next} result={result} />
       </div>

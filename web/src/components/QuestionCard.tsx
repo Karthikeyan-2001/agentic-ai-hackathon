@@ -81,7 +81,7 @@ export function QuestionCard({ question, submitting, onSubmit }: Props) {
               aria-pressed={tap === value}
               onClick={() => setTap(value)}
               className={`rounded-full border px-4 py-1.5 text-sm ${
-                tap === value ? 'border-accent bg-accent text-white' : 'border-line bg-card hover:border-mute'
+                tap === value ? 'border-accent bg-accent text-on-accent' : 'border-line bg-card hover:border-mute'
               }`}
             >
               {label}
@@ -91,7 +91,7 @@ export function QuestionCard({ question, submitting, onSubmit }: Props) {
         <button
           type="submit"
           disabled={!ready}
-          className="rounded-md bg-accent px-5 py-2.5 font-semibold text-white disabled:cursor-not-allowed disabled:opacity-40"
+          className="rounded-md bg-accent px-5 py-2.5 font-semibold text-on-accent disabled:cursor-not-allowed disabled:opacity-40"
         >
           {submitting ? 'Reading your reasoning…' : 'Submit answer'}
         </button>

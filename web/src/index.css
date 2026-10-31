@@ -1,4 +1,6 @@
 @import 'tailwindcss';
+@import '@fontsource-variable/geist';
+@import '@fontsource-variable/geist-mono';
 
 @theme {
   --color-ink: #1d2428;
@@ -8,6 +10,7 @@
   --color-line: #dfe3de;
   --color-accent: #0e5a63;
   --color-accent-soft: #e2f0f1;
+  --color-on-accent: #ffffff;
   --color-good: #24693d;
   --color-good-soft: #e3f2e7;
   --color-warn: #8a5a00;
@@ -15,8 +18,8 @@
   --color-bad: #a3301f;
   --color-bad-soft: #fae7e3;
   --color-none: #eceeeb;
-  --font-sans: 'Segoe UI', system-ui, -apple-system, sans-serif;
-  --font-mono: 'Cascadia Code', Consolas, ui-monospace, monospace;
+  --font-sans: 'Geist Variable', 'Segoe UI', system-ui, sans-serif;
+  --font-mono: 'Geist Mono Variable', Consolas, ui-monospace, monospace;
 }
 
 body {
@@ -29,4 +32,111 @@ body {
 :focus-visible {
   outline: 2px solid var(--color-accent);
   outline-offset: 2px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-ink: #e8ecea;
+    --color-mute: #a2adaa;
+    --color-paper: #101516;
+    --color-card: #181f20;
+    --color-line: #2c3536;
+    --color-accent: #58c3cd;
+    --color-accent-soft: #17343a;
+    --color-on-accent: #0c1314;
+    --color-good: #7cd29a;
+    --color-good-soft: #16321f;
+    --color-warn: #e6bb6c;
+    --color-warn-soft: #36290f;
+    --color-bad: #f39a89;
+    --color-bad-soft: #3d1d17;
+    --color-none: #262e2f;
+    color-scheme: dark;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+.graph-edge {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: draw-edge 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.graph-node {
+  opacity: 0;
+  animation: show-node 0.5s ease-out forwards;
+}
+
+.graph-ripple {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: ripple 2.4s ease-out 1.4s infinite;
+  opacity: 0;
+}
+
+@keyframes draw-edge {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes show-node {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes ripple {
+  0% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  70%,
+  100% {
+    opacity: 0;
+    transform: scale(2.2);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .graph-edge {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+
+  .graph-node {
+    animation: none;
+    opacity: 1;
+  }
+
+  .graph-ripple {
+    animation: none;
+    opacity: 0;
+  }
 }

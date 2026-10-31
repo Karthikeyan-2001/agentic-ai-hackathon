@@ -1,30 +1,14 @@
 import { percent } from '../api'
 import type { StudentState } from '../types'
 
-interface Props {
-  state: StudentState
-  busy: boolean
-  onJump: () => void
-}
-
-export function ReviewsPanel({ state, busy, onJump }: Props) {
+export function ReviewsPanel({ state }: { state: StudentState }) {
   const beliefs = state.misconceptions.filter((item) => item.status === 'active' || item.status === 'resolved')
 
   return (
     <section className="rounded-lg border border-line bg-card p-5">
-      <div className="flex items-center justify-between gap-3">
-        <h2 className="font-semibold">Reviews due</h2>
-        <button
-          type="button"
-          onClick={onJump}
-          disabled={busy}
-          className="rounded-md border border-accent px-3 py-1.5 text-sm font-semibold text-accent disabled:opacity-40"
-        >
-          Jump 7 days
-        </button>
-      </div>
+      <h2 className="font-semibold">Reviews due</h2>
       <p className="mt-1 text-xs text-mute">
-        {state.offset_days > 0 ? `Demo clock is ${state.offset_days} days ahead.` : 'Demo clock is on today.'}
+        {state.offset_days > 0 ? `Your teacher moved the demo clock ${state.offset_days} days ahead.` : 'The demo clock is on today.'}
       </p>
 
       {state.due_reviews.length === 0 ? (

@@ -1,4 +1,12 @@
-import type { AnswerResponse, ClassSummary, LessonPlan, NextResponse, Student, StudentState } from './types'
+import type {
+  AnswerResponse,
+  ClassSummary,
+  DemoAccount,
+  LessonPlan,
+  NextResponse,
+  Session,
+  StudentState,
+} from './types'
 
 export class ApiError extends Error {
   status: number
@@ -9,21 +17,39 @@ export class ApiError extends Error {
   }
 }
 
+let token: string | null = null
+let onSignedOut: () => void = () => {}
+
+export function setAuthToken(value: string | null) {
+  token = value
+}
+
+export function setSignedOutHandler(handler: () => void) {
+  onSignedOut = handler
+}
+
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
   const response = await fetch(`/api${path}`, {
-    headers: { 'Content-Type': 'application/json' },
     ...init,
+    headers: {
+      'Content-Type': 'application/json',
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    },
   })
   if (!response.ok) {
     const body = await response.json().catch(() => ({}))
     const detail = typeof body.detail === 'string' ? body.detail : `Request failed (${response.status})`
+    if (response.status === 401 && token) onSignedOut()
     throw new ApiError(response.status, detail)
   }
   return response.json()
 }
 
 export const api = {
-  students: () => request<Student[]>('/students'),
+  demoAccounts: () => request<DemoAccount[]>('/auth/demo-accounts'),
+  login: (username: string, password: string) =>
+    request<Session>('/auth/login', { method: 'POST', body: JSON.stringify({ username, password }) }),
+  logout: () => request<{ status: string }>('/auth/logout', { method: 'POST' }),
   next: (id: string) => request<NextResponse>(`/students/${id}/next`),
   state: (id: string) => request<StudentState>(`/students/${id}/state`),
   answer: (

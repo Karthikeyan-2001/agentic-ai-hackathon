@@ -5,7 +5,7 @@ from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 import pytest
-from fastapi.testclient import TestClient
+from tests.helpers import DemoClient
 
 from agent.content import ContentError
 from agent.generate import GeneratedOption, GeneratedQuestion
@@ -43,7 +43,7 @@ def content_dir(tmp_path):
 @pytest.fixture
 def client(tmp_path, content_dir):
     app = create_app(db_url=f"sqlite:///{tmp_path}/t.db", llm=FakeLLM(responder), content_dir=content_dir)
-    with TestClient(app) as test_client:
+    with DemoClient(app) as test_client:
         yield test_client
 
 
@@ -160,13 +160,13 @@ def test_blank_reasoning_is_accepted_as_unclear(client):
 
 
 def test_unknown_student_returns_404(client):
-    assert client.get("/api/students/ghost/next").status_code == 404
+    assert client.get("/api/students/ghost/next").status_code == 403
     assert client.get("/api/students/ghost/state").status_code == 404
     response = client.post(
         "/api/students/ghost/answers",
         json={"question_id": "q", "option_id": "a", "reasoning": "x", "confidence_tap": "sure"},
     )
-    assert response.status_code == 404
+    assert response.status_code == 403
 
 
 def test_unknown_option_returns_422(client):
@@ -190,7 +190,7 @@ def test_invalid_confidence_tap_returns_422(client):
 
 def test_llm_failure_returns_failed_status_not_500(tmp_path, content_dir):
     app = create_app(db_url=f"sqlite:///{tmp_path}/f.db", llm=FailingLLM(), content_dir=content_dir)
-    with TestClient(app) as client:
+    with DemoClient(app) as client:
         response = submit(client, "A", next_question(client, "A"), "0.25 A", "used up")
     assert response.status_code == 200
     assert response.json()["diagnosis_status"] == "failed"
@@ -228,10 +228,10 @@ def test_demo_reset_restores_pins_and_clock(client):
 
 def test_restart_keeps_state_and_demo_students(tmp_path, content_dir):
     db_url = f"sqlite:///{tmp_path}/r.db"
-    with TestClient(create_app(db_url=db_url, llm=FakeLLM(responder), content_dir=content_dir)) as client:
+    with DemoClient(create_app(db_url=db_url, llm=FakeLLM(responder), content_dir=content_dir)) as client:
         submit(client, "A", next_question(client, "A"), "0.25 A", "The first bulb used up half")
         before = mastery(client, "A", "series_current")["mastery"]
-    with TestClient(create_app(db_url=db_url, llm=FakeLLM(responder), content_dir=content_dir)) as client:
+    with DemoClient(create_app(db_url=db_url, llm=FakeLLM(responder), content_dir=content_dir)) as client:
         assert [s["id"] for s in client.get("/api/students").json()] == ["A", "B", "C", "D"]
         assert mastery(client, "A", "series_current")["mastery"] == before
         assert next_question(client, "A")["id"] == "q_current_in_out"
@@ -260,7 +260,7 @@ def test_generated_questions_are_saved(tmp_path, content_dir):
     questions = json.loads((content_dir / "questions.json").read_text())
     (content_dir / "questions.json").write_text(json.dumps([q for q in questions if q["id"] == "q_ohm_basic"]))
     db_url = f"sqlite:///{tmp_path}/g.db"
-    with TestClient(create_app(db_url=db_url, llm=FakeLLM(generating), content_dir=content_dir)) as client:
+    with DemoClient(create_app(db_url=db_url, llm=FakeLLM(generating), content_dir=content_dir)) as client:
         submit(client, "D", next_question(client, "D"), "3 A", "dunno")
         generated = next_question(client, "D")
     assert generated["id"].startswith("g_live_ohms_law")
@@ -274,7 +274,7 @@ def test_concurrent_double_submit_applies_once(tmp_path, content_dir):
         return responder(system, user, schema)
 
     app = create_app(db_url=f"sqlite:///{tmp_path}/c.db", llm=FakeLLM(slow), content_dir=content_dir)
-    with TestClient(app) as client:
+    with DemoClient(app) as client:
         question = next_question(client, "A")
         with ThreadPoolExecutor(max_workers=2) as pool:
             futures = [

@@ -1,9 +1,21 @@
 export type ErrorType = 'none' | 'misconception' | 'slip' | 'gap' | 'unclear'
 
-export interface Student {
-  id: string
-  name: string
-  diagnostic_complete: boolean
+export type Role = 'student' | 'teacher'
+
+export interface Session {
+  token: string
+  username: string
+  role: Role
+  student_id: string | null
+  display_name: string
+}
+
+export interface DemoAccount {
+  username: string
+  password: string
+  role: Role
+  student_id: string | null
+  display_name: string
 }
 
 export interface PublicQuestion {
@@ -99,6 +111,7 @@ export interface ClassSummary {
   }[]
   student_count: number
   is_simulated: boolean
+  offset_days: number
 }
 
 export interface LessonPlan {

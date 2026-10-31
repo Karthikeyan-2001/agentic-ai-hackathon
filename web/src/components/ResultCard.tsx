@@ -60,7 +60,7 @@ export function ResultCard({ result, onNext, loading }: Props) {
         type="button"
         onClick={onNext}
         disabled={loading}
-        className="mt-5 rounded-md bg-accent px-5 py-2.5 font-semibold text-white disabled:opacity-40"
+        className="mt-5 rounded-md bg-accent px-5 py-2.5 font-semibold text-on-accent disabled:opacity-40"
       >
         {result.caught_up ? 'Finish' : 'Next question'}
       </button>

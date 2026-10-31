@@ -10,6 +10,7 @@ from sqlmodel import Session, SQLModel, create_engine
 from agent.content import load_content
 from agent.llm import DEFAULT_MODEL, CachedClient, LLMClient, OllamaClient
 from api import store
+from api.auth import SessionStore
 from api.routes import router
 
 WEB_DIST = Path(__file__).resolve().parent.parent / "web" / "dist"
@@ -34,6 +35,7 @@ def create_app(
     app = FastAPI(title="Differential")
     app.state.content = content
     app.state.session_factory = session_factory
+    app.state.sessions = SessionStore()
     app.state.llm = CachedClient(inner, store.SqlCacheStore(session_factory), model)
     app.include_router(router)
 

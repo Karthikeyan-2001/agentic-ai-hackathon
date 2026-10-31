@@ -1,13 +1,22 @@
 import json
 from typing import Literal
 
-from fastapi import APIRouter, HTTPException, Request
+from fastapi import APIRouter, Depends, HTTPException, Request
 from pydantic import BaseModel, Field
 from sqlmodel import select
 
 from agent.loop import decide_next, process_answer
 from agent.plan import draft_lesson_plan
 from api import store
+from api.auth import (
+    DEMO_ACCOUNTS,
+    DemoAccount,
+    authenticate,
+    current_account,
+    require_teacher,
+    require_this_student,
+    require_this_student_or_teacher,
+)
 from api.models import QuestionState, Student
 from engine.class_summary import StudentView, build_class_summary
 from engine.scheduling import concept_recall, displayed_mastery, is_due, misconception_recall
@@ -15,6 +24,11 @@ from engine.selection import DEFAULT_MASTERY
 from engine.types import ConceptState, MisconceptionState, Question
 
 router = APIRouter(prefix="/api")
+
+
+class LoginRequest(BaseModel):
+    username: str = Field(max_length=100)
+    password: str = Field(max_length=100)
 
 
 class AnswerRequest(BaseModel):
@@ -57,14 +71,48 @@ def _next_payload(student: Student, content) -> dict:
     }
 
 
-@router.get("/students")
+def _account_payload(account: DemoAccount) -> dict:
+    return {
+        "username": account.username,
+        "role": account.role,
+        "student_id": account.student_id,
+        "display_name": account.display_name,
+    }
+
+
+@router.get("/auth/demo-accounts")
+def demo_accounts() -> list[dict]:
+    return [{**_account_payload(account), "password": account.password} for account in DEMO_ACCOUNTS]
+
+
+@router.post("/auth/login")
+def login(body: LoginRequest, request: Request) -> dict:
+    account = authenticate(body.username, body.password)
+    if account is None:
+        raise HTTPException(status_code=401, detail="That username or password isn't right.")
+    return {**_account_payload(account), "token": request.app.state.sessions.create(account)}
+
+
+@router.post("/auth/logout")
+def logout(request: Request, account: DemoAccount = Depends(current_account)) -> dict:
+    token = request.headers["Authorization"].partition(" ")[2]
+    request.app.state.sessions.delete(token)
+    return {"status": "ok"}
+
+
+@router.get("/auth/me")
+def me(account: DemoAccount = Depends(current_account)) -> dict:
+    return _account_payload(account)
+
+
+@router.get("/students", dependencies=[Depends(require_teacher)])
 def list_students(request: Request) -> list[dict]:
     with request.app.state.session_factory() as session:
         students = session.exec(select(Student).where(Student.is_simulated == False).order_by(Student.id)).all()  # noqa: E712
         return [{"id": s.id, "name": s.name, "diagnostic_complete": s.diagnostic_complete} for s in students]
 
 
-@router.get("/graph")
+@router.get("/graph", dependencies=[Depends(current_account)])
 def graph(request: Request) -> dict:
     content = request.app.state.content
     with_questions = {q.concept_id for q in content.questions.values()}
@@ -76,7 +124,7 @@ def graph(request: Request) -> dict:
     }
 
 
-@router.get("/students/{student_id}/next")
+@router.get("/students/{student_id}/next", dependencies=[Depends(require_this_student)])
 def next_question(student_id: str, request: Request) -> dict:
     state = request.app.state
     content = state.content
@@ -95,7 +143,7 @@ def next_question(student_id: str, request: Request) -> dict:
         return _next_payload(session.get(Student, student_id), content)
 
 
-@router.post("/students/{student_id}/answers")
+@router.post("/students/{student_id}/answers", dependencies=[Depends(require_this_student)])
 def submit_answer(student_id: str, body: AnswerRequest, request: Request) -> dict:
     state = request.app.state
     content = state.content
@@ -161,7 +209,7 @@ def submit_answer(student_id: str, body: AnswerRequest, request: Request) -> dic
     }
 
 
-@router.get("/students/{student_id}/state")
+@router.get("/students/{student_id}/state", dependencies=[Depends(require_this_student_or_teacher)])
 def student_state(student_id: str, request: Request) -> dict:
     state = request.app.state
     content = state.content
@@ -222,7 +270,7 @@ def student_state(student_id: str, request: Request) -> dict:
     }
 
 
-@router.post("/clock/advance")
+@router.post("/clock/advance", dependencies=[Depends(require_teacher)])
 def advance_clock(body: ClockRequest, request: Request) -> dict:
     with request.app.state.session_factory() as session:
         offset = store.offset_days(session) + body.days
@@ -234,7 +282,7 @@ def advance_clock(body: ClockRequest, request: Request) -> dict:
         return {"offset_days": offset}
 
 
-@router.post("/clock/reset")
+@router.post("/clock/reset", dependencies=[Depends(require_teacher)])
 def reset_clock(request: Request) -> dict:
     with request.app.state.session_factory() as session:
         store.set_offset_days(session, 0)
@@ -245,7 +293,7 @@ def reset_clock(request: Request) -> dict:
         return {"offset_days": 0}
 
 
-@router.post("/demo/reset")
+@router.post("/demo/reset", dependencies=[Depends(require_teacher)])
 def reset_demo(request: Request) -> dict:
     with request.app.state.session_factory() as session:
         store.reset_demo(session, request.app.state.content)
@@ -266,15 +314,16 @@ def _class_summary(request: Request) -> dict:
         question_elo = {
             row.question_id: (row.difficulty_elo, row.attempts) for row in session.exec(select(QuestionState)).all()
         }
-    return build_class_summary(views, content, question_elo, now)
+        offset = store.offset_days(session)
+    return {**build_class_summary(views, content, question_elo, now), "offset_days": offset}
 
 
-@router.get("/class/summary")
+@router.get("/class/summary", dependencies=[Depends(require_teacher)])
 def class_summary(request: Request) -> dict:
     return _class_summary(request)
 
 
-@router.post("/class/plan")
+@router.post("/class/plan", dependencies=[Depends(require_teacher)])
 def class_plan(request: Request) -> dict:
     state = request.app.state
     content = state.content

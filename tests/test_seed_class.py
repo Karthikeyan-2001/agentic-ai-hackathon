@@ -3,7 +3,7 @@ from datetime import datetime
 from pathlib import Path
 
 import pytest
-from fastapi.testclient import TestClient
+from tests.helpers import DemoClient
 from sqlmodel import select
 
 from api.main import create_app
@@ -54,13 +54,13 @@ def test_seed_twice_keeps_30_and_preserves_demo_students(app):
     seed(app)
     seed(app)
     assert len(simulated(app)) == 30
-    with TestClient(app) as client:
+    with DemoClient(app) as client:
         assert [s["id"] for s in client.get("/api/students").json()] == ["A", "B", "C", "D"]
 
 
 def test_seed_is_repeatable(app):
     seed(app)
-    with TestClient(app) as client:
+    with DemoClient(app) as client:
         first = client.get("/api/class/summary").json()
         seed(app)
         second = client.get("/api/class/summary").json()
@@ -99,7 +99,7 @@ def test_seed_makes_no_llm_calls(tmp_path, content_dir):
 
 def test_summary_route_returns_groups_after_seed(app):
     seed(app)
-    with TestClient(app) as client:
+    with DemoClient(app) as client:
         body = client.get("/api/class/summary").json()
     assert body["student_count"] == 30
     assert body["is_simulated"] is True
@@ -108,14 +108,14 @@ def test_summary_route_returns_groups_after_seed(app):
 
 
 def test_summary_route_excludes_demo_students(app):
-    with TestClient(app) as client:
+    with DemoClient(app) as client:
         body = client.get("/api/class/summary").json()
     assert body["student_count"] == 0 and body["heatmap"]["students"] == []
 
 
 def test_plan_route_caches_result(app, llm):
     seed(app)
-    with TestClient(app) as client:
+    with DemoClient(app) as client:
         first = client.post("/api/class/plan")
         count = len(llm.calls)
         second = client.post("/api/class/plan")
@@ -127,14 +127,14 @@ def test_plan_route_caches_result(app, llm):
 
 
 def test_plan_route_with_no_active_misconception_returns_404(app):
-    with TestClient(app) as client:
+    with DemoClient(app) as client:
         assert client.post("/api/class/plan").status_code == 404
 
 
 def test_plan_route_reports_llm_failure(tmp_path, content_dir):
     app = create_app(db_url=f"sqlite:///{tmp_path}/f.db", llm=FailingLLM(), content_dir=content_dir)
     seed(app)
-    with TestClient(app) as client:
+    with DemoClient(app) as client:
         assert client.post("/api/class/plan").status_code == 503
 
 
@@ -157,7 +157,7 @@ def _answer_demo_question(client):
 def test_demo_reset_restores_seeded_question_difficulty(app):
     seed(app)
     before = _question_state(app, "q_series_two_bulbs")
-    with TestClient(app) as client:
+    with DemoClient(app) as client:
         _answer_demo_question(client)
         assert _question_state(app, "q_series_two_bulbs") != before
         client.post("/api/demo/reset")
@@ -167,7 +167,7 @@ def test_demo_reset_restores_seeded_question_difficulty(app):
 def test_demo_reset_restores_starting_difficulty_without_a_seed(app):
     before = _question_state(app, "q_series_two_bulbs")
     assert before == (1350.0, 0)
-    with TestClient(app) as client:
+    with DemoClient(app) as client:
         _answer_demo_question(client)
         client.post("/api/demo/reset")
     assert _question_state(app, "q_series_two_bulbs") == before

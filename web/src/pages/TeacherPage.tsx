@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { ApiError, api, percent } from '../api'
 import type { ClassSummary, LessonPlan } from '../types'
 
@@ -7,6 +7,62 @@ function cellClass(value: number | null): string {
   if (value < 0.4) return 'bg-bad-soft text-bad'
   if (value < 0.7) return 'bg-warn-soft text-warn'
   return 'bg-good-soft text-good'
+}
+
+function DemoControls({ offsetDays, onChanged }: { offsetDays: number; onChanged: () => Promise<void> }) {
+  const [busy, setBusy] = useState(false)
+  const [error, setError] = useState('')
+
+  async function run(action: () => Promise<unknown>) {
+    setBusy(true)
+    setError('')
+    try {
+      await action()
+      await onChanged()
+    } catch (caught) {
+      setError(caught instanceof Error ? caught.message : 'That action failed.')
+    } finally {
+      setBusy(false)
+    }
+  }
+
+  return (
+    <section
+      aria-label="Demo controls"
+      className="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-line bg-card px-5 py-4"
+    >
+      <div>
+        <h2 className="font-semibold">Demo controls</h2>
+        <p className="text-xs text-mute">
+          {offsetDays > 0 ? `The demo clock is ${offsetDays} days ahead.` : 'The demo clock is on today.'} These affect
+          every student.
+        </p>
+        {error && (
+          <p role="alert" className="mt-1 text-sm text-bad">
+            {error}
+          </p>
+        )}
+      </div>
+      <div className="flex gap-2">
+        <button
+          type="button"
+          disabled={busy}
+          onClick={() => void run(() => api.advanceClock(7))}
+          className="rounded-md border border-accent px-3 py-2 text-sm font-semibold text-accent active:scale-[0.98] disabled:opacity-40"
+        >
+          Jump 7 days
+        </button>
+        <button
+          type="button"
+          disabled={busy}
+          onClick={() => void run(() => api.resetDemo())}
+          className="rounded-md border border-line px-3 py-2 text-sm font-semibold hover:border-mute active:scale-[0.98] disabled:opacity-40"
+        >
+          Reset demo
+        </button>
+      </div>
+    </section>
+  )
 }
 
 function StatTile({ label, value, detail }: { label: string; value: string; detail: string }) {
@@ -271,7 +327,7 @@ function MondayPlan({ hasGroups }: { hasGroups: boolean }) {
           type="button"
           onClick={draft}
           disabled={busy || !hasGroups}
-          className="rounded-md bg-accent px-3 py-2 text-sm font-semibold text-white disabled:opacity-40"
+          className="rounded-md bg-accent px-3 py-2 text-sm font-semibold text-on-accent disabled:opacity-40"
         >
           {busy ? 'Drafting…' : plan ? 'Show plan again' : 'Draft a plan'}
         </button>
@@ -301,12 +357,13 @@ export function TeacherPage() {
   const [summary, setSummary] = useState<ClassSummary | null>(null)
   const [error, setError] = useState('')
 
-  useEffect(() => {
-    api
-      .classSummary()
-      .then(setSummary)
-      .catch((caught) => setError(caught instanceof Error ? caught.message : 'Something went wrong.'))
+  const load = useCallback(async () => {
+    setSummary(await api.classSummary())
   }, [])
+
+  useEffect(() => {
+    load().catch((caught) => setError(caught instanceof Error ? caught.message : 'Something went wrong.'))
+  }, [load])
 
   return (
     <div className="mx-auto max-w-7xl space-y-4 px-4 py-6">
@@ -319,6 +376,7 @@ export function TeacherPage() {
           {error}
         </p>
       )}
+      {summary && <DemoControls offsetDays={summary.offset_days} onChanged={load} />}
       {summary && summary.student_count === 0 && (
         <section className="rounded-lg border border-line bg-card p-6">
           <h2 className="text-xl font-semibold">No class data yet</h2>

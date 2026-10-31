@@ -75,9 +75,31 @@ The `.venv/Scripts` paths are for Windows. On macOS or Linux, use `.venv/bin`.
 
 Then open http://localhost:8000. `seed_class` creates the simulated class, and `warm_demo` caches the demo answers.
 
+## Demo accounts
+
+These are mock accounts for the local demo. The login page also has a one-click button for each one.
+
+| Role | Username | Password |
+|---|---|---|
+| Teacher | `teacher` | `Teacher-Demo-2026` |
+| Student A | `student.a` | `Student-A-2026` |
+| Student B | `student.b` | `Student-B-2026` |
+| Student C | `student.c` | `Student-C-2026` |
+| Student D (takes the diagnostic) | `student.d` | `Student-D-2026` |
+
+The server checks the role on every API request:
+
+- Students can only see and answer their own questions.
+- Only the teacher can see the class dashboard or use **Jump 7 days** and **Reset demo**.
+- The teacher can read a student's progress, but can't answer for them.
+
+The passwords are in the code in plain text, sessions are kept in memory, and restarting the server signs everyone out. This separates roles for a demo, and it isn't real security.
+
+Each browser tab signs in separately, so you can keep the teacher in one window and a student in another.
+
 ## Demo script (3 minutes)
 
-Click **Reset demo** first. Type these exact answers, tapping **Sure** each time, so they're answered from the cache even if Ollama stops.
+Keep the teacher signed in on one window, and click **Reset demo** there first. Use a second window for students: sign in, answer, sign out, then choose the next student. Type these exact answers, tapping **Sure** each time, so they're answered from the cache even if Ollama stops.
 
 | Student | Choose | Reasoning |
 |---|---|---|
@@ -89,8 +111,8 @@ Click **Reset demo** first. Type these exact answers, tapping **Sure** each time
 | C, next question | 0.5 A | In series there is one path, so the current is the same in both bulbs |
 
 1. Show students A, B and C with the thinking panel visible (90 seconds).
-2. Show a misconception's probability falling, then click **Jump 7 days** to bring a review due (30 seconds).
-3. Open **Teacher** for the class summary, biggest gaps, shared misconceptions and root causes, and draft the Monday plan (40 seconds).
+2. Show a misconception's probability falling. Then click **Jump 7 days** in the teacher window, and return to the student window to show the review due (30 seconds).
+3. Go to the teacher window for the class summary, biggest gaps, shared misconceptions and root causes, and draft the Monday plan (40 seconds).
 4. Finish with the accuracy result and how it was measured (20 seconds).
 
 ## Tests
@@ -107,6 +129,6 @@ The second command runs the demo cases against the real model.
 ## Limits
 
 - Questions cover Electricity only. Other chapters appear in the graph as "not assessed".
-- There's no login, so this runs as a local demo. Don't expose it to the internet as it is.
+- Sign-in is mock, so this runs as a local demo. Don't expose it to the internet as it is.
 - No real student has used it yet.
 - The AI-written lesson plan is a draft for a teacher to review.

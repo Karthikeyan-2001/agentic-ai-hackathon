@@ -3,7 +3,7 @@ import shutil
 from pathlib import Path
 
 import pytest
-from fastapi.testclient import TestClient
+from tests.helpers import DemoClient
 
 from agent.content import load_content
 from agent.plan import LessonPlan
@@ -115,17 +115,17 @@ def replay(client, app):
 def test_warmed_demo_works_when_ollama_is_down(tmp_path, content_dir):
     db_url = f"sqlite:///{tmp_path}/w.db"
     warm_app = create_app(db_url=db_url, llm=FakeLLM(responder), content_dir=content_dir)
-    with TestClient(warm_app) as client:
+    with DemoClient(warm_app) as client:
         warm_demo(client)
     down_app = create_app(db_url=db_url, llm=FailingLLM(), content_dir=content_dir)
-    with TestClient(down_app) as client:
+    with DemoClient(down_app) as client:
         statuses = replay(client, down_app)
     assert statuses and set(statuses) == {"cached"}
 
 
 def test_warm_demo_leaves_students_reset(tmp_path, content_dir):
     app = create_app(db_url=f"sqlite:///{tmp_path}/r.db", llm=FakeLLM(responder), content_dir=content_dir)
-    with TestClient(app) as client:
+    with DemoClient(app) as client:
         warm_demo(client)
         assert client.get("/api/students/A/next").json()["question"]["id"] == "q_series_two_bulbs"
         assert client.get("/api/students/A/state").json()["answer_count"] == 0
