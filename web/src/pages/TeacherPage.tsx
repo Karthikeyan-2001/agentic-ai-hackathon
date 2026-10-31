@@ -83,7 +83,7 @@ function Overview({ summary }: { summary: ClassSummary }) {
       <StatTile
         label="Average mastery"
         value={overview.average_mastery === null ? '–' : percent(overview.average_mastery)}
-        detail="Assessed Electricity concepts only"
+        detail="Assessed Python concepts only"
       />
       <StatTile
         label="Students with a misconception"
@@ -113,7 +113,7 @@ function ConceptGaps({ summary }: { summary: ClassSummary }) {
   return (
     <section className="rounded-lg border border-line bg-card p-5">
       <h2 className="text-lg font-semibold">Biggest class gaps</h2>
-      <p className="mt-1 text-xs text-mute">Electricity concepts, weakest first, by average mastery.</p>
+      <p className="mt-1 text-xs text-mute">Python concepts, weakest first, by average mastery.</p>
       <ul className="mt-4 space-y-3">
         {assessed.map((gap) => {
           const average = gap.average_mastery ?? 0
@@ -293,7 +293,7 @@ function CalibrationFlags({ summary }: { summary: ClassSummary }) {
                 {flag.direction === 'harder' ? 'Harder than predicted' : 'Easier than predicted'}
               </span>{' '}
               (Elo {Math.round(flag.predicted_elo)} → {Math.round(flag.current_elo)}, {flag.attempts} attempts)
-              <span className="block text-xs text-mute">{flag.stem}</span>
+              <span className="block font-mono text-xs whitespace-pre-wrap text-mute">{flag.stem}</span>
             </li>
           ))}
         </ul>

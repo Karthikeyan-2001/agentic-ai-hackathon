@@ -5,16 +5,16 @@ from api.auth import DEMO_ACCOUNTS
 # Type these exact answers in the demo. Each one is then answered from the cache, even with Ollama stopped.
 DEMO_SCRIPT = {
     "A": [
-        ("0.25 A", "The first bulb used up half"),
-        ("The two readings are equal", "Charge is not used up, so the current leaving the bulb equals the current entering it"),
+        ("5 times", "It counts up to and including 5"),
+        ("6", "range stops before its stop value, so 6 is the last number printed"),
     ],
     "B": [
-        ("0.25 A", "The current splits between them"),
-        ("Series", "In series there is one path, so each bulb carries the battery current"),
+        ("5 times", "The 5 says how many times"),
+        ("2 times", "i takes the values 4 and 5, so the loop runs twice"),
     ],
     "C": [
-        ("0.5 A", "The bulbs are identical"),
-        ("0.5 A", "In series there is one path, so the current is the same in both bulbs"),
+        ("4 times", "It is always one less than the stop number"),
+        ("5 times", "8 minus 3 is 5, so the loop runs for 3, 4, 5, 6 and 7"),
     ],
 }
 

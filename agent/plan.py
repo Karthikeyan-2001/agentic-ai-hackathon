@@ -3,7 +3,7 @@ from pydantic import BaseModel
 from agent.content import Content
 from agent.llm import LLMClient, LLMError
 
-SYSTEM = """You help a Class 10 physics teacher plan a short lesson that corrects one misconception.
+SYSTEM = """You help a Class 10 computer science teacher plan a short lesson that corrects one misconception.
 Give a short title, a board demonstration the teacher can run in 10 minutes, and a check question ID chosen from the list."""
 
 

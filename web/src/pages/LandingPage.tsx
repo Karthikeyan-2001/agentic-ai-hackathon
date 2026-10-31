@@ -55,7 +55,7 @@ const FEATURES: Feature[] = [
   },
   {
     name: 'Concept graph',
-    detail: 'Class 10 physics mapped into 29 linked concepts, with Electricity covered in depth.',
+    detail: 'Class 10 computer science mapped into 29 linked concepts, with Python covered in depth.',
     icon: Graph,
     span: 'lg:col-span-2',
     tone: 'bg-card',
@@ -84,10 +84,10 @@ const FEATURES: Feature[] = [
 ]
 
 const CLASS_GAPS = [
-  { name: 'Current in a series circuit', value: 23, detail: '20 of 28 below 40%' },
-  { name: 'Electrical energy', value: 31, detail: '10 of 14 below 40%' },
-  { name: 'Potential difference', value: 31, detail: '6 of 12 below 40%' },
-  { name: 'Electric power', value: 35, detail: '17 of 30 below 40%' },
+  { name: 'while loops', value: 16, detail: '14 of 16 below 40%' },
+  { name: 'Variables and assignment', value: 25, detail: '7 of 13 below 40%' },
+  { name: 'Data types', value: 38, detail: '3 of 11 below 40%' },
+  { name: 'Lists and indexing', value: 39, detail: '1 of 5 below 40%' },
 ]
 
 function Reveal({ children, className = '' }: { children: ReactNode; className?: string }) {
@@ -161,7 +161,7 @@ export function LandingPage() {
               Your tutor knows the answer was wrong. Ours knows why.
             </h1>
             <p className="mt-6 max-w-[46ch] text-lg leading-relaxed text-mute">
-              A Class 10 physics tutor that reads a student's reasoning, names the misconception, then asks the question
+              A Class 10 Python tutor that reads a student's reasoning, names the misconception, then asks the question
               that tests it.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-5">
@@ -278,7 +278,7 @@ export function LandingPage() {
               </div>
               <div>
                 <dt className="text-sm text-mute">Error type correct</dt>
-                <dd className="mt-1 text-5xl font-semibold tracking-tighter tabular-nums">29 of 30</dd>
+                <dd className="mt-1 text-5xl font-semibold tracking-tighter tabular-nums">30 of 30</dd>
               </div>
               <div>
                 <dt className="text-sm text-mute">Average time per diagnosis</dt>

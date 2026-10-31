@@ -17,7 +17,7 @@ TEACHER_ONLY = [
     ("post", "/api/clock/reset", None),
     ("post", "/api/demo/reset", None),
 ]
-ANSWER = {"question_id": "q_series_two_bulbs", "option_id": "b", "reasoning": "x", "confidence_tap": "sure"}
+ANSWER = {"question_id": "q_range_count", "option_id": "b", "reasoning": "x", "confidence_tap": "sure"}
 
 
 def responder(system, user, schema):
@@ -124,7 +124,7 @@ def test_blocked_student_clock_change_has_no_effect(client):
 def test_student_can_use_own_routes(client):
     headers = sign_in(client, "student", "A")
     question = client.get("/api/students/A/next", headers=headers).json()["question"]
-    assert question["id"] == "q_series_two_bulbs"
+    assert question["id"] == "q_range_count"
     assert client.get("/api/students/A/state", headers=headers).status_code == 200
     assert client.get("/api/graph", headers=headers).status_code == 200
     answer = client.post("/api/students/A/answers", json=ANSWER, headers=headers)

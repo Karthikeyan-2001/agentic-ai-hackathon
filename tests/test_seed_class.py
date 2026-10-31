@@ -27,7 +27,7 @@ def content_dir(tmp_path):
 @pytest.fixture
 def llm():
     return FakeLLM(
-        lambda s, u, schema: LessonPlan(title="Current is not used up", board_demo="Two ammeters", check_question_id="q_current_in_out")
+        lambda s, u, schema: LessonPlan(title="range leaves out its stop value", board_demo="Trace the loop on the board", check_question_id="q_range_last_value")
     )
 
 
@@ -156,18 +156,18 @@ def _answer_demo_question(client):
 
 def test_demo_reset_restores_seeded_question_difficulty(app):
     seed(app)
-    before = _question_state(app, "q_series_two_bulbs")
+    before = _question_state(app, "q_range_count")
     with DemoClient(app) as client:
         _answer_demo_question(client)
-        assert _question_state(app, "q_series_two_bulbs") != before
+        assert _question_state(app, "q_range_count") != before
         client.post("/api/demo/reset")
-    assert _question_state(app, "q_series_two_bulbs") == before
+    assert _question_state(app, "q_range_count") == before
 
 
 def test_demo_reset_restores_starting_difficulty_without_a_seed(app):
-    before = _question_state(app, "q_series_two_bulbs")
+    before = _question_state(app, "q_range_count")
     assert before == (1350.0, 0)
     with DemoClient(app) as client:
         _answer_demo_question(client)
         client.post("/api/demo/reset")
-    assert _question_state(app, "q_series_two_bulbs") == before
+    assert _question_state(app, "q_range_count") == before

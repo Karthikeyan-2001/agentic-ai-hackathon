@@ -1,74 +1,74 @@
 [
   {
-    "id": "current_consumed",
-    "concept_id": "series_current",
-    "description": "Believes a component uses up current, so less current leaves it than enters.",
+    "id": "range_includes_stop",
+    "concept_id": "for_range",
+    "description": "Believes range(start, stop) includes the stop value, so the loop reaches that number.",
     "example_wordings": [
-      "the first bulb used up half",
-      "the bulb eats some of the current"
+      "it counts up to and including 5",
+      "the loop goes all the way to the last number"
     ]
   },
   {
-    "id": "series_parallel_confusion",
-    "concept_id": "series_current",
-    "description": "Believes current splits between components in series, as it does between parallel branches.",
+    "id": "range_stop_is_count",
+    "concept_id": "for_range",
+    "description": "Believes the stop value says how many times the loop runs, whatever the start value is.",
     "example_wordings": [
-      "the current splits between them",
-      "each bulb gets a share of the current"
+      "the 5 says how many times",
+      "the last number is the number of repeats"
     ]
   },
   {
-    "id": "identical_implies_equal",
-    "concept_id": "series_current",
-    "description": "Gets equal currents only because the components are identical, not because they are in series.",
+    "id": "range_one_less_than_stop",
+    "concept_id": "for_range",
+    "description": "Believes a loop always runs one less time than its stop value, ignoring the start value.",
     "example_wordings": [
-      "the bulbs are identical",
-      "same bulbs so same current"
+      "it is always one less than the stop number",
+      "just take the last number minus 1"
     ]
   },
   {
-    "id": "parallel_resistance_adds",
-    "concept_id": "parallel_resistance",
-    "description": "Believes adding a resistor in parallel raises total resistance.",
+    "id": "assignment_links_variables",
+    "concept_id": "variables_assignment",
+    "description": "Believes b = a links the two variables, so changing a later also changes b.",
     "example_wordings": [
-      "more resistors means more resistance",
-      "just add the two resistances"
+      "b is joined to a",
+      "b follows a so it changes too"
     ]
   },
   {
-    "id": "voltage_is_current",
-    "concept_id": "potential_difference",
-    "description": "Treats voltage and current as the same thing, or believes voltage needs current to exist.",
+    "id": "integer_division_rounds",
+    "concept_id": "arithmetic_operators",
+    "description": "Believes // rounds to the nearest whole number instead of dropping the part after the decimal point.",
     "example_wordings": [
-      "no current so there is no voltage",
-      "the voltage flows through the wire"
+      "4.75 rounds up to 5",
+      "double slash rounds the answer off"
     ]
   },
   {
-    "id": "battery_constant_current",
-    "concept_id": "ohms_law",
-    "description": "Believes a battery delivers the same current in any circuit.",
+    "id": "string_plus_adds",
+    "concept_id": "data_types",
+    "description": "Believes + adds digits as numbers even when they are strings in quotes.",
     "example_wordings": [
-      "the battery always gives the same current",
-      "same battery so same current"
+      "2 plus 3 is 5, the quotes do not matter",
+      "plus always adds"
     ]
   },
   {
-    "id": "resistance_always_brighter",
-    "concept_id": "electric_power",
-    "description": "Believes more resistance always means more power, ignoring what stays fixed in the circuit.",
+    "id": "while_exits_mid_body",
+    "concept_id": "while_loops",
+    "description": "Believes a while loop stops at the moment its condition becomes false, skipping the rest of the body.",
     "example_wordings": [
-      "higher resistance means it glows more",
-      "more resistance so more power"
+      "once n is 2 it leaves the loop straight away",
+      "the print is skipped because the condition is false"
     ]
   },
   {
-    "id": "thicker_wire_more_resistance",
-    "concept_id": "resistance_factors",
-    "description": "Believes a thicker wire has more resistance.",
+    "id": "index_starts_at_one",
+    "concept_id": "list_indexing",
+    "description": "Believes list indexes start at 1, so index 1 is the first item.",
     "example_wordings": [
-      "thicker wire has more material to resist",
-      "a fat wire blocks more current"
+      "marks[1] is the first mark",
+      "counting starts from 1"
     ]
   }
 ]

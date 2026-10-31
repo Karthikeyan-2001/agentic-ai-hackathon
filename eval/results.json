@@ -4,142 +4,110 @@
     "error_type_accuracy": 1.0,
     "misconception_accuracy": 1.0,
     "per_misconception": {
-      "current_consumed": {
+      "range_includes_stop": {
         "correct": 1,
         "total": 1
       },
-      "series_parallel_confusion": {
+      "range_stop_is_count": {
         "correct": 1,
         "total": 1
       },
-      "identical_implies_equal": {
+      "range_one_less_than_stop": {
         "correct": 1,
         "total": 1
       },
-      "parallel_resistance_adds": {
+      "index_starts_at_one": {
         "correct": 1,
         "total": 1
       },
-      "thicker_wire_more_resistance": {
+      "string_plus_adds": {
         "correct": 1,
         "total": 1
       }
     },
-    "avg_seconds": 0.7852451499999006,
+    "avg_seconds": 0.8225508600000466,
     "mistakes": []
   },
   "heldout_off": {
     "count": 30,
-    "error_type_accuracy": 0.9666666666666667,
+    "error_type_accuracy": 1.0,
     "misconception_accuracy": 1.0,
     "per_misconception": {
-      "current_consumed": {
+      "range_includes_stop": {
         "correct": 2,
         "total": 2
       },
-      "series_parallel_confusion": {
+      "range_stop_is_count": {
         "correct": 3,
         "total": 3
       },
-      "identical_implies_equal": {
+      "range_one_less_than_stop": {
         "correct": 3,
         "total": 3
       },
-      "battery_constant_current": {
+      "integer_division_rounds": {
         "correct": 2,
         "total": 2
       },
-      "voltage_is_current": {
+      "assignment_links_variables": {
         "correct": 2,
         "total": 2
       },
-      "parallel_resistance_adds": {
+      "index_starts_at_one": {
         "correct": 2,
         "total": 2
       },
-      "thicker_wire_more_resistance": {
+      "string_plus_adds": {
         "correct": 2,
         "total": 2
       },
-      "resistance_always_brighter": {
+      "while_exits_mid_body": {
         "correct": 2,
         "total": 2
       }
     },
-    "avg_seconds": 0.7865292933334179,
-    "mistakes": [
-      {
-        "id": "h03",
-        "reasoning": "because thats what happens",
-        "expected_error_type": "unclear",
-        "expected_misconception_id": null,
-        "error_type": "misconception",
-        "misconception_id": "current_consumed",
-        "status": "ok",
-        "seconds": 0.8745182000020577
-      }
-    ]
+    "avg_seconds": 0.8407623833330339,
+    "mistakes": []
   },
   "heldout_on": {
     "count": 30,
-    "error_type_accuracy": 0.9333333333333333,
-    "misconception_accuracy": 0.9444444444444444,
+    "error_type_accuracy": 1.0,
+    "misconception_accuracy": 1.0,
     "per_misconception": {
-      "current_consumed": {
+      "range_includes_stop": {
         "correct": 2,
         "total": 2
       },
-      "series_parallel_confusion": {
+      "range_stop_is_count": {
         "correct": 3,
         "total": 3
       },
-      "identical_implies_equal": {
-        "correct": 2,
+      "range_one_less_than_stop": {
+        "correct": 3,
         "total": 3
       },
-      "battery_constant_current": {
+      "integer_division_rounds": {
         "correct": 2,
         "total": 2
       },
-      "voltage_is_current": {
+      "assignment_links_variables": {
         "correct": 2,
         "total": 2
       },
-      "parallel_resistance_adds": {
+      "index_starts_at_one": {
         "correct": 2,
         "total": 2
       },
-      "thicker_wire_more_resistance": {
+      "string_plus_adds": {
         "correct": 2,
         "total": 2
       },
-      "resistance_always_brighter": {
+      "while_exits_mid_body": {
         "correct": 2,
         "total": 2
       }
     },
-    "avg_seconds": 3.180731039999955,
-    "mistakes": [
-      {
-        "id": "h03",
-        "reasoning": "because thats what happens",
-        "expected_error_type": "unclear",
-        "expected_misconception_id": null,
-        "error_type": "misconception",
-        "misconception_id": "current_consumed",
-        "status": "ok",
-        "seconds": 5.6351725999993505
-      },
-      {
-        "id": "h09",
-        "reasoning": "bulbs arent identical so current must be different in them",
-        "expected_error_type": "misconception",
-        "expected_misconception_id": "identical_implies_equal",
-        "error_type": "unclear",
-        "misconception_id": null,
-        "status": "ok",
-        "seconds": 6.29954859999998
-      }
-    ]
+    "avg_seconds": 3.8399188166666134,
+    "mistakes": []
   }
 }

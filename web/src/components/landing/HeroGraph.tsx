@@ -9,20 +9,20 @@ interface GraphNode {
   prerequisites: string[]
 }
 
-// The real Electricity prerequisites from content/concepts.json, shown for one example student.
+// The real Python prerequisites from content/concepts.json, shown for one example student.
 const NODES: GraphNode[] = [
-  { id: 'charge', label: 'Charge', x: 45, y: 235, state: 'unknown', prerequisites: [] },
-  { id: 'current', label: 'Current', x: 160, y: 235, state: 'partial', prerequisites: ['charge'] },
-  { id: 'voltage', label: 'Voltage', x: 280, y: 115, state: 'strong', prerequisites: ['current'] },
-  { id: 'series', label: 'Series current', x: 280, y: 320, state: 'weak', prerequisites: ['current'] },
-  { id: 'ohm', label: "Ohm's law", x: 410, y: 115, state: 'strong', prerequisites: ['current', 'voltage'] },
-  { id: 'parallelCurrent', label: 'Parallel current', x: 410, y: 390, state: 'partial', prerequisites: ['series', 'voltage'] },
-  { id: 'factors', label: 'Resistance factors', x: 540, y: 40, state: 'strong', prerequisites: ['ohm'] },
-  { id: 'power', label: 'Power', x: 540, y: 135, state: 'partial', prerequisites: ['ohm'] },
-  { id: 'seriesResistance', label: 'Series resistance', x: 540, y: 245, state: 'weak', prerequisites: ['series', 'ohm'] },
-  { id: 'parallelResistance', label: 'Parallel resistance', x: 540, y: 390, state: 'partial', prerequisites: ['parallelCurrent', 'ohm'] },
-  { id: 'energy', label: 'Energy', x: 665, y: 90, state: 'partial', prerequisites: ['power'] },
-  { id: 'heating', label: 'Heating', x: 665, y: 190, state: 'unknown', prerequisites: ['power'] },
+  { id: 'variables', label: 'Variables', x: 45, y: 235, state: 'strong', prerequisites: [] },
+  { id: 'types', label: 'Data types', x: 160, y: 235, state: 'partial', prerequisites: ['variables'] },
+  { id: 'arithmetic', label: 'Arithmetic', x: 280, y: 115, state: 'strong', prerequisites: ['types'] },
+  { id: 'comparison', label: 'Comparison', x: 280, y: 320, state: 'unknown', prerequisites: ['types'] },
+  { id: 'indexing', label: 'List indexing', x: 410, y: 40, state: 'strong', prerequisites: ['arithmetic'] },
+  { id: 'ifElse', label: 'if and else', x: 410, y: 320, state: 'unknown', prerequisites: ['comparison'] },
+  { id: 'forRange', label: 'for with range', x: 540, y: 320, state: 'weak', prerequisites: ['ifElse'] },
+  { id: 'functions', label: 'Functions', x: 540, y: 190, state: 'unknown', prerequisites: ['ifElse', 'arithmetic'] },
+  { id: 'traversal', label: 'List traversal', x: 665, y: 60, state: 'partial', prerequisites: ['indexing', 'forRange'] },
+  { id: 'totals', label: 'Running totals', x: 665, y: 165, state: 'partial', prerequisites: ['forRange', 'arithmetic'] },
+  { id: 'nested', label: 'Nested loops', x: 665, y: 270, state: 'weak', prerequisites: ['forRange', 'arithmetic'] },
+  { id: 'whileLoops', label: 'while loops', x: 665, y: 385, state: 'partial', prerequisites: ['forRange', 'comparison'] },
 ]
 
 const BY_ID = new Map(NODES.map((node) => [node.id, node]))
@@ -52,7 +52,7 @@ export function HeroGraph() {
       <svg
         viewBox="0 0 720 440"
         role="img"
-        aria-label="Concept graph of 12 Electricity concepts linked by prerequisites. For this example student, Series current and Series resistance are weak."
+        aria-label="Concept graph of 12 Python concepts linked by prerequisites. For this example student, for loops with range and nested loops are weak."
         className="h-auto w-full"
       >
         {edges.map((edge) => (
@@ -70,7 +70,7 @@ export function HeroGraph() {
         ))}
         {NODES.map((node) => (
           <g key={node.id} className="graph-node" style={{ animationDelay: `${0.25 + node.x / 900}s` }}>
-            {node.id === 'series' && <circle cx={node.x} cy={node.y} r={13} fill={FILL.weak} className="graph-ripple" />}
+            {node.id === 'forRange' &&<circle cx={node.x} cy={node.y} r={13} fill={FILL.weak} className="graph-ripple" />}
             <circle
               cx={node.x}
               cy={node.y}

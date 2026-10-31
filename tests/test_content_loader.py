@@ -6,7 +6,7 @@ from agent.content import ContentError, load_content
 
 
 def concept(id, prerequisites=()):
-    return {"id": id, "name": id, "chapter": "Electricity", "description": "d", "prerequisites": list(prerequisites)}
+    return {"id": id, "name": id, "chapter": "Python Programming", "description": "d", "prerequisites": list(prerequisites)}
 
 
 def misconception(id="m1", concept_id="a"):

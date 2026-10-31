@@ -7,7 +7,7 @@ from engine.graph import root_prerequisite_below
 from engine.scheduling import concept_recall, displayed_mastery, is_due
 from engine.types import Concept, ConceptState, Misconception, MisconceptionState, Question
 
-ELECTRICITY = "Electricity"
+ASSESSED_CHAPTER = "Python Programming"
 LOW_MASTERY = 0.5
 GAP_THRESHOLD = 0.4
 
@@ -171,7 +171,7 @@ def build_class_summary(
     question_elo: dict[str, tuple[float, int]],
     now: datetime,
 ) -> dict:
-    concepts = [concept for concept in content.concepts.values() if concept.chapter == ELECTRICITY]
+    concepts = [concept for concept in content.concepts.values() if concept.chapter == ASSESSED_CHAPTER]
     rows = [
         {"id": student.id, "name": student.name, "mastery": _displayed_by_concept(student, concepts, now)}
         for student in students

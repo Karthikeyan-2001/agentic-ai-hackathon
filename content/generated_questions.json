@@ -1,30 +1,63 @@
 [
   {
-    "id": "g_ohms_law_1",
-    "concept_id": "ohms_law",
-    "stem": "A conductor has a potential difference of 12 V across it and a current of 1 A flowing through it. What is the resistance of the conductor?",
+    "id": "g_arithmetic_operators_1",
+    "concept_id": "arithmetic_operators",
+    "stem": "What does this program print?\n\nprint(4 ** 2)",
     "options": [
       {
         "id": "a",
-        "text": "12 ohm",
-        "is_correct": true,
+        "text": "8",
+        "is_correct": false,
         "misconception_ids": []
       },
       {
         "id": "b",
-        "text": "13 ohm",
+        "text": "2",
         "is_correct": false,
         "misconception_ids": []
       },
       {
         "id": "c",
-        "text": "11 ohm",
+        "text": "16",
+        "is_correct": true,
+        "misconception_ids": []
+      },
+      {
+        "id": "d",
+        "text": "4",
+        "is_correct": false,
+        "misconception_ids": []
+      }
+    ],
+    "difficulty_prior": 1,
+    "source": "generated"
+  },
+  {
+    "id": "g_running_total_1",
+    "concept_id": "running_total",
+    "stem": "What does this program print?\n\ntotal = 0\nfor i in range(1, 8):\n    total = total + i\nprint(total)",
+    "options": [
+      {
+        "id": "a",
+        "text": "36",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "b",
+        "text": "28",
+        "is_correct": true,
+        "misconception_ids": []
+      },
+      {
+        "id": "c",
+        "text": "56",
         "is_correct": false,
         "misconception_ids": []
       },
       {
         "id": "d",
-        "text": "12.5 ohm",
+        "text": "45",
         "is_correct": false,
         "misconception_ids": []
       }
@@ -33,336 +66,231 @@
     "source": "generated"
   },
   {
-    "id": "g_parallel_resistance_1",
-    "concept_id": "parallel_resistance",
-    "stem": "Three resistors with resistances of 8 ohm, 15 ohm, and 3 ohm are connected in parallel. What is the total equivalent resistance of this circuit?",
+    "id": "g_nested_loops_1",
+    "concept_id": "nested_loops",
+    "stem": "How many stars does this program print?\n\nfor i in range(4):\n    for j in range(2):\n        print(\"*\")",
     "options": [
       {
         "id": "a",
-        "text": "26 ohm",
+        "text": "6",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "b",
+        "text": "8",
+        "is_correct": true,
+        "misconception_ids": []
+      },
+      {
+        "id": "c",
+        "text": "4",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "d",
+        "text": "2",
+        "is_correct": false,
+        "misconception_ids": []
+      }
+    ],
+    "difficulty_prior": 2,
+    "source": "generated"
+  },
+  {
+    "id": "g_list_traversal_1",
+    "concept_id": "list_traversal",
+    "stem": "What does this program print?\n\nmarks = [10, 2, 12, 3]\ntotal = 0\nfor mark in marks:\n    total = total + mark\nprint(total)",
+    "options": [
+      {
+        "id": "a",
+        "text": "27",
+        "is_correct": true,
+        "misconception_ids": []
+      },
+      {
+        "id": "b",
+        "text": "47",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "c",
+        "text": "15",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "d",
+        "text": "20",
+        "is_correct": false,
+        "misconception_ids": []
+      }
+    ],
+    "difficulty_prior": 2,
+    "source": "generated"
+  },
+  {
+    "id": "g_arithmetic_operators_2",
+    "concept_id": "arithmetic_operators",
+    "stem": "What does this program print?\n\nprint(17 % 3)",
+    "options": [
+      {
+        "id": "a",
+        "text": "5.67",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "b",
+        "text": "14",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "c",
+        "text": "2",
+        "is_correct": true,
+        "misconception_ids": []
+      },
+      {
+        "id": "d",
+        "text": "20",
+        "is_correct": false,
+        "misconception_ids": []
+      }
+    ],
+    "difficulty_prior": 2,
+    "source": "generated"
+  },
+  {
+    "id": "g_running_total_2",
+    "concept_id": "running_total",
+    "stem": "What does this program print?\n\ntotal = 0\nfor i in range(4, 7):\n    total = total + i\nprint(total)",
+    "options": [
+      {
+        "id": "a",
+        "text": "15",
+        "is_correct": true,
+        "misconception_ids": []
+      },
+      {
+        "id": "b",
+        "text": "6",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "c",
+        "text": "12",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "d",
+        "text": "0",
+        "is_correct": false,
+        "misconception_ids": []
+      }
+    ],
+    "difficulty_prior": 2,
+    "source": "generated"
+  },
+  {
+    "id": "g_nested_loops_2",
+    "concept_id": "nested_loops",
+    "stem": "How many stars does this program print?\n\nfor i in range(3):\n    for j in range(3):\n        print(\"*\")",
+    "options": [
+      {
+        "id": "a",
+        "text": "3",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "b",
+        "text": "0",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "c",
+        "text": "6",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "d",
+        "text": "9",
+        "is_correct": true,
+        "misconception_ids": []
+      }
+    ],
+    "difficulty_prior": 2,
+    "source": "generated"
+  },
+  {
+    "id": "g_list_traversal_2",
+    "concept_id": "list_traversal",
+    "stem": "What does this program print?\n\nmarks = [15, 12, 3]\ntotal = 0\nfor mark in marks:\n    total = total + mark\nprint(total)",
+    "options": [
+      {
+        "id": "a",
+        "text": "48",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "b",
+        "text": "33",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "c",
+        "text": "15",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "d",
+        "text": "30",
+        "is_correct": true,
+        "misconception_ids": []
+      }
+    ],
+    "difficulty_prior": 2,
+    "source": "generated"
+  },
+  {
+    "id": "g_arithmetic_operators_3",
+    "concept_id": "arithmetic_operators",
+    "stem": "What does this program print?\n\nprint(17 // 3)",
+    "options": [
+      {
+        "id": "a",
+        "text": "6",
         "is_correct": false,
         "misconception_ids": [
-          "parallel_resistance_adds"
+          "integer_division_rounds"
         ]
       },
       {
         "id": "b",
-        "text": "1.9 ohm",
-        "is_correct": true,
-        "misconception_ids": []
-      },
-      {
-        "id": "c",
-        "text": "5.33 ohm",
-        "is_correct": false,
-        "misconception_ids": []
-      },
-      {
-        "id": "d",
-        "text": "2.86 ohm",
-        "is_correct": false,
-        "misconception_ids": []
-      }
-    ],
-    "difficulty_prior": 3,
-    "source": "generated"
-  },
-  {
-    "id": "g_electric_power_1",
-    "concept_id": "electric_power",
-    "stem": "A resistor with a resistance of 5 ohm is connected across a voltage source of 6 V. What is the electric power dissipated by the resistor?",
-    "options": [
-      {
-        "id": "a",
-        "text": "7.2 W",
-        "is_correct": true,
-        "misconception_ids": []
-      },
-      {
-        "id": "b",
-        "text": "30 W",
+        "text": "14",
         "is_correct": false,
         "misconception_ids": []
       },
       {
         "id": "c",
-        "text": "1.2 W",
+        "text": "5.67",
         "is_correct": false,
         "misconception_ids": []
       },
       {
         "id": "d",
-        "text": "36 W",
-        "is_correct": false,
-        "misconception_ids": []
-      }
-    ],
-    "difficulty_prior": 2,
-    "source": "generated"
-  },
-  {
-    "id": "g_ohms_law_2",
-    "concept_id": "ohms_law",
-    "stem": "A resistor with a resistance of 6 ohm carries a current of 1.5 A. What is the potential difference across the resistor?",
-    "options": [
-      {
-        "id": "a",
-        "text": "9 V",
-        "is_correct": true,
-        "misconception_ids": []
-      },
-      {
-        "id": "b",
-        "text": "2.25 V",
-        "is_correct": false,
-        "misconception_ids": []
-      },
-      {
-        "id": "c",
-        "text": "1.5 V",
-        "is_correct": false,
-        "misconception_ids": []
-      },
-      {
-        "id": "d",
-        "text": "6 V",
-        "is_correct": false,
-        "misconception_ids": []
-      }
-    ],
-    "difficulty_prior": 2,
-    "source": "generated"
-  },
-  {
-    "id": "g_parallel_resistance_2",
-    "concept_id": "parallel_resistance",
-    "stem": "Three resistors with resistances of 12 ohm, 8 ohm, and 3 ohm are connected in parallel. What is the total equivalent resistance of this circuit?",
-    "options": [
-      {
-        "id": "a",
-        "text": "23 ohm",
-        "is_correct": false,
-        "misconception_ids": [
-          "parallel_resistance_adds"
-        ]
-      },
-      {
-        "id": "b",
-        "text": "1.85 ohm",
-        "is_correct": true,
-        "misconception_ids": []
-      },
-      {
-        "id": "c",
-        "text": "3.75 ohm",
-        "is_correct": false,
-        "misconception_ids": []
-      },
-      {
-        "id": "d",
-        "text": "2 ohm",
-        "is_correct": false,
-        "misconception_ids": []
-      }
-    ],
-    "difficulty_prior": 3,
-    "source": "generated"
-  },
-  {
-    "id": "g_electric_power_2",
-    "concept_id": "electric_power",
-    "stem": "A resistor with a current of 2 A flowing through it has a resistance of 3 ohm. What is the electric power dissipated by the resistor?",
-    "options": [
-      {
-        "id": "a",
-        "text": "12 W",
-        "is_correct": true,
-        "misconception_ids": []
-      },
-      {
-        "id": "b",
-        "text": "6 W",
-        "is_correct": false,
-        "misconception_ids": []
-      },
-      {
-        "id": "c",
-        "text": "4 W",
-        "is_correct": false,
-        "misconception_ids": []
-      },
-      {
-        "id": "d",
-        "text": "18 W",
-        "is_correct": false,
-        "misconception_ids": []
-      }
-    ],
-    "difficulty_prior": 2,
-    "source": "generated"
-  },
-  {
-    "id": "g_ohms_law_3",
-    "concept_id": "ohms_law",
-    "stem": "A resistor with a resistance of 4 ohm is connected to a battery providing a potential difference of 3 V. What is the current flowing through the resistor?",
-    "options": [
-      {
-        "id": "a",
-        "text": "0.75 A",
-        "is_correct": true,
-        "misconception_ids": []
-      },
-      {
-        "id": "b",
-        "text": "12 A",
-        "is_correct": false,
-        "misconception_ids": []
-      },
-      {
-        "id": "c",
-        "text": "3 A",
-        "is_correct": false,
-        "misconception_ids": []
-      },
-      {
-        "id": "d",
-        "text": "4 A",
-        "is_correct": false,
-        "misconception_ids": []
-      }
-    ],
-    "difficulty_prior": 2,
-    "source": "generated"
-  },
-  {
-    "id": "g_parallel_resistance_3",
-    "concept_id": "parallel_resistance",
-    "stem": "A circuit contains two resistors connected in parallel with resistances of 5 ohm and 3 ohm. What is the total equivalent resistance of this parallel combination?",
-    "options": [
-      {
-        "id": "a",
-        "text": "8 ohm",
-        "is_correct": false,
-        "misconception_ids": [
-          "parallel_resistance_adds"
-        ]
-      },
-      {
-        "id": "b",
-        "text": "1.88 ohm",
-        "is_correct": true,
-        "misconception_ids": []
-      },
-      {
-        "id": "c",
-        "text": "15 ohm",
-        "is_correct": false,
-        "misconception_ids": []
-      },
-      {
-        "id": "d",
-        "text": "2 ohm",
-        "is_correct": false,
-        "misconception_ids": []
-      }
-    ],
-    "difficulty_prior": 3,
-    "source": "generated"
-  },
-  {
-    "id": "g_ohms_law_4",
-    "concept_id": "ohms_law",
-    "stem": "A resistor has a potential difference of 24 V across it and a current of 3 A flowing through it. What is the resistance of the resistor?",
-    "options": [
-      {
-        "id": "a",
-        "text": "8 ohm",
-        "is_correct": true,
-        "misconception_ids": []
-      },
-      {
-        "id": "b",
-        "text": "72 ohm",
-        "is_correct": false,
-        "misconception_ids": []
-      },
-      {
-        "id": "c",
-        "text": "96 ohm",
-        "is_correct": false,
-        "misconception_ids": []
-      },
-      {
-        "id": "d",
-        "text": "0.12 ohm",
-        "is_correct": false,
-        "misconception_ids": []
-      }
-    ],
-    "difficulty_prior": 2,
-    "source": "generated"
-  },
-  {
-    "id": "g_parallel_resistance_4",
-    "concept_id": "parallel_resistance",
-    "stem": "A circuit contains two resistors connected in parallel with resistances of 20 ohm and 5 ohm. What is the total equivalent resistance of this parallel combination?",
-    "options": [
-      {
-        "id": "a",
-        "text": "4 ohm",
-        "is_correct": true,
-        "misconception_ids": []
-      },
-      {
-        "id": "b",
-        "text": "25 ohm",
-        "is_correct": false,
-        "misconception_ids": [
-          "parallel_resistance_adds"
-        ]
-      },
-      {
-        "id": "c",
-        "text": "16 ohm",
-        "is_correct": false,
-        "misconception_ids": []
-      },
-      {
-        "id": "d",
-        "text": "20 ohm",
-        "is_correct": false,
-        "misconception_ids": []
-      }
-    ],
-    "difficulty_prior": 3,
-    "source": "generated"
-  },
-  {
-    "id": "g_electric_power_4",
-    "concept_id": "electric_power",
-    "stem": "A resistor with a resistance of 6 ohm is connected across a voltage source of 6 V. What is the electric power dissipated by the resistor?",
-    "options": [
-      {
-        "id": "a",
-        "text": "36 W",
-        "is_correct": false,
-        "misconception_ids": []
-      },
-      {
-        "id": "b",
-        "text": "12 W",
-        "is_correct": false,
-        "misconception_ids": []
-      },
-      {
-        "id": "c",
-        "text": "9 W",
-        "is_correct": false,
-        "misconception_ids": []
-      },
-      {
-        "id": "d",
-        "text": "6 W",
+        "text": "5",
         "is_correct": true,
         "misconception_ids": []
       }
@@ -371,31 +299,31 @@
     "source": "generated"
   },
   {
-    "id": "g_ohms_law_5",
-    "concept_id": "ohms_law",
-    "stem": "A resistor with a resistance of 2 ohm is connected to a battery. If the current flowing through the resistor is 1 A, what is the potential difference across the resistor?",
+    "id": "g_list_traversal_3",
+    "concept_id": "list_traversal",
+    "stem": "What does this program print?\n\nmarks = [8, 10, 20, 3]\ntotal = 0\nfor mark in marks:\n    total = total + mark\nprint(total)",
     "options": [
       {
         "id": "a",
-        "text": "2 V",
-        "is_correct": true,
-        "misconception_ids": []
-      },
-      {
-        "id": "b",
-        "text": "1 V",
+        "text": "42",
         "is_correct": false,
         "misconception_ids": []
       },
       {
+        "id": "b",
+        "text": "41",
+        "is_correct": true,
+        "misconception_ids": []
+      },
+      {
         "id": "c",
-        "text": "3 V",
+        "text": "39",
         "is_correct": false,
         "misconception_ids": []
       },
       {
         "id": "d",
-        "text": "0.5 V",
+        "text": "40",
         "is_correct": false,
         "misconception_ids": []
       }
@@ -404,66 +332,31 @@
     "source": "generated"
   },
   {
-    "id": "g_parallel_resistance_5",
-    "concept_id": "parallel_resistance",
-    "stem": "A circuit contains two resistors connected in parallel with resistance values of 4 ohm and 15 ohm. What is the total equivalent resistance of this combination?",
+    "id": "g_running_total_4",
+    "concept_id": "running_total",
+    "stem": "What does this program print?\n\ntotal = 0\nfor i in range(1, 5):\n    total = total + i\nprint(total)",
     "options": [
       {
         "id": "a",
-        "text": "3.16 ohm",
-        "is_correct": true,
-        "misconception_ids": []
-      },
-      {
-        "id": "b",
-        "text": "19 ohm",
-        "is_correct": false,
-        "misconception_ids": [
-          "parallel_resistance_adds"
-        ]
-      },
-      {
-        "id": "c",
-        "text": "60 ohm",
-        "is_correct": false,
-        "misconception_ids": []
-      },
-      {
-        "id": "d",
-        "text": "3.75 ohm",
-        "is_correct": false,
-        "misconception_ids": []
-      }
-    ],
-    "difficulty_prior": 3,
-    "source": "generated"
-  },
-  {
-    "id": "g_electric_power_5",
-    "concept_id": "electric_power",
-    "stem": "A resistor with a resistance of 6 ohm carries a current of 1.5 A. What is the electric power dissipated by the resistor?",
-    "options": [
-      {
-        "id": "a",
-        "text": "9 W",
+        "text": "15",
         "is_correct": false,
         "misconception_ids": []
       },
       {
         "id": "b",
-        "text": "27 W",
+        "text": "9",
         "is_correct": false,
         "misconception_ids": []
       },
       {
         "id": "c",
-        "text": "4.5 W",
+        "text": "4",
         "is_correct": false,
         "misconception_ids": []
       },
       {
         "id": "d",
-        "text": "13.5 W",
+        "text": "10",
         "is_correct": true,
         "misconception_ids": []
       }
@@ -472,31 +365,31 @@
     "source": "generated"
   },
   {
-    "id": "g_ohms_law_6",
-    "concept_id": "ohms_law",
-    "stem": "A resistor with a resistance of 12 ohm is connected to a battery providing a potential difference of 6 V. What is the current flowing through the resistor?",
+    "id": "g_list_traversal_4",
+    "concept_id": "list_traversal",
+    "stem": "What does this program print?\n\nmarks = [20, 8, 3, 12]\ntotal = 0\nfor mark in marks:\n    total = total + mark\nprint(total)",
     "options": [
       {
         "id": "a",
-        "text": "0.5 A",
+        "text": "43",
         "is_correct": true,
         "misconception_ids": []
       },
       {
         "id": "b",
-        "text": "72 A",
+        "text": "52",
         "is_correct": false,
         "misconception_ids": []
       },
       {
         "id": "c",
-        "text": "18 A",
+        "text": "41",
         "is_correct": false,
         "misconception_ids": []
       },
       {
         "id": "d",
-        "text": "6 A",
+        "text": "35",
         "is_correct": false,
         "misconception_ids": []
       }
@@ -505,66 +398,64 @@
     "source": "generated"
   },
   {
-    "id": "g_parallel_resistance_6",
-    "concept_id": "parallel_resistance",
-    "stem": "A circuit contains two resistors connected in parallel with resistance values of 12 ohm and 20 ohm. What is the total equivalent resistance of this parallel combination?",
+    "id": "g_arithmetic_operators_5",
+    "concept_id": "arithmetic_operators",
+    "stem": "What does this program print?\n\nprint(5 ** 3)",
     "options": [
       {
         "id": "a",
-        "text": "32 ohm",
+        "text": "8",
         "is_correct": false,
-        "misconception_ids": [
-          "parallel_resistance_adds"
-        ]
+        "misconception_ids": []
       },
       {
         "id": "b",
-        "text": "7.5 ohm",
+        "text": "125",
         "is_correct": true,
         "misconception_ids": []
       },
       {
         "id": "c",
-        "text": "1.58 ohm",
+        "text": "10",
         "is_correct": false,
         "misconception_ids": []
       },
       {
         "id": "d",
-        "text": "240 ohm",
+        "text": "25",
         "is_correct": false,
         "misconception_ids": []
       }
     ],
-    "difficulty_prior": 3,
+    "difficulty_prior": 1,
     "source": "generated"
   },
   {
-    "id": "g_ohms_law_7",
-    "concept_id": "ohms_law",
-    "stem": "A resistor has a potential difference of 18 V across it and a current of 4 A flowing through it. What is the resistance of the resistor?",
+    "id": "g_running_total_5",
+    "concept_id": "running_total",
+    "stem": "What does this program print?\n\ntotal = 0\nfor i in range(1, 10):\n    total = total + i\nprint(total)",
     "options": [
       {
         "id": "a",
-        "text": "4.5 ohm",
-        "is_correct": true,
+        "text": "90",
+        "is_correct": false,
         "misconception_ids": []
       },
       {
         "id": "b",
-        "text": "72 ohm",
+        "text": "54",
         "is_correct": false,
         "misconception_ids": []
       },
       {
         "id": "c",
-        "text": "18 ohm",
-        "is_correct": false,
+        "text": "45",
+        "is_correct": true,
         "misconception_ids": []
       },
       {
         "id": "d",
-        "text": "4 ohm",
+        "text": "36",
         "is_correct": false,
         "misconception_ids": []
       }
@@ -573,99 +464,196 @@
     "source": "generated"
   },
   {
-    "id": "g_parallel_resistance_7",
-    "concept_id": "parallel_resistance",
-    "stem": "A circuit contains two resistors connected in parallel with resistances of 4 ohm and 10 ohm. What is the total equivalent resistance of this parallel combination?",
+    "id": "g_nested_loops_5",
+    "concept_id": "nested_loops",
+    "stem": "How many stars does this program print?\n\nfor i in range(2):\n    for j in range(2):\n        print(\"*\")",
     "options": [
       {
         "id": "a",
-        "text": "6 ohm",
+        "text": "2",
         "is_correct": false,
         "misconception_ids": []
       },
       {
         "id": "b",
-        "text": "3.64 ohm",
+        "text": "0",
         "is_correct": false,
         "misconception_ids": []
       },
       {
         "id": "c",
-        "text": "14 ohm",
+        "text": "8",
         "is_correct": false,
-        "misconception_ids": [
-          "parallel_resistance_adds"
-        ]
+        "misconception_ids": []
       },
       {
         "id": "d",
-        "text": "2.86 ohm",
+        "text": "4",
         "is_correct": true,
         "misconception_ids": []
       }
     ],
-    "difficulty_prior": 3,
+    "difficulty_prior": 2,
     "source": "generated"
   },
   {
-    "id": "g_electric_power_7",
-    "concept_id": "electric_power",
-    "stem": "A circuit has a voltage of 9 V and a current of 2 A. What is the electric power consumed by the circuit?",
+    "id": "g_list_traversal_5",
+    "concept_id": "list_traversal",
+    "stem": "What does this program print?\n\nmarks = [20, 3, 12, 10]\ntotal = 0\nfor mark in marks:\n    total = total + mark\nprint(total)",
     "options": [
       {
         "id": "a",
-        "text": "18 W",
+        "text": "45",
         "is_correct": true,
         "misconception_ids": []
       },
       {
         "id": "b",
-        "text": "4.5 W",
+        "text": "23",
         "is_correct": false,
         "misconception_ids": []
       },
       {
         "id": "c",
-        "text": "27 W",
+        "text": "67",
         "is_correct": false,
         "misconception_ids": []
       },
       {
         "id": "d",
-        "text": "11 W",
+        "text": "450",
         "is_correct": false,
         "misconception_ids": []
       }
     ],
-    "difficulty_prior": 3,
+    "difficulty_prior": 2,
     "source": "generated"
   },
   {
-    "id": "g_ohms_law_8",
-    "concept_id": "ohms_law",
-    "stem": "A resistor with a resistance of 5 ohm is connected to a battery. If the current flowing through the resistor is 1 A, what is the potential difference across the resistor?",
+    "id": "g_running_total_6",
+    "concept_id": "running_total",
+    "stem": "What does this program print?\n\ntotal = 0\nfor i in range(4, 5):\n    total = total + i\nprint(total)",
     "options": [
       {
         "id": "a",
-        "text": "5 V",
-        "is_correct": true,
+        "text": "10",
+        "is_correct": false,
         "misconception_ids": []
       },
       {
         "id": "b",
-        "text": "1 V",
+        "text": "0",
         "is_correct": false,
         "misconception_ids": []
       },
       {
         "id": "c",
-        "text": "6 V",
+        "text": "4",
+        "is_correct": true,
+        "misconception_ids": []
+      },
+      {
+        "id": "d",
+        "text": "9",
+        "is_correct": false,
+        "misconception_ids": []
+      }
+    ],
+    "difficulty_prior": 2,
+    "source": "generated"
+  },
+  {
+    "id": "g_nested_loops_6",
+    "concept_id": "nested_loops",
+    "stem": "How many stars does this program print?\n\nfor i in range(4):\n    for j in range(5):\n        print(\"*\")",
+    "options": [
+      {
+        "id": "a",
+        "text": "20",
+        "is_correct": true,
+        "misconception_ids": []
+      },
+      {
+        "id": "b",
+        "text": "4",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "c",
+        "text": "16",
         "is_correct": false,
         "misconception_ids": []
       },
       {
         "id": "d",
-        "text": "4 V",
+        "text": "9",
+        "is_correct": false,
+        "misconception_ids": []
+      }
+    ],
+    "difficulty_prior": 2,
+    "source": "generated"
+  },
+  {
+    "id": "g_list_traversal_6",
+    "concept_id": "list_traversal",
+    "stem": "What does this program print?\n\nmarks = [12, 5, 10, 3]\ntotal = 0\nfor mark in marks:\n    total = total + mark\nprint(total)",
+    "options": [
+      {
+        "id": "a",
+        "text": "30",
+        "is_correct": true,
+        "misconception_ids": []
+      },
+      {
+        "id": "b",
+        "text": "35",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "c",
+        "text": "40",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "d",
+        "text": "28",
+        "is_correct": false,
+        "misconception_ids": []
+      }
+    ],
+    "difficulty_prior": 2,
+    "source": "generated"
+  },
+  {
+    "id": "g_running_total_7",
+    "concept_id": "running_total",
+    "stem": "What does this program print?\n\ntotal = 0\nfor i in range(3, 6):\n    total = total + i\nprint(total)",
+    "options": [
+      {
+        "id": "a",
+        "text": "9",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "b",
+        "text": "12",
+        "is_correct": true,
+        "misconception_ids": []
+      },
+      {
+        "id": "c",
+        "text": "3",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "d",
+        "text": "0",
         "is_correct": false,
         "misconception_ids": []
       }

@@ -16,7 +16,7 @@ STUDENT_COUNT = 30
 HISTORY_DAYS = 14
 PICK_MISCONCEPTION = 0.8
 # These weights make the class show clear shared gaps. The rest share what's left equally.
-FOCUSED_WEIGHTS = {"current_consumed": 0.35, "parallel_resistance_adds": 0.25}
+FOCUSED_WEIGHTS = {"range_includes_stop": 0.35, "index_starts_at_one": 0.25}
 
 
 def answers_for_student(rng: random.Random, pool_size: int) -> int:

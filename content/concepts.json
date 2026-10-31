@@ -1,264 +1,262 @@
 [
   {
-    "id": "electric_charge",
-    "name": "Electric charge",
-    "chapter": "Electricity",
-    "description": "Charge is the property that lets particles exert electric forces; it is measured in coulombs.",
+    "id": "variables_assignment",
+    "name": "Variables and assignment",
+    "chapter": "Python Programming",
+    "description": "A variable names a value, and assignment copies the current value of the right-hand side into it.",
     "prerequisites": []
   },
   {
-    "id": "electric_current",
-    "name": "Electric current",
-    "chapter": "Electricity",
-    "description": "Current is the rate at which charge flows, measured in amperes.",
+    "id": "data_types",
+    "name": "Data types",
+    "chapter": "Python Programming",
+    "description": "Values have types such as int, float, str and bool, and the type decides what an operator does.",
     "prerequisites": [
-      "electric_charge"
+      "variables_assignment"
     ]
   },
   {
-    "id": "potential_difference",
-    "name": "Potential difference",
-    "chapter": "Electricity",
-    "description": "Potential difference is the work done per unit charge between two points, measured in volts.",
+    "id": "arithmetic_operators",
+    "name": "Arithmetic operators",
+    "chapter": "Python Programming",
+    "description": "Python calculates with + - * / as well as // for floor division, % for the remainder and ** for powers.",
     "prerequisites": [
-      "electric_current"
+      "data_types"
     ]
   },
   {
-    "id": "ohms_law",
-    "name": "Ohm's law",
-    "chapter": "Electricity",
-    "description": "At constant temperature, the current through a conductor is proportional to the potential difference across it (V = IR).",
+    "id": "comparison_logic",
+    "name": "Comparison and logic",
+    "chapter": "Python Programming",
+    "description": "Comparisons such as == and < give True or False, and and, or and not combine them.",
     "prerequisites": [
-      "electric_current",
-      "potential_difference"
+      "data_types"
     ]
   },
   {
-    "id": "resistance_factors",
-    "name": "Factors affecting resistance",
-    "chapter": "Electricity",
-    "description": "Resistance depends on a conductor's length, cross-sectional area and material.",
+    "id": "if_else",
+    "name": "if and else",
+    "chapter": "Python Programming",
+    "description": "An if statement runs one block when its condition is True, and else runs another when it is False.",
     "prerequisites": [
-      "ohms_law"
+      "comparison_logic"
     ]
   },
   {
-    "id": "series_current",
-    "name": "Current in a series circuit",
-    "chapter": "Electricity",
-    "description": "The same current flows through every component in series.",
+    "id": "for_range",
+    "name": "for loops with range",
+    "chapter": "Python Programming",
+    "description": "range(start, stop) counts from start up to, but not including, stop, so the loop runs stop minus start times.",
     "prerequisites": [
-      "electric_current"
+      "if_else"
     ]
   },
   {
-    "id": "series_resistance",
-    "name": "Resistors in series",
-    "chapter": "Electricity",
-    "description": "The total resistance of resistors in series is the sum of their resistances.",
+    "id": "while_loops",
+    "name": "while loops",
+    "chapter": "Python Programming",
+    "description": "A while loop checks its condition before each pass, and always finishes the body it has started.",
     "prerequisites": [
-      "series_current",
-      "ohms_law"
+      "for_range",
+      "comparison_logic"
     ]
   },
   {
-    "id": "parallel_current",
-    "name": "Current in a parallel circuit",
-    "chapter": "Electricity",
-    "description": "In parallel, each branch has the same potential difference and the branch currents add up to the total current.",
+    "id": "running_total",
+    "name": "Running totals",
+    "chapter": "Python Programming",
+    "description": "A loop builds a total by starting from zero and adding to the same variable on every pass.",
     "prerequisites": [
-      "series_current",
-      "potential_difference"
+      "for_range",
+      "arithmetic_operators"
     ]
   },
   {
-    "id": "parallel_resistance",
-    "name": "Resistors in parallel",
-    "chapter": "Electricity",
-    "description": "The reciprocal of the total resistance in parallel is the sum of the reciprocals, so the total is smaller than any branch.",
+    "id": "nested_loops",
+    "name": "Nested loops",
+    "chapter": "Python Programming",
+    "description": "An inner loop runs completely on every pass of the outer loop, so the passes multiply.",
     "prerequisites": [
-      "parallel_current",
-      "ohms_law"
+      "for_range",
+      "arithmetic_operators"
     ]
   },
   {
-    "id": "electric_power",
-    "name": "Electric power",
-    "chapter": "Electricity",
-    "description": "Electric power is the rate of using electrical energy (P = VI).",
+    "id": "list_indexing",
+    "name": "Lists and indexing",
+    "chapter": "Python Programming",
+    "description": "A list holds items in order, and its first item is at index 0.",
     "prerequisites": [
-      "ohms_law"
+      "arithmetic_operators"
     ]
   },
   {
-    "id": "electric_energy",
-    "name": "Electrical energy",
-    "chapter": "Electricity",
-    "description": "Electrical energy used is power multiplied by time, and is commonly measured in kilowatt-hours.",
+    "id": "list_traversal",
+    "name": "Traversing a list",
+    "chapter": "Python Programming",
+    "description": "A for loop can visit every item of a list in order, for example to add them up.",
     "prerequisites": [
-      "electric_power"
+      "list_indexing",
+      "for_range"
     ]
   },
   {
-    "id": "heating_effect",
-    "name": "Heating effect of current",
-    "chapter": "Electricity",
-    "description": "Current through a resistor produces heat according to Joule's law (H = I^2 R t).",
+    "id": "functions",
+    "name": "Functions",
+    "chapter": "Python Programming",
+    "description": "A function is a named block of code that takes parameters and can return a value.",
     "prerequisites": [
-      "electric_power"
+      "if_else",
+      "arithmetic_operators"
     ]
   },
   {
-    "id": "reflection_laws",
-    "name": "Laws of reflection",
-    "chapter": "Light",
-    "description": "The angle of incidence equals the angle of reflection, and both rays lie in the same plane as the normal.",
+    "id": "network_basics",
+    "name": "What a network is",
+    "chapter": "Computer Networks",
+    "description": "A network links computers so they can share data and resources.",
     "prerequisites": []
   },
   {
-    "id": "spherical_mirrors",
-    "name": "Spherical mirrors",
-    "chapter": "Light",
-    "description": "Concave and convex mirrors form images that depend on the object's position.",
+    "id": "network_types",
+    "name": "LAN, MAN and WAN",
+    "chapter": "Computer Networks",
+    "description": "Networks are grouped by the area they cover, from a single building to the whole world.",
     "prerequisites": [
-      "reflection_laws"
+      "network_basics"
     ]
   },
   {
-    "id": "mirror_formula",
-    "name": "Mirror formula and magnification",
-    "chapter": "Light",
-    "description": "The mirror formula relates object distance, image distance and focal length.",
+    "id": "network_topologies",
+    "name": "Network topologies",
+    "chapter": "Computer Networks",
+    "description": "Bus, star, ring and tree topologies describe how the devices in a network are connected.",
     "prerequisites": [
-      "spherical_mirrors"
+      "network_types"
     ]
   },
   {
-    "id": "refraction_laws",
-    "name": "Laws of refraction",
-    "chapter": "Light",
-    "description": "Light bends at a boundary between media according to Snell's law.",
+    "id": "transmission_media",
+    "name": "Transmission media",
+    "chapter": "Computer Networks",
+    "description": "Data travels over wired media such as twisted pair and optical fibre, or wirelessly by radio waves.",
     "prerequisites": [
-      "reflection_laws"
+      "network_basics"
     ]
   },
   {
-    "id": "refractive_index",
-    "name": "Refractive index",
-    "chapter": "Light",
-    "description": "Refractive index compares the speed of light in a medium with its speed in another medium.",
+    "id": "network_protocols",
+    "name": "Network protocols",
+    "chapter": "Computer Networks",
+    "description": "Protocols such as HTTP, FTP and TCP/IP are the rules devices follow to exchange data.",
     "prerequisites": [
-      "refraction_laws"
+      "network_types"
     ]
   },
   {
-    "id": "spherical_lenses",
-    "name": "Spherical lenses",
-    "chapter": "Light",
-    "description": "Convex and concave lenses form images by refraction.",
+    "id": "internet_services",
+    "name": "Internet services",
+    "chapter": "Computer Networks",
+    "description": "The internet carries services such as the web, email, e-commerce and video conferencing.",
     "prerequisites": [
-      "refraction_laws"
+      "network_protocols"
     ]
   },
   {
-    "id": "lens_formula_power",
-    "name": "Lens formula and power",
-    "chapter": "Light",
-    "description": "The lens formula relates distances and focal length, and power is the reciprocal of focal length in metres.",
+    "id": "html_structure",
+    "name": "HTML page structure",
+    "chapter": "Web Pages with HTML",
+    "description": "An HTML page uses tags, with a head for information about the page and a body for its content.",
     "prerequisites": [
-      "spherical_lenses"
+      "internet_services"
     ]
   },
   {
-    "id": "eye_accommodation",
-    "name": "The eye and accommodation",
-    "chapter": "The Human Eye",
-    "description": "The eye lens changes its focal length to focus objects at different distances.",
+    "id": "html_text",
+    "name": "Formatting text",
+    "chapter": "Web Pages with HTML",
+    "description": "Headings, paragraphs and formatting tags control how text appears on a page.",
     "prerequisites": [
-      "spherical_lenses"
+      "html_structure"
     ]
   },
   {
-    "id": "vision_defects",
-    "name": "Defects of vision",
-    "chapter": "The Human Eye",
-    "description": "Myopia, hypermetropia and presbyopia are corrected with suitable lenses.",
+    "id": "html_lists",
+    "name": "Ordered and unordered lists",
+    "chapter": "Web Pages with HTML",
+    "description": "The ol and ul tags make numbered and bulleted lists, with an li tag for each item.",
     "prerequisites": [
-      "eye_accommodation",
-      "lens_formula_power"
+      "html_structure"
     ]
   },
   {
-    "id": "prism_dispersion",
-    "name": "Refraction through a prism and dispersion",
-    "chapter": "The Human Eye",
-    "description": "A prism splits white light into colours because each colour bends by a different amount.",
+    "id": "html_images_links",
+    "name": "Images and links",
+    "chapter": "Web Pages with HTML",
+    "description": "The img tag places a picture on a page, and the a tag links to another page.",
     "prerequisites": [
-      "refractive_index"
+      "html_text"
     ]
   },
   {
-    "id": "atmospheric_effects",
-    "name": "Atmospheric refraction and scattering",
-    "chapter": "The Human Eye",
-    "description": "Atmospheric refraction and scattering explain twinkling stars and the colours of the sky.",
+    "id": "html_tables",
+    "name": "Tables",
+    "chapter": "Web Pages with HTML",
+    "description": "The table, tr, th and td tags arrange content in rows and columns.",
     "prerequisites": [
-      "prism_dispersion"
+      "html_text"
     ]
   },
   {
-    "id": "magnetic_field_lines",
-    "name": "Magnetic field lines",
-    "chapter": "Magnetic Effects",
-    "description": "Field lines show the direction and relative strength of a magnetic field.",
+    "id": "html_forms",
+    "name": "Forms",
+    "chapter": "Web Pages with HTML",
+    "description": "The form and input tags collect information from the person using a page.",
+    "prerequisites": [
+      "html_tables"
+    ]
+  },
+  {
+    "id": "netiquette",
+    "name": "Netiquette",
+    "chapter": "Cyber Ethics",
+    "description": "Netiquette is the set of rules for behaving politely and responsibly online.",
     "prerequisites": []
   },
   {
-    "id": "field_straight_conductor",
-    "name": "Field around a straight conductor",
-    "chapter": "Magnetic Effects",
-    "description": "A current in a straight conductor produces circular field lines given by the right-hand thumb rule.",
+    "id": "digital_footprint",
+    "name": "Digital footprint",
+    "chapter": "Cyber Ethics",
+    "description": "Most of what a person does online leaves a lasting record that others may be able to see.",
     "prerequisites": [
-      "magnetic_field_lines",
-      "electric_current"
+      "netiquette"
     ]
   },
   {
-    "id": "field_circular_loop",
-    "name": "Field of a circular loop",
-    "chapter": "Magnetic Effects",
-    "description": "The field of a current-carrying loop is strongest near the wire and grows with current and turns.",
+    "id": "intellectual_property",
+    "name": "Copyright and plagiarism",
+    "chapter": "Cyber Ethics",
+    "description": "Creative work belongs to its creator, so it should be credited and used only as its licence allows.",
     "prerequisites": [
-      "field_straight_conductor"
+      "netiquette"
     ]
   },
   {
-    "id": "solenoid_field",
-    "name": "Field of a solenoid",
-    "chapter": "Magnetic Effects",
-    "description": "A solenoid produces a nearly uniform field inside, similar to a bar magnet's field outside.",
+    "id": "cyber_safety",
+    "name": "Staying safe online",
+    "chapter": "Cyber Ethics",
+    "description": "Strong passwords and care with personal details protect people from many online risks.",
     "prerequisites": [
-      "field_circular_loop"
+      "digital_footprint"
     ]
   },
   {
-    "id": "force_on_conductor",
-    "name": "Force on a current-carrying conductor",
-    "chapter": "Magnetic Effects",
-    "description": "A conductor carrying current in a magnetic field feels a force given by Fleming's left-hand rule.",
+    "id": "cyber_crime",
+    "name": "Cyber crime",
+    "chapter": "Cyber Ethics",
+    "description": "Phishing, hacking and cyberbullying are harmful online acts that should be recognised and reported.",
     "prerequisites": [
-      "field_straight_conductor"
-    ]
-  },
-  {
-    "id": "domestic_circuits",
-    "name": "Domestic electric circuits",
-    "chapter": "Magnetic Effects",
-    "description": "Homes use parallel wiring with live, neutral and earth wires, protected by fuses.",
-    "prerequisites": [
-      "parallel_current",
-      "electric_power"
+      "cyber_safety"
     ]
   }
 ]

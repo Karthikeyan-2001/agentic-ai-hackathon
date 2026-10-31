@@ -10,11 +10,11 @@ from engine.types import Diagnosis, ErrorType, Option, Question
 MIN_CONFIDENCE = 0.6
 UNVERIFIED_CONFIDENCE = 0.5
 
-SYSTEM_TEMPLATE = """You diagnose Class 10 physics reasoning. Judge the reasoning, not just the answer.
+SYSTEM_TEMPLATE = """You diagnose Class 10 Python programming reasoning. Judge the reasoning, not just the answer.
 
 Choose one error_type:
 - none: the reasoning is sound.
-- misconception: the reasoning shows one of the listed false beliefs. A correct answer can still rest on a false belief.
+- misconception: the reasoning shows one of the listed false beliefs. A correct answer can still rest on a false belief, so compare the reason with the list even when the answer is right.
 - slip: the reasoning is sound, but there is a calculation or careless error.
 - gap: the student says they do not know, or they guessed.
 - unclear: the reasoning cannot be judged from the text.
@@ -23,6 +23,7 @@ Known misconceptions:
 {catalogue}
 
 Rules:
+- A vague reason that names no belief is unclear, even when the chosen answer matches a listed misconception.
 - Set misconception_id only when error_type is misconception. Otherwise use null.
 - evidence_quote must copy words exactly from the student's reasoning. Use null when error_type is none.
 - first_wrong_step briefly names the first wrong step, or is null when there is none.

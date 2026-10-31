@@ -7,7 +7,7 @@ NOW = datetime(2026, 1, 20)
 
 
 def concept(id, *prerequisites):
-    return Concept(id=id, name=id, chapter="Electricity", description="d", prerequisites=list(prerequisites))
+    return Concept(id=id, name=id, chapter="Python Programming", description="d", prerequisites=list(prerequisites))
 
 
 def question(id, concept_id="c", probes=(), difficulty=2):
@@ -173,7 +173,7 @@ def test_rule5_goes_to_weakest_prerequisite_when_unmet():
 
 
 def test_rule5_ignores_prerequisites_without_questions():
-    # electric_current has no questions, so it can't block series_current.
+    # if_else has no questions, so it can't block for_range.
     concepts = {"blocker": concept("blocker"), "c": concept("c", "blocker")}
     states = {"blocker": ConceptState("blocker", mastery=0.1), "c": ConceptState("c", mastery=0.3)}
     result = choose_next(context([question("q1")], concepts, concept_states=states))

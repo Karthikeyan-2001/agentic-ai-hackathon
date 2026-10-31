@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { ProgramBlock } from '../QuestionStem'
 
 interface DemoStudent {
   id: string
@@ -18,44 +19,44 @@ const STUDENTS: DemoStudent[] = [
   {
     id: 'A',
     name: 'Student A',
-    answer: '0.25 A',
+    answer: '5 times',
     correct: false,
-    reasoning: 'The first bulb used up half',
-    diagnosis: 'Believes a component uses up current.',
+    reasoning: 'It counts up to and including 5',
+    diagnosis: 'Believes range includes its stop value.',
     mastery: '30% to 5%',
     masteryNote: 'A wrong answer built on a false belief lowers mastery.',
     explanations: [
-      ['Current gets used up', 68],
-      ['Current splits in series', 24],
+      ['range includes the stop', 72],
+      ['The stop is the repeat count', 24],
     ],
-    nextQuestion: 'Ammeters sit just before and just after a glowing bulb. How do their readings compare?',
+    nextQuestion: 'What is the last number printed by a loop over range(3, 7)?',
   },
   {
     id: 'B',
     name: 'Student B',
-    answer: '0.25 A',
+    answer: '5 times',
     correct: false,
-    reasoning: 'The current splits between them',
-    diagnosis: 'Believes current splits in series, as it does between parallel branches.',
+    reasoning: 'The 5 says how many times',
+    diagnosis: 'Believes the stop value says how many times the loop runs.',
     mastery: '30% to 5%',
     masteryNote: 'The same wrong answer as Student A, for a different reason.',
     explanations: [
-      ['Current splits in series', 72],
-      ['Current gets used up', 24],
+      ['The stop is the repeat count', 68],
+      ['range includes the stop', 24],
     ],
-    nextQuestion: 'Two identical bulbs are wired in series, then in parallel. When does each carry the full battery current?',
+    nextQuestion: 'How many times does the body of a loop over range(4, 6) run?',
   },
   {
     id: 'C',
     name: 'Student C',
-    answer: '0.5 A',
+    answer: '4 times',
     correct: true,
-    reasoning: 'The bulbs are identical',
-    diagnosis: 'Gets equal currents only because the bulbs are identical, not because they are in series.',
+    reasoning: 'It is always one less than the stop number',
+    diagnosis: 'Takes one away from the stop value and ignores the start value.',
     mastery: '30% to 30%',
     masteryNote: 'The right answer for the wrong reason earns no credit.',
-    explanations: [['Identical means equal', 68]],
-    nextQuestion: 'A 2 ohm bulb and a 6 ohm bulb are in series, with 0.5 A through the first. What flows through the second?',
+    explanations: [['Always one less than the stop', 68]],
+    nextQuestion: 'How many times does the body of a loop over range(3, 8) run?',
   },
 ]
 
@@ -68,8 +69,11 @@ export function DiagnosisDemo() {
       <div className="border-b border-line p-6 md:p-8">
         <p className="text-sm text-mute">The same question for all three students</p>
         <p className="mt-2 max-w-[42ch] text-xl font-medium tracking-tight md:text-2xl">
-          Two bulbs are in series. The current through the first is 0.5 A. What is the current through the second?
+          How many times does the body of this loop run?
         </p>
+        <div className="max-w-md">
+          <ProgramBlock code={'for i in range(1, 5):\n    print(i)'} />
+        </div>
         <div role="tablist" aria-label="Choose a student" className="mt-6 flex flex-wrap gap-2">
           {STUDENTS.map((item) => (
             <button
@@ -119,7 +123,7 @@ export function DiagnosisDemo() {
 
           <dl className="mt-6 grid gap-6 sm:grid-cols-2">
             <div>
-              <dt className="text-sm text-mute">Mastery of series current</dt>
+              <dt className="text-sm text-mute">Mastery of for loops with range</dt>
               <dd className="mt-1 text-2xl font-semibold tabular-nums">{student.mastery}</dd>
               <dd className="mt-1 text-sm text-mute">{student.masteryNote}</dd>
             </div>

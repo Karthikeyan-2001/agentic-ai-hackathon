@@ -12,15 +12,15 @@ pytestmark = pytest.mark.llm
 @pytest.mark.parametrize(
     "option_text,reasoning,expected_type,expected_misconception",
     [
-        ("0.25 A", "The first bulb used up half", "misconception", "current_consumed"),
-        ("0.25 A", "The current splits between them", "misconception", "series_parallel_confusion"),
-        ("0.5 A", "The bulbs are identical", "misconception", "identical_implies_equal"),
-        ("0.5 A", "A series circuit has one path, so the current is the same everywhere", "none", None),
+        ("5 times", "It counts up to and including 5", "misconception", "range_includes_stop"),
+        ("5 times", "The 5 says how many times", "misconception", "range_stop_is_count"),
+        ("4 times", "It is always one less than the stop number", "misconception", "range_one_less_than_stop"),
+        ("4 times", "It starts at 1 and stops before 5, so it runs for 1, 2, 3 and 4", "none", None),
     ],
 )
 def test_demo_cases_on_real_model(option_text, reasoning, expected_type, expected_misconception):
     content = load_content(Path("content"))
-    question = content.questions["q_series_two_bulbs"]
+    question = content.questions["q_range_count"]
     option = next(o for o in question.options if o.text == option_text)
     result = diagnose(question, option, option.is_correct, reasoning, content, OllamaClient())
     assert result.status == "ok"

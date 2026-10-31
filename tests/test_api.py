@@ -13,9 +13,9 @@ from api.main import create_app
 from tests.fakes import FailingLLM, FakeLLM
 
 REASONING = {
-    "The first bulb used up half": ("misconception", "current_consumed", "used up half"),
-    "The bulbs are identical": ("misconception", "identical_implies_equal", "bulbs are identical"),
-    "One path so the current stays the same": ("none", None, None),
+    "It counts up to and including 5": ("misconception", "range_includes_stop", "up to and including"),
+    "It is always one less than the stop number": ("misconception", "range_one_less_than_stop", "one less than the stop"),
+    "It starts at 1 and stops before 5": ("none", None, None),
 }
 
 
@@ -71,14 +71,14 @@ def test_students_lists_only_non_simulated(client):
 
 def test_graph_returns_concepts_and_links(client):
     body = client.get("/api/graph").json()
-    assert any(c["id"] == "series_current" and c["prerequisites"] == ["electric_current"] for c in body["concepts"])
+    assert any(c["id"] == "for_range" and c["prerequisites"] == ["if_else"] for c in body["concepts"])
     assert len(body["concepts"]) >= 25
 
 
 def test_next_hides_answer_key(client):
     body = client.get("/api/students/A/next").json()
     assert body["status"] == "question"
-    assert body["question"]["id"] == "q_series_two_bulbs"
+    assert body["question"]["id"] == "q_range_count"
     assert "is_correct" not in json.dumps(body) and "misconception_ids" not in json.dumps(body)
 
 
@@ -87,36 +87,36 @@ def test_next_is_stable_across_refreshes(client):
 
 
 def test_answer_flow_changes_state(client):
-    response = submit(client, "A", next_question(client, "A"), "0.25 A", "The first bulb used up half")
+    response = submit(client, "A", next_question(client, "A"), "5 times", "It counts up to and including 5")
     assert response.status_code == 200
     body = response.json()
     assert body["correct"] is False
     assert body["correct_option_id"] == "b"
-    assert body["diagnosis"]["misconception_id"] == "current_consumed"
+    assert body["diagnosis"]["misconception_id"] == "range_includes_stop"
     assert body["diagnosis_status"] == "ok"
     assert [t["step"] for t in body["trace"]] == ["check", "diagnose", "validate", "update", "decide"]
-    assert any(c["id"] == "series_current" for c in body["mastery_changes"])
-    assert any(c["id"] == "current_consumed" for c in body["misconception_changes"])
+    assert any(c["id"] == "for_range" for c in body["mastery_changes"])
+    assert any(c["id"] == "range_includes_stop" for c in body["misconception_changes"])
     assert body["caught_up"] is False
-    assert mastery(client, "A", "series_current")["mastery"] < 0.3
-    assert next_question(client, "A")["id"] == "q_current_in_out"
+    assert mastery(client, "A", "for_range")["mastery"] < 0.3
+    assert next_question(client, "A")["id"] == "q_range_last_value"
 
 
 def test_three_demo_students_get_different_paths(client):
-    a = submit(client, "A", next_question(client, "A"), "0.25 A", "The first bulb used up half").json()
-    c = submit(client, "C", next_question(client, "C"), "0.5 A", "The bulbs are identical").json()
+    a = submit(client, "A", next_question(client, "A"), "5 times", "It counts up to and including 5").json()
+    c = submit(client, "C", next_question(client, "C"), "4 times", "It is always one less than the stop number").json()
     assert a["correct"] is False and c["correct"] is True
-    assert next_question(client, "A")["id"] == "q_current_in_out"
-    assert next_question(client, "C")["id"] == "q_different_bulbs"
-    assert mastery(client, "C", "series_current")["mastery"] == pytest.approx(0.3)
+    assert next_question(client, "A")["id"] == "q_range_last_value"
+    assert next_question(client, "C")["id"] == "q_range_other_start"
+    assert mastery(client, "C", "for_range")["mastery"] == pytest.approx(0.3)
 
 
 def test_state_reports_misconceptions_and_assessed_flag(client):
-    submit(client, "A", next_question(client, "A"), "0.25 A", "The first bulb used up half")
+    submit(client, "A", next_question(client, "A"), "5 times", "It counts up to and including 5")
     state = client.get("/api/students/A/state").json()
-    assert mastery(client, "A", "series_current")["assessed"] is True
-    assert mastery(client, "A", "reflection_laws")["assessed"] is False
-    active = next(m for m in state["misconceptions"] if m["id"] == "current_consumed")
+    assert mastery(client, "A", "for_range")["assessed"] is True
+    assert mastery(client, "A", "network_basics")["assessed"] is False
+    active = next(m for m in state["misconceptions"] if m["id"] == "range_includes_stop")
     assert active["status"] == "active"
     assert active["description"]
     assert state["due_reviews"] == []
@@ -124,18 +124,18 @@ def test_state_reports_misconceptions_and_assessed_flag(client):
 
 def test_double_submit_returns_409_and_keeps_mastery(client):
     question = next_question(client, "A")
-    submit(client, "A", question, "0.25 A", "The first bulb used up half")
-    before = mastery(client, "A", "series_current")["mastery"]
-    second = submit(client, "A", question, "0.25 A", "The first bulb used up half")
+    submit(client, "A", question, "5 times", "It counts up to and including 5")
+    before = mastery(client, "A", "for_range")["mastery"]
+    second = submit(client, "A", question, "5 times", "It counts up to and including 5")
     assert second.status_code == 409
-    assert mastery(client, "A", "series_current")["mastery"] == before
+    assert mastery(client, "A", "for_range")["mastery"] == before
 
 
 def test_answering_a_different_question_returns_409(client):
     next_question(client, "A")
     response = client.post(
         "/api/students/A/answers",
-        json={"question_id": "q_ohm_basic", "option_id": "c", "reasoning": "x", "confidence_tap": "sure"},
+        json={"question_id": "q_modulo_basic", "option_id": "c", "reasoning": "x", "confidence_tap": "sure"},
     )
     assert response.status_code == 409
 
@@ -143,18 +143,18 @@ def test_answering_a_different_question_returns_409(client):
 def test_answering_before_any_question_is_served_returns_409(client):
     response = client.post(
         "/api/students/A/answers",
-        json={"question_id": "q_series_two_bulbs", "option_id": "b", "reasoning": "x", "confidence_tap": "sure"},
+        json={"question_id": "q_range_count", "option_id": "b", "reasoning": "x", "confidence_tap": "sure"},
     )
     assert response.status_code == 409
 
 
 def test_reasoning_over_2000_chars_returns_422(client):
-    response = submit(client, "A", next_question(client, "A"), "0.5 A", "x" * 2001)
+    response = submit(client, "A", next_question(client, "A"), "4 times", "x" * 2001)
     assert response.status_code == 422
 
 
 def test_blank_reasoning_is_accepted_as_unclear(client):
-    response = submit(client, "A", next_question(client, "A"), "0.5 A", "   ")
+    response = submit(client, "A", next_question(client, "A"), "4 times", "   ")
     assert response.status_code == 200
     assert response.json()["diagnosis"]["error_type"] == "unclear"
 
@@ -191,20 +191,20 @@ def test_invalid_confidence_tap_returns_422(client):
 def test_llm_failure_returns_failed_status_not_500(tmp_path, content_dir):
     app = create_app(db_url=f"sqlite:///{tmp_path}/f.db", llm=FailingLLM(), content_dir=content_dir)
     with DemoClient(app) as client:
-        response = submit(client, "A", next_question(client, "A"), "0.25 A", "used up")
+        response = submit(client, "A", next_question(client, "A"), "5 times", "used up")
     assert response.status_code == 200
     assert response.json()["diagnosis_status"] == "failed"
 
 
 def test_clock_advance_brings_review_due(client):
-    submit(client, "A", next_question(client, "A"), "0.5 A", "One path so the current stays the same")
+    submit(client, "A", next_question(client, "A"), "4 times", "It starts at 1 and stops before 5")
     assert next_question(client, "A") is not None
     assert client.post("/api/clock/advance", json={"days": 7}).json()["offset_days"] == 7
     state = client.get("/api/students/A/state").json()
-    assert any(r["id"] == "series_current" for r in state["due_reviews"])
+    assert any(r["id"] == "for_range" for r in state["due_reviews"])
     body = client.get("/api/students/A/next").json()
     assert body["rule"] == 4
-    assert body["question"]["concept_id"] == "series_current"
+    assert body["question"]["concept_id"] == "for_range"
 
 
 def test_clock_advance_rejects_invalid_days(client):
@@ -218,23 +218,23 @@ def test_clock_reset(client):
 
 
 def test_demo_reset_restores_pins_and_clock(client):
-    submit(client, "A", next_question(client, "A"), "0.25 A", "The first bulb used up half")
+    submit(client, "A", next_question(client, "A"), "5 times", "It counts up to and including 5")
     client.post("/api/clock/advance", json={"days": 7})
     assert client.post("/api/demo/reset").status_code == 200
-    assert next_question(client, "A")["id"] == "q_series_two_bulbs"
-    assert mastery(client, "A", "series_current")["mastery"] == 0.3
+    assert next_question(client, "A")["id"] == "q_range_count"
+    assert mastery(client, "A", "for_range")["mastery"] == 0.3
     assert client.post("/api/clock/advance", json={"days": 1}).json()["offset_days"] == 1
 
 
 def test_restart_keeps_state_and_demo_students(tmp_path, content_dir):
     db_url = f"sqlite:///{tmp_path}/r.db"
     with DemoClient(create_app(db_url=db_url, llm=FakeLLM(responder), content_dir=content_dir)) as client:
-        submit(client, "A", next_question(client, "A"), "0.25 A", "The first bulb used up half")
-        before = mastery(client, "A", "series_current")["mastery"]
+        submit(client, "A", next_question(client, "A"), "5 times", "It counts up to and including 5")
+        before = mastery(client, "A", "for_range")["mastery"]
     with DemoClient(create_app(db_url=db_url, llm=FakeLLM(responder), content_dir=content_dir)) as client:
         assert [s["id"] for s in client.get("/api/students").json()] == ["A", "B", "C", "D"]
-        assert mastery(client, "A", "series_current")["mastery"] == before
-        assert next_question(client, "A")["id"] == "q_current_in_out"
+        assert mastery(client, "A", "for_range")["mastery"] == before
+        assert next_question(client, "A")["id"] == "q_range_last_value"
 
 
 def test_malformed_content_stops_startup(tmp_path, content_dir):
@@ -247,23 +247,22 @@ def test_generated_questions_are_saved(tmp_path, content_dir):
     def generating(system, user, schema):
         if schema is GeneratedQuestion:
             return GeneratedQuestion(
-                stem="A 4 ohm resistor is across a 12 V supply. Find the current.",
-                function="ohm_current",
-                args=[12, 4],
-                unit="A",
-                options=[GeneratedOption(value=3, misconception_id=None), GeneratedOption(value=48, misconception_id=None)],
+                stem="What does this program print?",
+                function="modulo",
+                args=[12, 5],
+                options=[GeneratedOption(value=2, misconception_id=None), GeneratedOption(value=60, misconception_id=None)],
                 difficulty_prior=2,
             )
         return responder(system, user, schema)
 
     # With only one question in the bank, the second question has to be generated.
     questions = json.loads((content_dir / "questions.json").read_text())
-    (content_dir / "questions.json").write_text(json.dumps([q for q in questions if q["id"] == "q_ohm_basic"]))
+    (content_dir / "questions.json").write_text(json.dumps([q for q in questions if q["id"] == "q_modulo_basic"]))
     db_url = f"sqlite:///{tmp_path}/g.db"
     with DemoClient(create_app(db_url=db_url, llm=FakeLLM(generating), content_dir=content_dir)) as client:
-        submit(client, "D", next_question(client, "D"), "3 A", "dunno")
+        submit(client, "D", next_question(client, "D"), "2", "dunno")
         generated = next_question(client, "D")
-    assert generated["id"].startswith("g_live_ohms_law")
+    assert generated["id"].startswith("g_live_arithmetic_operators")
     reopened = create_app(db_url=db_url, llm=FakeLLM(generating), content_dir=content_dir)
     assert generated["id"] in reopened.state.content.questions
 
@@ -278,7 +277,7 @@ def test_concurrent_double_submit_applies_once(tmp_path, content_dir):
         question = next_question(client, "A")
         with ThreadPoolExecutor(max_workers=2) as pool:
             futures = [
-                pool.submit(submit, client, "A", question, "0.25 A", "The first bulb used up half") for _ in range(2)
+                pool.submit(submit, client, "A", question, "5 times", "It counts up to and including 5") for _ in range(2)
             ]
             statuses = sorted(future.result().status_code for future in futures)
         assert statuses == [200, 409]

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import type { PublicQuestion } from '../types'
+import { QuestionStem } from './QuestionStem'
 
 export interface AnswerDraft {
   option_id: string
@@ -29,7 +30,7 @@ export function QuestionCard({ question, submitting, onSubmit }: Props) {
       }}
     >
       <p className="text-xs font-semibold tracking-wide text-accent uppercase">{question.concept_name}</p>
-      <h2 className="mt-2 text-xl leading-snug font-semibold text-balance">{question.stem}</h2>
+      <QuestionStem stem={question.stem} />
 
       <fieldset className="mt-5 space-y-2">
         <legend className="sr-only">Choose your answer</legend>

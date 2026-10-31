@@ -6,11 +6,11 @@ from agent.content import load_content
 from agent.llm import OllamaClient
 from agent.loop import new_snapshot, process_answer
 
-DEMO_QUESTION = "q_series_two_bulbs"
+DEMO_QUESTION = "q_range_count"
 STUDENTS = [
-    ("A", "0.25 A", "The first bulb used up half"),
-    ("B", "0.25 A", "The current splits between them"),
-    ("C", "0.5 A", "The bulbs are identical"),
+    ("A", "5 times", "It counts up to and including 5"),
+    ("B", "5 times", "The 5 says how many times"),
+    ("C", "4 times", "It is always one less than the stop number"),
 ]
 
 

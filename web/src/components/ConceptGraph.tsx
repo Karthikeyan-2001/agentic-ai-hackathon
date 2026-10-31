@@ -70,7 +70,7 @@ function layout(concepts: ConceptView[]): { nodes: Node[]; edges: Edge[] } {
 
 export function ConceptGraph({ concepts }: { concepts: ConceptView[] }) {
   const chapters = useMemo(() => [...new Set(concepts.map((concept) => concept.chapter))], [concepts])
-  const [chapter, setChapter] = useState('Electricity')
+  const [chapter, setChapter] = useState('Python Programming')
   const visible = useMemo(() => concepts.filter((concept) => concept.chapter === chapter), [concepts, chapter])
   const { nodes, edges } = useMemo(() => layout(visible), [visible])
 

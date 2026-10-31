@@ -5,6 +5,8 @@
 - **Build window:** 6 hours
 - **Status:** Draft for team review
 
+> **Topic change:** the tutor now covers Class 10 computer science, assessing Python Programming instead of Electricity. This spec still describes the original physics content, but its design is unchanged. The one exception is generated questions: code now writes the program from a fixed template and the LLM supplies only the question wording and options. `content/` and `README.md` show the current topic.
+
 ## 1. Goal
 
 A generic AI tutor answers questions but doesn't track what a student actually understands. This project builds a tutor for Class 10 physics that works like a doctor: it forms competing explanations for a student's mistake, then asks the question that best separates them.

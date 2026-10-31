@@ -12,7 +12,7 @@ The LLM interprets and the code decides. The LLM never sets a score, marks an an
 - `engine/` is pure: no LLM, database, network or system clock. Time is passed in.
 - Only `agent/llm.py` talks to Ollama.
 - LLM settings: `qwen3.5:9b`, `think=False`, `temperature` 0, `num_ctx` 8192, `keep_alive` -1, 30-second timeout, up to two retries.
-- Questions cover Electricity only. Other concepts show as "not assessed".
+- Questions cover Python Programming only. Other concepts show as "not assessed".
 - The dashboard always shows a "Simulated class" label.
 - Describe evaluation samples as written test cases, not real student data.
 

@@ -14,9 +14,9 @@ from tests.fakes import FailingLLM, FakeLLM
 
 
 MISCONCEPTIONS = {
-    "The first bulb used up half": "current_consumed",
-    "The current splits between them": "series_parallel_confusion",
-    "The bulbs are identical": "identical_implies_equal",
+    "It counts up to and including 5": "range_includes_stop",
+    "The 5 says how many times": "range_stop_is_count",
+    "It is always one less than the stop number": "range_one_less_than_stop",
 }
 
 
@@ -71,7 +71,7 @@ def test_samples_reference_real_questions_and_options():
 
 def responder(system, user, schema):
     if schema is LessonPlan:
-        return LessonPlan(title="T", board_demo="D", check_question_id="q_current_in_out")
+        return LessonPlan(title="T", board_demo="D", check_question_id="q_range_last_value")
     reasoning = user.split("<student_reasoning>\n")[1].split("\n</student_reasoning>")[0]
     misconception_id = MISCONCEPTIONS.get(reasoning)
     return schema(
@@ -127,7 +127,7 @@ def test_warm_demo_leaves_students_reset(tmp_path, content_dir):
     app = create_app(db_url=f"sqlite:///{tmp_path}/r.db", llm=FakeLLM(responder), content_dir=content_dir)
     with DemoClient(app) as client:
         warm_demo(client)
-        assert client.get("/api/students/A/next").json()["question"]["id"] == "q_series_two_bulbs"
+        assert client.get("/api/students/A/next").json()["question"]["id"] == "q_range_count"
         assert client.get("/api/students/A/state").json()["answer_count"] == 0
 
 

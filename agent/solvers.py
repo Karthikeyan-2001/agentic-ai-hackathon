@@ -2,79 +2,83 @@ from dataclasses import dataclass
 from typing import Callable
 
 
-def ohm_current(v: float, r: float) -> float:
-    return v / r
+def floor_div(a: int, b: int) -> int:
+    return a // b
 
 
-def ohm_voltage(i: float, r: float) -> float:
-    return i * r
+def modulo(a: int, b: int) -> int:
+    return a % b
 
 
-def ohm_resistance(v: float, i: float) -> float:
-    return v / i
+def power_of(base: int, exponent: int) -> int:
+    return base**exponent
 
 
-def series_resistance(*rs: float) -> float:
-    return sum(rs)
+def range_sum(start: int, stop: int) -> int:
+    return sum(range(start, stop))
 
 
-def parallel_resistance(*rs: float) -> float:
-    return 1 / sum(1 / r for r in rs)
+def nested_count(outer: int, inner: int) -> int:
+    return outer * inner
 
 
-def power(v: float, i: float) -> float:
-    return v * i
+def list_total(*values: int) -> int:
+    return sum(values)
 
 
-def power_from_voltage_resistance(v: float, r: float) -> float:
-    return v * v / r
-
-
-def power_from_current_resistance(i: float, r: float) -> float:
-    return i * i * r
-
-
-def energy(p: float, t: float) -> float:
-    return p * t
-
-
-SOLVERS: dict[str, Callable[..., float]] = {
-    "ohm_current": ohm_current,
-    "ohm_voltage": ohm_voltage,
-    "ohm_resistance": ohm_resistance,
-    "series_resistance": series_resistance,
-    "parallel_resistance": parallel_resistance,
-    "power": power,
-    "power_from_voltage_resistance": power_from_voltage_resistance,
-    "power_from_current_resistance": power_from_current_resistance,
-    "energy": energy,
+SOLVERS: dict[str, Callable[..., int]] = {
+    "floor_div": floor_div,
+    "modulo": modulo,
+    "power_of": power_of,
+    "range_sum": range_sum,
+    "nested_count": nested_count,
+    "list_total": list_total,
 }
+
+
+PRINTED_VALUE_WORDS = ("print", "display", "output", "show", "value", "result")
 
 
 @dataclass(frozen=True)
 class SolverSpec:
-    arg_units: tuple[str, ...]  # With variadic=True, the single unit applies to every argument.
-    result_unit: str
-    stem_words: tuple[str, ...]
+    arg_kinds: tuple[str, ...]  # With variadic=True, the single kind applies to every argument.
+    program: str
     variadic: bool = False
+    is_range: bool = False
+    stem_words: tuple[str, ...] = PRINTED_VALUE_WORDS
 
 
 SOLVER_SPECS: dict[str, SolverSpec] = {
-    "ohm_current": SolverSpec(("V", "ohm"), "A", ("current",)),
-    "ohm_voltage": SolverSpec(("A", "ohm"), "V", ("voltage", "potential difference")),
-    "ohm_resistance": SolverSpec(("V", "A"), "ohm", ("resistance",)),
-    "series_resistance": SolverSpec(("ohm",), "ohm", ("series",), variadic=True),
-    "parallel_resistance": SolverSpec(("ohm",), "ohm", ("parallel",), variadic=True),
-    "power": SolverSpec(("V", "A"), "W", ("power",)),
-    "power_from_voltage_resistance": SolverSpec(("V", "ohm"), "W", ("power",)),
-    "power_from_current_resistance": SolverSpec(("A", "ohm"), "W", ("power",)),
-    "energy": SolverSpec(("kW", "hour"), "kWh", ("energy",)),
+    "floor_div": SolverSpec(("dividend", "divisor"), "print({} // {})"),
+    "modulo": SolverSpec(("dividend", "divisor"), "print({} % {})"),
+    "power_of": SolverSpec(("base", "exponent"), "print({} ** {})"),
+    "range_sum": SolverSpec(
+        ("start", "stop"),
+        "total = 0\nfor i in range({}, {}):\n    total = total + i\nprint(total)",
+        is_range=True,
+    ),
+    "nested_count": SolverSpec(
+        ("outer", "inner"),
+        'for i in range({}):\n    for j in range({}):\n        print("*")',
+        stem_words=("how many",),
+    ),
+    "list_total": SolverSpec(
+        ("item",),
+        "marks = [{}]\ntotal = 0\nfor mark in marks:\n    total = total + mark\nprint(total)",
+        variadic=True,
+    ),
 }
 
 NUMERIC_CONCEPTS: dict[str, list[str]] = {
-    "ohms_law": ["ohm_current", "ohm_voltage", "ohm_resistance"],
-    "series_resistance": ["series_resistance"],
-    "parallel_resistance": ["parallel_resistance"],
-    "electric_power": ["power", "power_from_voltage_resistance", "power_from_current_resistance"],
-    "electric_energy": ["energy"],
+    "arithmetic_operators": ["floor_div", "modulo", "power_of"],
+    "running_total": ["range_sum"],
+    "nested_loops": ["nested_count"],
+    "list_traversal": ["list_total"],
 }
+
+
+def program_for(function: str, args: list[int]) -> str:
+    spec = SOLVER_SPECS[function]
+    if spec.variadic:
+        return spec.program.format(", ".join(str(arg) for arg in args))
+    return spec.program.format(*args)

@@ -1,27 +1,27 @@
 [
   {
-    "id": "q_series_two_bulbs",
-    "concept_id": "series_current",
-    "stem": "Two bulbs are in series. The current through the first is 0.5 A. What is the current through the second?",
+    "id": "q_range_count",
+    "concept_id": "for_range",
+    "stem": "How many times does the body of this loop run?\n\nfor i in range(1, 5):\n    print(i)",
     "options": [
       {
         "id": "a",
-        "text": "0.25 A",
+        "text": "5 times",
         "is_correct": false,
         "misconception_ids": [
-          "current_consumed",
-          "series_parallel_confusion"
+          "range_includes_stop",
+          "range_stop_is_count"
         ]
       },
       {
         "id": "b",
-        "text": "0.5 A",
+        "text": "4 times",
         "is_correct": true,
         "misconception_ids": []
       },
       {
         "id": "c",
-        "text": "1 A",
+        "text": "3 times",
         "is_correct": false,
         "misconception_ids": []
       }
@@ -30,27 +30,27 @@
     "source": "seed"
   },
   {
-    "id": "q_current_in_out",
-    "concept_id": "series_current",
-    "stem": "Ammeters are placed just before and just after a glowing bulb in a simple circuit. How do their readings compare?",
+    "id": "q_range_last_value",
+    "concept_id": "for_range",
+    "stem": "What is the last number this loop prints?\n\nfor i in range(3, 7):\n    print(i)",
     "options": [
       {
         "id": "a",
-        "text": "The reading after the bulb is lower",
+        "text": "7",
         "is_correct": false,
         "misconception_ids": [
-          "current_consumed"
+          "range_includes_stop"
         ]
       },
       {
         "id": "b",
-        "text": "The two readings are equal",
+        "text": "6",
         "is_correct": true,
         "misconception_ids": []
       },
       {
         "id": "c",
-        "text": "The reading after the bulb is higher",
+        "text": "5",
         "is_correct": false,
         "misconception_ids": []
       }
@@ -59,27 +59,27 @@
     "source": "seed"
   },
   {
-    "id": "q_series_vs_parallel",
-    "concept_id": "series_current",
-    "stem": "Two identical bulbs are connected to a battery, first in series and then in parallel. In which arrangement does the current through each bulb equal the current leaving the battery?",
+    "id": "q_range_two_bounds",
+    "concept_id": "for_range",
+    "stem": "How many times does the body of this loop run?\n\nfor i in range(4, 6):\n    print(i)",
     "options": [
       {
         "id": "a",
-        "text": "Parallel",
+        "text": "6 times",
         "is_correct": false,
         "misconception_ids": [
-          "series_parallel_confusion"
+          "range_stop_is_count"
         ]
       },
       {
         "id": "b",
-        "text": "Series",
+        "text": "2 times",
         "is_correct": true,
         "misconception_ids": []
       },
       {
         "id": "c",
-        "text": "Neither arrangement",
+        "text": "4 times",
         "is_correct": false,
         "misconception_ids": []
       }
@@ -88,56 +88,54 @@
     "source": "seed"
   },
   {
-    "id": "q_different_bulbs",
-    "concept_id": "series_current",
-    "stem": "A 2 ohm bulb and a 6 ohm bulb are in series. The current through the 2 ohm bulb is 0.5 A. What is the current through the 6 ohm bulb?",
+    "id": "q_range_other_start",
+    "concept_id": "for_range",
+    "stem": "How many times does the body of this loop run?\n\nfor i in range(3, 8):\n    print(i)",
     "options": [
       {
         "id": "a",
-        "text": "0.5 A",
+        "text": "5 times",
         "is_correct": true,
         "misconception_ids": []
       },
       {
         "id": "b",
-        "text": "About 0.17 A",
+        "text": "7 times",
         "is_correct": false,
         "misconception_ids": [
-          "identical_implies_equal"
+          "range_one_less_than_stop"
         ]
       },
       {
         "id": "c",
-        "text": "1.5 A",
+        "text": "3 times",
         "is_correct": false,
-        "misconception_ids": [
-          "identical_implies_equal"
-        ]
+        "misconception_ids": []
       }
     ],
     "difficulty_prior": 3,
     "source": "seed"
   },
   {
-    "id": "q_ohm_basic",
-    "concept_id": "ohms_law",
-    "stem": "A 4 ohm resistor is connected across a 12 V supply. What is the current through it?",
+    "id": "q_modulo_basic",
+    "concept_id": "arithmetic_operators",
+    "stem": "What does this program print?\n\nprint(17 % 5)",
     "options": [
       {
         "id": "a",
-        "text": "48 A",
+        "text": "3",
         "is_correct": false,
         "misconception_ids": []
       },
       {
         "id": "b",
-        "text": "0.33 A",
+        "text": "3.4",
         "is_correct": false,
         "misconception_ids": []
       },
       {
         "id": "c",
-        "text": "3 A",
+        "text": "2",
         "is_correct": true,
         "misconception_ids": []
       }
@@ -146,27 +144,27 @@
     "source": "seed"
   },
   {
-    "id": "q_battery_resistance_change",
-    "concept_id": "ohms_law",
-    "stem": "A resistor connected to a battery carries 0.5 A. It is replaced by a resistor with twice the resistance, using the same battery. What is the new current?",
+    "id": "q_floor_div_round",
+    "concept_id": "arithmetic_operators",
+    "stem": "What does this program print?\n\nprint(19 // 4)",
     "options": [
       {
         "id": "a",
-        "text": "0.25 A",
+        "text": "4",
         "is_correct": true,
         "misconception_ids": []
       },
       {
         "id": "b",
-        "text": "0.5 A",
+        "text": "5",
         "is_correct": false,
         "misconception_ids": [
-          "battery_constant_current"
+          "integer_division_rounds"
         ]
       },
       {
         "id": "c",
-        "text": "1 A",
+        "text": "4.75",
         "is_correct": false,
         "misconception_ids": []
       }
@@ -175,87 +173,56 @@
     "source": "seed"
   },
   {
-    "id": "q_voltage_no_current",
-    "concept_id": "potential_difference",
-    "stem": "A 6 V battery is not connected to anything. What is true at its terminals?",
+    "id": "q_assign_copy",
+    "concept_id": "variables_assignment",
+    "stem": "What does this program print?\n\na = 5\nb = a\na = 7\nprint(b)",
     "options": [
       {
         "id": "a",
-        "text": "There is no potential difference because no current flows",
+        "text": "7",
         "is_correct": false,
         "misconception_ids": [
-          "voltage_is_current"
+          "assignment_links_variables"
         ]
       },
       {
         "id": "b",
-        "text": "There is a potential difference of 6 V, and no current flows",
+        "text": "5",
         "is_correct": true,
         "misconception_ids": []
       },
       {
         "id": "c",
-        "text": "A current of 6 A flows between the terminals",
+        "text": "12",
         "is_correct": false,
-        "misconception_ids": [
-          "voltage_is_current"
-        ]
+        "misconception_ids": []
       }
     ],
     "difficulty_prior": 3,
     "source": "seed"
   },
   {
-    "id": "q_parallel_total",
-    "concept_id": "parallel_resistance",
-    "stem": "A 3 ohm resistor is connected in parallel with a 6 ohm resistor. What is the total resistance?",
+    "id": "q_string_plus",
+    "concept_id": "data_types",
+    "stem": "What does this program print?\n\nprint(\"2\" + \"3\")",
     "options": [
       {
         "id": "a",
-        "text": "9 ohm",
-        "is_correct": false,
-        "misconception_ids": [
-          "parallel_resistance_adds"
-        ]
-      },
-      {
-        "id": "b",
-        "text": "6 ohm",
-        "is_correct": false,
-        "misconception_ids": []
-      },
-      {
-        "id": "c",
-        "text": "2 ohm",
-        "is_correct": true,
-        "misconception_ids": []
-      }
-    ],
-    "difficulty_prior": 2,
-    "source": "seed"
-  },
-  {
-    "id": "q_wire_thickness",
-    "concept_id": "resistance_factors",
-    "stem": "Two copper wires have the same length and temperature, but one is thicker. Which has more resistance?",
-    "options": [
-      {
-        "id": "a",
-        "text": "The thinner wire",
+        "text": "23",
         "is_correct": true,
         "misconception_ids": []
       },
       {
         "id": "b",
-        "text": "The thicker wire",
+        "text": "5",
         "is_correct": false,
         "misconception_ids": [
-          "thicker_wire_more_resistance"
+          "string_plus_adds"
         ]
       },
       {
         "id": "c",
-        "text": "They have the same resistance",
+        "text": "An error",
         "is_correct": false,
         "misconception_ids": []
       }
@@ -264,27 +231,83 @@
     "source": "seed"
   },
   {
-    "id": "q_parallel_bulb_power",
-    "concept_id": "electric_power",
-    "stem": "A 6 ohm resistor and a 12 ohm resistor are connected in parallel across the same battery. Which uses more power?",
+    "id": "q_nested_count",
+    "concept_id": "nested_loops",
+    "stem": "How many stars does this program print?\n\nfor i in range(2):\n    for j in range(3):\n        print(\"*\")",
     "options": [
       {
         "id": "a",
-        "text": "The 12 ohm resistor",
+        "text": "5",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "b",
+        "text": "3",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "c",
+        "text": "6",
+        "is_correct": true,
+        "misconception_ids": []
+      }
+    ],
+    "difficulty_prior": 2,
+    "source": "seed"
+  },
+  {
+    "id": "q_list_index",
+    "concept_id": "list_indexing",
+    "stem": "What does this program print?\n\nmarks = [40, 55, 70]\nprint(marks[1])",
+    "options": [
+      {
+        "id": "a",
+        "text": "40",
         "is_correct": false,
         "misconception_ids": [
-          "resistance_always_brighter"
+          "index_starts_at_one"
         ]
       },
       {
         "id": "b",
-        "text": "The 6 ohm resistor",
+        "text": "55",
         "is_correct": true,
         "misconception_ids": []
       },
       {
         "id": "c",
-        "text": "They use the same power",
+        "text": "70",
+        "is_correct": false,
+        "misconception_ids": []
+      }
+    ],
+    "difficulty_prior": 2,
+    "source": "seed"
+  },
+  {
+    "id": "q_while_mid_body",
+    "concept_id": "while_loops",
+    "stem": "What does this program print?\n\nn = 0\nwhile n < 2:\n    n = n + 1\n    print(n)",
+    "options": [
+      {
+        "id": "a",
+        "text": "Only 1",
+        "is_correct": false,
+        "misconception_ids": [
+          "while_exits_mid_body"
+        ]
+      },
+      {
+        "id": "b",
+        "text": "1, then 2",
+        "is_correct": true,
+        "misconception_ids": []
+      },
+      {
+        "id": "c",
+        "text": "0, then 1",
         "is_correct": false,
         "misconception_ids": []
       }
@@ -293,52 +316,25 @@
     "source": "seed"
   },
   {
-    "id": "q_parallel_branch_current",
-    "concept_id": "parallel_current",
-    "stem": "Two identical resistors are in parallel, and the battery supplies 2 A. What is the current through each resistor?",
+    "id": "q_list_total",
+    "concept_id": "list_traversal",
+    "stem": "What does this program print?\n\nmarks = [2, 3, 5]\ntotal = 0\nfor mark in marks:\n    total = total + mark\nprint(total)",
     "options": [
       {
         "id": "a",
-        "text": "1 A",
-        "is_correct": true,
-        "misconception_ids": []
-      },
-      {
-        "id": "b",
-        "text": "2 A",
-        "is_correct": false,
-        "misconception_ids": []
-      },
-      {
-        "id": "c",
-        "text": "4 A",
-        "is_correct": false,
-        "misconception_ids": []
-      }
-    ],
-    "difficulty_prior": 3,
-    "source": "seed"
-  },
-  {
-    "id": "q_energy_units",
-    "concept_id": "electric_energy",
-    "stem": "A 100 W bulb runs for 10 hours. How much electrical energy does it use?",
-    "options": [
-      {
-        "id": "a",
-        "text": "1000 kWh",
+        "text": "5",
         "is_correct": false,
         "misconception_ids": []
       },
       {
         "id": "b",
-        "text": "1 kWh",
+        "text": "10",
         "is_correct": true,
         "misconception_ids": []
       },
       {
         "id": "c",
-        "text": "0.1 kWh",
+        "text": "3",
         "is_correct": false,
         "misconception_ids": []
       }

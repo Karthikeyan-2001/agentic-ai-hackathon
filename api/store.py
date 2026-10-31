@@ -22,7 +22,7 @@ from engine.elo import starting_elo
 from engine.selection import Selection
 from engine.types import ConceptState, MisconceptionState, Question
 
-DEMO_QUESTION = "q_series_two_bulbs"
+DEMO_QUESTION = "q_range_count"
 DEMO_STUDENTS = [
     ("A", "Student A", DEMO_QUESTION, True),
     ("B", "Student B", DEMO_QUESTION, True),

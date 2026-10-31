@@ -1,3 +1,4 @@
+import math
 import random
 import re
 
@@ -5,33 +6,30 @@ from pydantic import BaseModel
 
 from agent.content import Content
 from agent.llm import LLMClient, LLMError
-from agent.solvers import NUMERIC_CONCEPTS, SOLVER_SPECS, SOLVERS, SolverSpec
+from agent.solvers import NUMERIC_CONCEPTS, SOLVER_SPECS, SOLVERS, SolverSpec, program_for
 from engine.types import Option, Question
 
 MAX_ATTEMPTS = 3
-TOLERANCE = 0.01
+MAX_ARGUMENT = 50
 
-UNIT_PATTERNS = {
-    "V": r"(?:V|volts?)",
-    "A": r"(?:A|amperes?|amps?)",
-    "ohm": r"(?:ohms?|Ω)",
-    "kW": r"(?:kW|kilowatts?)",
-    "hour": r"(?:h|hrs?|hours?)",
-}
 FRIENDLY_VALUES = {
-    "V": [3, 6, 9, 12, 18, 24],
-    "A": [0.5, 1, 1.5, 2, 3, 4],
-    "ohm": [2, 3, 4, 5, 6, 8, 10, 12, 15, 20],
-    "kW": [0.5, 1, 1.5, 2, 3],
-    "hour": [2, 3, 4, 5, 8, 10],
+    "dividend": [13, 17, 19, 23, 26, 29, 38],
+    "divisor": [3, 4, 5, 6, 7],
+    "base": [2, 3, 4, 5],
+    "exponent": [2, 3],
+    "start": [1, 2, 3, 4],
+    "stop": [5, 6, 7, 8, 10],
+    "outer": [2, 3, 4],
+    "inner": [2, 3, 4, 5],
+    "item": [2, 3, 5, 8, 10, 12, 15, 20],
 }
 
-SYSTEM = """You write multiple-choice numeric questions for Class 10 physics.
+SYSTEM = """You write multiple-choice questions about what a short Python program prints, for Class 10 computer science.
 
 Rules:
 - Use the function and argument values you are given, in that order.
-- The stem must state every value with its unit, such as "12 V", "4 ohm", "2 A", "1.5 kW" or "3 hours".
-- The stem must contain no other digits, and must not state the answer.
+- The stem is one short question: "What does this program print?". For nested_count, use "How many stars does this program print?" instead.
+- The program is added to the stem for you, so the stem must contain no code and no digits.
 - Give 3 or 4 options with different values. One value must equal the function's result.
 - Every wrong option should be a value a student could reach by a real mistake.
 - A wrong option may name a listed misconception ID when that belief leads to that value. Otherwise use null.
@@ -39,15 +37,12 @@ Rules:
 - difficulty_prior runs from 1 (easiest) to 5 (hardest).
 
 What the functions calculate:
-- ohm_current(voltage in V, resistance in ohm): the current
-- ohm_voltage(current in A, resistance in ohm): the voltage
-- ohm_resistance(voltage in V, current in A): the resistance
-- series_resistance(each resistance in ohm): the total resistance in series
-- parallel_resistance(each resistance in ohm): the total resistance in parallel
-- power(voltage in V, current in A): the power
-- power_from_voltage_resistance(voltage in V, resistance in ohm): the power
-- power_from_current_resistance(current in A, resistance in ohm): the power
-- energy(power in kW, time in hours): the energy in kWh"""
+- floor_div(a, b): the result of a // b, which drops the part after the decimal point
+- modulo(a, b): the result of a % b, which is the remainder
+- power_of(a, b): the result of a ** b
+- range_sum(start, stop): the total of the numbers in range(start, stop), which leaves out stop
+- nested_count(outer, inner): the number of stars printed by a loop of inner passes inside a loop of outer passes
+- list_total(each item): the total of the items in a list"""
 
 
 class GeneratedOption(BaseModel):
@@ -59,37 +54,39 @@ class GeneratedQuestion(BaseModel):
     stem: str
     function: str
     args: list[float]
-    unit: str
     options: list[GeneratedOption]
     difficulty_prior: int
 
 
-def _matches(value: float, answer: float) -> bool:
-    return abs(value - answer) <= TOLERANCE * abs(answer)
+def _whole_args(g: GeneratedQuestion) -> list[int]:
+    return [int(arg) for arg in g.args]
 
 
-def _solve(g: GeneratedQuestion) -> float:
-    return SOLVERS[g.function](*g.args)
+def _solve(g: GeneratedQuestion) -> int:
+    return SOLVERS[g.function](*_whole_args(g))
 
 
-def _units_for(spec: SolverSpec, count: int) -> tuple[str, ...]:
-    return spec.arg_units * count if spec.variadic else spec.arg_units
-
-
-def _stem_problem(g: GeneratedQuestion, spec: SolverSpec) -> str | None:
-    """Check the stem states the numbers the answer was computed from, each with the right unit."""
-    stem = g.stem
-    numbers = {float(found) for found in re.findall(r"\d+(?:\.\d+)?", stem)}
-    if numbers != {float(arg) for arg in g.args}:
-        return f"stem numbers {sorted(numbers)} must match the arguments {g.args}"
-    for arg, unit in zip(g.args, _units_for(spec, len(g.args))):
-        number = re.escape(f"{arg:g}")
-        pattern = rf"(?<![\d.]){number}(?:\.0+)?\s*{UNIT_PATTERNS[unit]}(?![A-Za-z])"
-        if not re.search(pattern, stem):
-            return f"stem must state {arg:g} {unit}"
+def _stem_problem(stem: str, spec: SolverSpec) -> str | None:
+    """The program holds the numbers, so the stem can't add any that disagree with it."""
+    if re.search(r"\d", stem):
+        return "stem must contain no digits"
     if not any(word in stem.casefold() for word in spec.stem_words):
-        return f"stem must ask about {' or '.join(spec.stem_words)}"
+        return f"stem must ask about the program, using the words: {spec.stem_words[0]}"
     return None
+
+
+def _shuffled(options: list[GeneratedOption], question_id: str) -> list[GeneratedOption]:
+    """The model tends to list the right answer first, so code sets a repeatable order for each question."""
+    order = list(options)
+    random.Random(question_id).shuffle(order)
+    return order
+
+
+def _rounded_quotient(g: GeneratedQuestion) -> int | None:
+    if g.function != "floor_div":
+        return None
+    dividend, divisor = _whole_args(g)
+    return math.floor(dividend / divisor + 0.5)
 
 
 def verify_generated(g: GeneratedQuestion, concept_id: str, valid_ids: set[str]) -> str | None:
@@ -102,60 +99,63 @@ def verify_generated(g: GeneratedQuestion, concept_id: str, valid_ids: set[str])
     if not 1 <= g.difficulty_prior <= 5:
         return f"difficulty_prior {g.difficulty_prior} is out of range"
     spec = SOLVER_SPECS[g.function]
-    if (spec.variadic and len(g.args) < 2) or (not spec.variadic and len(g.args) != len(spec.arg_units)):
+    if (spec.variadic and len(g.args) < 2) or (not spec.variadic and len(g.args) != len(spec.arg_kinds)):
         return f"wrong argument count for {g.function}"
-    if any(arg <= 0 for arg in g.args):
-        return "argument values must be positive"
+    if any(arg <= 0 or arg > MAX_ARGUMENT for arg in g.args):
+        return f"argument values must be from 1 to {MAX_ARGUMENT}"
+    if not all(arg.is_integer() for arg in g.args):
+        return "argument values must be whole numbers"
+    if spec.is_range and g.args[0] >= g.args[1]:
+        return "the range must start below its stop value"
     answer = _solve(g)
-    stem_problem = _stem_problem(g, spec)
+    stem_problem = _stem_problem(g.stem, spec)
     if stem_problem:
         return stem_problem
     values = [option.value for option in g.options]
     if len(set(values)) != len(values):
         return "option values must be different"
-    matching = [option for option in g.options if _matches(option.value, answer)]
+    matching = [option for option in g.options if option.value == answer]
     if len(matching) != 1:
-        return f"exactly one option must match the correct answer {answer:g}, found {len(matching)}"
+        return f"exactly one option must match the correct answer {answer}, found {len(matching)}"
     if matching[0].misconception_id is not None:
         return "the correct option can't name a misconception"
     for option in g.options:
         if option.misconception_id is not None and option.misconception_id not in valid_ids:
             return f"unknown misconception {option.misconception_id}"
-        if option.misconception_id == "parallel_resistance_adds" and not _matches(option.value, sum(g.args)):
-            return f"parallel_resistance_adds must tag the sum {sum(g.args):g}"
+        if option.misconception_id == "integer_division_rounds" and option.value != _rounded_quotient(g):
+            return f"integer_division_rounds must tag the rounded quotient of a // question, not {option.value:g}"
     return None
 
 
 def to_question(g: GeneratedQuestion, question_id: str, concept_id: str) -> Question:
     answer = _solve(g)
-    unit = SOLVER_SPECS[g.function].result_unit
     options = [
         Option(
             id=chr(ord("a") + index),
-            text=f"{round(option.value, 2):g} {unit}",
-            is_correct=_matches(option.value, answer),
+            text=f"{round(option.value, 2):g}",
+            is_correct=option.value == answer,
             misconception_ids=[option.misconception_id] if option.misconception_id else [],
         )
-        for index, option in enumerate(g.options)
+        for index, option in enumerate(_shuffled(g.options, question_id))
     ]
     return Question(
         id=question_id,
         concept_id=concept_id,
-        stem=g.stem,
+        stem=f"{g.stem}\n\n{program_for(g.function, _whole_args(g))}",
         options=options,
         difficulty_prior=g.difficulty_prior,
         source="generated",
     )
 
 
-def _assignment(concept_id: str, question_id: str) -> tuple[str, list[float]]:
+def _assignment(concept_id: str, question_id: str) -> tuple[str, list[int]]:
     """Pick a repeatable function and friendly numbers, so questions vary while the model stays at temperature 0."""
     rng = random.Random(question_id)
     function = rng.choice(NUMERIC_CONCEPTS[concept_id])
     spec = SOLVER_SPECS[function]
     if spec.variadic:
-        return function, rng.sample(FRIENDLY_VALUES[spec.arg_units[0]], rng.choice([2, 3]))
-    return function, [rng.choice(FRIENDLY_VALUES[unit]) for unit in spec.arg_units]
+        return function, rng.sample(FRIENDLY_VALUES[spec.arg_kinds[0]], rng.choice([3, 4]))
+    return function, [rng.choice(FRIENDLY_VALUES[kind]) for kind in spec.arg_kinds]
 
 
 def generate_question(concept_id: str, question_id: str, content: Content, llm: LLMClient) -> Question | None:
@@ -164,10 +164,11 @@ def generate_question(concept_id: str, question_id: str, content: Content, llm: 
     function, arguments = _assignment(concept_id, question_id)
     concept = content.concepts[concept_id]
     related = [m for m in content.misconceptions.values() if m.concept_id == concept_id]
-    catalogue = "\n".join(f"- {m.id}: {m.description}" for m in related) or "- none"
+    catalogue = "\n".join(f"- {m.id}: {m.description}" for m in related) or "- None. Use null for every misconception ID."
     prompt = (
         f"Concept: {concept.name}. {concept.description}\n"
         f"Use function {function} with arguments {arguments}.\n"
+        f"The program students will see:\n{program_for(function, arguments)}\n"
         f"Misconceptions you may name:\n{catalogue}\n"
         f"Reference for this question: {question_id}."
     )

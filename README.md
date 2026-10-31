@@ -1,23 +1,23 @@
 # Differential
 
-A Class 10 physics tutor that diagnoses a student's reasoning, not just their final answer. It works like a doctor: it forms competing explanations for a mistake, then asks the question that best separates them.
+A Class 10 Python programming tutor that diagnoses a student's reasoning, not just their final answer. It works like a doctor: it forms competing explanations for a mistake, then asks the question that best separates them.
 
 ## The idea in one example
 
-Three students answer: *"Two bulbs are in series. The current through the first is 0.5 A. What is the current through the second?"*
+Three students answer: *"How many times does the body of `for i in range(1, 5):` run?"*
 
 | Student | Answer | Reasoning | Diagnosis | Mastery | Next question tests |
 |---|---|---|---|---|---|
-| A | 0.25 A | "The first bulb used up half" | Thinks current gets consumed | Falls | Whether current leaving a bulb equals current entering it |
-| B | 0.25 A | "The current splits between them" | Confuses series with parallel | Falls | The same bulbs in series and in parallel |
-| C | 0.5 A | "The bulbs are identical" | Right answer, wrong reason | Unchanged | Two different bulbs in series |
+| A | 5 times | "It counts up to and including 5" | Thinks `range` includes its stop value | Falls | The last number printed by `range(3, 7)` |
+| B | 5 times | "The 5 says how many times" | Thinks the stop value is the number of repeats | Falls | How many times `range(4, 6)` runs |
+| C | 4 times | "It is always one less than the stop number" | Right answer, wrong reason | Unchanged | How many times `range(3, 8)` runs |
 
 ## What's included
 
 - **Diagnostic test:** 8 adaptive questions, each with reasoning and a confidence tap.
-- **Concept graph:** 29 concepts across Class 10 physics, with misconceptions and questions for Electricity.
+- **Concept graph:** 29 concepts across Class 10 computer science, with misconceptions and questions for Python Programming. Computer Networks, Web Pages with HTML and Cyber Ethics complete the graph.
 - **Learner model:** Bayesian Knowledge Tracing per concept, and a probability per misconception, updated after every answer.
-- **Question selection and generation:** code picks the question that best separates explanations. Generated numeric questions are checked by code against the numbers in the question.
+- **Question selection and generation:** code picks the question that best separates explanations. Generated questions use fixed program templates, and code works out the correct answer. LLM-written code is never run.
 - **Difficulty calibration:** Elo ratings adjust question difficulty from class responses.
 - **Misconception detection:** a local LLM matches reasoning to a catalogue and must quote the student's own words.
 - **Spaced repetition:** a forgetting curve per concept and per cleared misconception.
@@ -31,11 +31,11 @@ Measured on `qwen3.5:9b` with thinking off, using 30 held-out written test cases
 
 | Measure | Result |
 |---|---|
-| Error type correct | 29 of 30 (97%) |
+| Error type correct | 30 of 30 (100%) |
 | Misconception identified, where one was expected | 18 of 18 (100%) |
 | Average time per diagnosis | 0.8 seconds |
 
-These are written test cases, not real student data, and the same AI assistant that helped write the misconception list also wrote them. Treat the result as a check that the system works, not as evidence of accuracy with real students. Full results are in `eval/results.json`.
+These are written test cases, not real student data, and the same AI assistant that helped write the misconception list also wrote them, in fairly clear wording. Expect real students to be harder, so treat the result as a check that the system works, not as evidence of accuracy with real students. Full results are in `eval/results.json`.
 
 The teacher dashboard uses a simulated class of 30 made-up students, and is labelled that way.
 
@@ -103,12 +103,12 @@ Keep the teacher signed in on one window, and click **Reset demo** there first. 
 
 | Student | Choose | Reasoning |
 |---|---|---|
-| A | 0.25 A | The first bulb used up half |
-| A, next question | The two readings are equal | Charge is not used up, so the current leaving the bulb equals the current entering it |
-| B | 0.25 A | The current splits between them |
-| B, next question | Series | In series there is one path, so each bulb carries the battery current |
-| C | 0.5 A | The bulbs are identical |
-| C, next question | 0.5 A | In series there is one path, so the current is the same in both bulbs |
+| A | 5 times | It counts up to and including 5 |
+| A, next question | 6 | range stops before its stop value, so 6 is the last number printed |
+| B | 5 times | The 5 says how many times |
+| B, next question | 2 times | i takes the values 4 and 5, so the loop runs twice |
+| C | 4 times | It is always one less than the stop number |
+| C, next question | 5 times | 8 minus 3 is 5, so the loop runs for 3, 4, 5, 6 and 7 |
 
 1. Show students A, B and C with the thinking panel visible (90 seconds).
 2. Show a misconception's probability falling. Then click **Jump 7 days** in the teacher window, and return to the student window to show the review due (30 seconds).
@@ -128,7 +128,7 @@ The second command runs the demo cases against the real model.
 
 ## Limits
 
-- Questions cover Electricity only. Other chapters appear in the graph as "not assessed".
+- Questions cover Python Programming only. Other chapters appear in the graph as "not assessed".
 - Sign-in is mock, so this runs as a local demo. Don't expose it to the internet as it is.
 - No real student has used it yet.
 - The AI-written lesson plan is a draft for a teacher to review.
