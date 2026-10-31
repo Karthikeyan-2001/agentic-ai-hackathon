@@ -17,3 +17,14 @@ def test_numeric_concepts_only_name_known_solvers():
     assert set(NUMERIC_CONCEPTS) == {"ohms_law", "series_resistance", "parallel_resistance", "electric_power", "electric_energy"}
     for functions in NUMERIC_CONCEPTS.values():
         assert set(functions) <= set(SOLVERS)
+
+
+def test_power_variants():
+    assert SOLVERS["power_from_voltage_resistance"](12, 10) == pytest.approx(14.4)
+    assert SOLVERS["power_from_current_resistance"](2, 3) == 12
+
+
+def test_every_solver_declares_units_and_stem_words():
+    from agent.solvers import SOLVER_SPECS
+
+    assert set(SOLVER_SPECS) == set(SOLVERS)

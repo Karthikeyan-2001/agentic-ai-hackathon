@@ -231,7 +231,7 @@ def _exhausted_snapshot(content, concept_id):
 
 def test_decide_next_generates_a_question_when_none_is_unseen(content):
     generated = GeneratedQuestion(
-        stem="Find the current.",
+        stem="A 4 ohm resistor is across a 12 V supply. Find the current.",
         function="ohm_current",
         args=[12, 4],
         unit="A",

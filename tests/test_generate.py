@@ -130,3 +130,76 @@ def test_prompt_offers_only_the_concepts_misconceptions(content):
     system, user, _ = llm.calls[0]
     assert "battery_constant_current" in system + user
     assert "current_consumed" not in system + user
+
+
+def test_rejects_real_heater_failure_where_args_differ_from_stem():
+    heater = good(
+        stem="A heater rated at 2 kW is used for 3 hours. How much electrical energy does it consume?",
+        function="energy",
+        args=[2000, 3],
+        options=[GeneratedOption(value=6000, misconception_id=None), GeneratedOption(value=6, misconception_id=None)],
+    )
+    assert "stem" in verify_generated(heater, "electric_energy", set())
+
+
+def test_rejects_real_power_failure_where_args_differ_from_stem():
+    power = good(
+        stem="A resistor of 12 ohm carries a current of 0.32 A. What is the electric power?",
+        function="power",
+        args=[9.6, 0.32],
+        options=[GeneratedOption(value=3.072, misconception_id=None), GeneratedOption(value=3.84, misconception_id=None)],
+    )
+    assert "stem" in verify_generated(power, "electric_power", set())
+
+
+def test_rejects_swapped_argument_roles():
+    swapped = good(
+        args=[4, 12],
+        options=[GeneratedOption(value=4 / 12, misconception_id=None), GeneratedOption(value=48, misconception_id=None)],
+    )
+    assert "stem" in verify_generated(swapped, "ohms_law", VALID)
+
+
+def test_rejects_extra_number_in_stem():
+    extra = good(stem="A 4 ohm resistor is across a 12 V supply for 9 seconds. What is the current?")
+    assert "stem" in verify_generated(extra, "ohms_law", VALID)
+
+
+def test_rejects_stem_asking_for_something_else():
+    wrong_topic = good(stem="A 4 ohm resistor is across a 12 V supply. What is the power?")
+    assert "stem" in verify_generated(wrong_topic, "ohms_law", VALID)
+
+
+def test_accepts_ohm_symbol_and_full_unit_names():
+    assert verify_generated(good(stem="A 4 Ω resistor is across a 12 volt supply. Find the current."), "ohms_law", VALID) is None
+
+
+def test_accepts_power_from_voltage_and_resistance():
+    question = good(
+        stem="A 10 ohm resistor is connected to a 12 V battery. What is the power?",
+        function="power_from_voltage_resistance",
+        args=[12, 10],
+        options=[GeneratedOption(value=14.4, misconception_id=None), GeneratedOption(value=120, misconception_id=None)],
+    )
+    assert verify_generated(question, "electric_power", set()) is None
+
+
+def test_to_question_uses_code_owned_unit():
+    question = to_question(good(unit="Amperes (A)"), "g1", "ohms_law")
+    assert question.options[0].text == "3 A"
+
+
+def test_assignment_is_repeatable_and_varies_by_question(content):
+    prompts = {}
+
+    def capture(s, u, schema):
+        prompts.setdefault(u, 0)
+        return good()
+
+    llm = FakeLLM(capture)
+    generate_question("ohms_law", "g1", content, llm)
+    generate_question("ohms_law", "g1", content, llm)
+    generate_question("ohms_law", "g2", content, llm)
+    generate_question("ohms_law", "g3", content, llm)
+    assert len(prompts) >= 2
+    assert llm.calls[0][1] == llm.calls[1][1]
