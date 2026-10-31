@@ -69,6 +69,20 @@ export interface StudentState {
 }
 
 export interface ClassSummary {
+  overview: {
+    student_count: number
+    average_mastery: number | null
+    students_with_active_misconception: number
+    reviews_due: number
+  }
+  concept_gaps: {
+    concept_id: string
+    name: string
+    average_mastery: number | null
+    below_40_count: number
+    assessed_count: number
+  }[]
+  reviews_by_concept: { concept_id: string; name: string; student_count: number }[]
   heatmap: {
     concepts: { id: string; name: string }[]
     students: { id: string; name: string; mastery: Record<string, number | null> }[]

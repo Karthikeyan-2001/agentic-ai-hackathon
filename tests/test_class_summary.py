@@ -106,3 +106,95 @@ def test_calibration_flag_uses_spec_threshold(content):
 def test_calibration_flag_direction_easier(content):
     elo = {"q_series_two_bulbs": (1200.0, 12)}
     assert build_class_summary([], content, elo, NOW)["calibration_flags"][0]["direction"] == "easier"
+
+
+def test_overview_is_zero_for_an_empty_class(content):
+    summary = build_class_summary([], content, {}, NOW)
+    assert summary["overview"] == {
+        "student_count": 0,
+        "average_mastery": None,
+        "students_with_active_misconception": 0,
+        "reviews_due": 0,
+    }
+    assert summary["reviews_by_concept"] == []
+    assert all(gap["assessed_count"] == 0 for gap in summary["concept_gaps"])
+
+
+def test_overview_counts_only_assessed_concepts(content):
+    first = student("1", [practised("ohms_law", 0.8), practised("series_current", 0.4)])
+    second = student("2", [practised("ohms_law", 0.6)])
+    overview = build_class_summary([first, second], content, {}, NOW)["overview"]
+    assert overview["student_count"] == 2
+    assert overview["average_mastery"] == pytest.approx(0.6, abs=0.01)
+
+
+def test_overview_counts_each_student_with_an_active_misconception_once(content):
+    a = MisconceptionState("current_consumed", probability=0.7, status="active", was_active=True)
+    b = MisconceptionState("voltage_is_current", probability=0.7, status="active", was_active=True)
+    candidate = MisconceptionState("voltage_is_current", probability=0.3, status="candidate")
+    overview = build_class_summary(
+        [student("1", misconceptions=[a, b]), student("2", misconceptions=[candidate]), student("3")],
+        content,
+        {},
+        NOW,
+    )["overview"]
+    assert overview["students_with_active_misconception"] == 1
+
+
+def test_concept_gaps_rank_weakest_first_and_put_unassessed_last(content):
+    students = [
+        student("1", [practised("ohms_law", 0.8), practised("series_current", 0.2)]),
+        student("2", [practised("ohms_law", 0.6), practised("series_current", 0.3)]),
+    ]
+    gaps = build_class_summary(students, content, {}, NOW)["concept_gaps"]
+    assert [g["concept_id"] for g in gaps[:2]] == ["series_current", "ohms_law"]
+    assert gaps[0]["average_mastery"] == pytest.approx(0.25, abs=0.01)
+    assert gaps[0]["below_40_count"] == 2
+    assert gaps[0]["assessed_count"] == 2
+    assert gaps[1]["below_40_count"] == 0
+    unassessed = gaps[2:]
+    assert len(gaps) == 12
+    assert all(g["average_mastery"] is None and g["assessed_count"] == 0 for g in unassessed)
+
+
+def test_concept_gaps_use_displayed_mastery(content):
+    state = ConceptState("ohms_law", mastery=0.8, stability_days=2, last_practiced_at=NOW - timedelta(days=2))
+    gap = build_class_summary([student("1", [state])], content, {}, NOW)["concept_gaps"][0]
+    assert gap["concept_id"] == "ohms_law"
+    assert gap["average_mastery"] == pytest.approx(0.5472, abs=0.001)
+
+
+def test_reviews_count_due_concepts_that_have_questions(content):
+    overdue = practised("ohms_law", 0.8, days_ago=10, stability=2.0)
+    fresh = practised("series_current", 0.8, days_ago=0, stability=2.0)
+    no_questions = practised("heating_effect", 0.8, days_ago=10, stability=2.0)
+    summary = build_class_summary([student("1", [overdue, fresh, no_questions])], content, {}, NOW)
+    assert summary["overview"]["reviews_due"] == 1
+    assert summary["reviews_by_concept"] == [
+        {"concept_id": "ohms_law", "name": "Ohm's law", "student_count": 1}
+    ]
+
+
+def test_reviews_by_concept_sorts_most_students_first(content):
+    def overdue(concept_id):
+        return practised(concept_id, 0.8, days_ago=10, stability=2.0)
+
+    students = [
+        student("1", [overdue("ohms_law"), overdue("series_current")]),
+        student("2", [overdue("ohms_law")]),
+    ]
+    reviews = build_class_summary(students, content, {}, NOW)["reviews_by_concept"]
+    assert [(r["concept_id"], r["student_count"]) for r in reviews] == [("ohms_law", 2), ("series_current", 1)]
+    assert build_class_summary(students, content, {}, NOW)["overview"]["reviews_due"] == 3
+
+
+def test_heatmap_sorts_weakest_students_and_concepts_first(content):
+    students = [
+        student("strong", [practised("ohms_law", 0.9), practised("series_current", 0.5)]),
+        student("weak", [practised("ohms_law", 0.7), practised("series_current", 0.1)]),
+        student("new"),
+    ]
+    heatmap = build_class_summary(students, content, {}, NOW)["heatmap"]
+    assert [s["id"] for s in heatmap["students"]] == ["weak", "strong", "new"]
+    assert [c["id"] for c in heatmap["concepts"][:2]] == ["series_current", "ohms_law"]
+

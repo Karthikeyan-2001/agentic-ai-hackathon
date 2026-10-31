@@ -21,7 +21,7 @@ Three students answer: *"Two bulbs are in series. The current through the first 
 - **Difficulty calibration:** Elo ratings adjust question difficulty from class responses.
 - **Misconception detection:** a local LLM matches reasoning to a catalogue and must quote the student's own words.
 - **Spaced repetition:** a forgetting curve per concept and per cleared misconception.
-- **Teacher dashboard:** heatmap, shared misconceptions, root causes, difficulty surprises and a lesson plan.
+- **Teacher dashboard:** a class summary, the biggest concept gaps, reviews due, shared misconceptions, root causes, a heatmap, difficulty surprises and a lesson plan.
 
 The main rule is that the LLM interprets and the code decides. The LLM never sets a score, marks an answer or chooses a question.
 
@@ -90,7 +90,7 @@ Click **Reset demo** first. Type these exact answers, tapping **Sure** each time
 
 1. Show students A, B and C with the thinking panel visible (90 seconds).
 2. Show a misconception's probability falling, then click **Jump 7 days** to bring a review due (30 seconds).
-3. Open **Teacher** for the gaps, shared misconceptions and root causes, and draft the Monday plan (40 seconds).
+3. Open **Teacher** for the class summary, biggest gaps, shared misconceptions and root causes, and draft the Monday plan (40 seconds).
 4. Finish with the accuracy result and how it was measured (20 seconds).
 
 ## Tests
