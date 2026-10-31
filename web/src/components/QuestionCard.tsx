@@ -11,13 +11,15 @@ export interface AnswerDraft {
 interface Props {
   question: PublicQuestion
   submitting: boolean
+  prefill?: AnswerDraft | null
+  progress?: string
   onSubmit: (draft: AnswerDraft) => void
 }
 
-export function QuestionCard({ question, submitting, onSubmit }: Props) {
-  const [optionId, setOptionId] = useState('')
-  const [reasoning, setReasoning] = useState('')
-  const [tap, setTap] = useState<'sure' | 'not_sure' | ''>('')
+export function QuestionCard({ question, submitting, prefill, progress, onSubmit }: Props) {
+  const [optionId, setOptionId] = useState(prefill?.option_id ?? '')
+  const [reasoning, setReasoning] = useState(prefill?.reasoning ?? '')
+  const [tap, setTap] = useState<'sure' | 'not_sure' | ''>(prefill?.confidence_tap ?? '')
 
   const ready = optionId !== '' && reasoning.trim() !== '' && tap !== '' && !submitting
 
@@ -29,7 +31,15 @@ export function QuestionCard({ question, submitting, onSubmit }: Props) {
         if (ready) onSubmit({ option_id: optionId, reasoning, confidence_tap: tap })
       }}
     >
-      <p className="text-xs font-semibold tracking-wide text-accent uppercase">{question.concept_name}</p>
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <p className="text-xs font-semibold tracking-wide text-accent uppercase">{question.concept_name}</p>
+        {progress && <p className="text-xs font-semibold text-mute tabular-nums">{progress}</p>}
+      </div>
+      {question.source === 'generated' && (
+        <p className="mt-2 inline-block rounded-full bg-accent-soft px-3 py-1 text-xs font-semibold">
+          Generated question, answer checked by code
+        </p>
+      )}
       <QuestionStem stem={question.stem} />
 
       <fieldset className="mt-5 space-y-2">
@@ -66,6 +76,7 @@ export function QuestionCard({ question, submitting, onSubmit }: Props) {
         placeholder="Explain your thinking in your own words"
         className="mt-2 w-full rounded-md border border-line p-3 text-base"
       />
+      {prefill && <p className="mt-1 text-xs text-mute">Filled in for the guided demo. You can change it before you submit.</p>}
 
       <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
         <div role="group" aria-label="How sure are you?" className="flex items-center gap-2">

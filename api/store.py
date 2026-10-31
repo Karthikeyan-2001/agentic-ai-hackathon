@@ -75,8 +75,16 @@ def initialise(session: Session, content: Content) -> None:
         if session.get(QuestionState, question.id) is None:
             session.add(QuestionState(question_id=question.id, difficulty_elo=starting_elo(question.difficulty_prior)))
     for student_id, name, pinned, complete in DEMO_STUDENTS:
-        if session.get(Student, student_id) is None:
+        student = session.get(Student, student_id)
+        if student is None:
             session.add(Student(id=student_id, name=name, pinned_question_id=pinned, diagnostic_complete=complete))
+            continue
+        # The questions can change between runs, and a student can't be left waiting on one that's gone.
+        if student.pinned_question_id is not None and student.pinned_question_id not in content.questions:
+            student.pinned_question_id = pinned
+        if student.served_question_id is not None and student.served_question_id not in content.questions:
+            clear_served(student)
+        session.add(student)
     if session.get(AppClock, 1) is None:
         session.add(AppClock(id=1, offset_days=0))
     session.commit()

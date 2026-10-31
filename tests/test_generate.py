@@ -211,7 +211,7 @@ def test_generate_returns_none_for_non_numeric_concept(content):
 
 def test_prompt_offers_only_the_concepts_misconceptions(content):
     llm = FakeLLM(lambda s, u, schema: good())
-    generate_question("arithmetic_operators", "g1", content, llm)
+    generate_question("arithmetic_operators", _question_id_assigned("floor_div"), content, llm)
     system, user, _ = llm.calls[0]
     assert "integer_division_rounds" in system + user
     assert "range_includes_stop" not in system + user
@@ -279,3 +279,34 @@ def test_verify_rejects_rounds_tag_on_other_operators():
         ],
     )
     assert "rounded" in verify_generated(question, "arithmetic_operators", VALID)
+
+
+def _question_id_assigned(function):
+    return next(f"g{n}" for n in range(200) if _assignment("arithmetic_operators", f"g{n}")[0] == function)
+
+
+def test_generate_writes_the_stem_itself_whatever_the_model_replies(content):
+    llm = FakeLLM(lambda s, u, schema: good(stem="What is 19 divided by 4 using //?"))
+    question = generate_question("arithmetic_operators", "g1", content, llm)
+    assert question.stem == "What does this program print?\n\nprint(19 // 4)"
+    assert len(llm.calls) == 1
+
+
+def test_generate_uses_star_wording_for_nested_loops(content):
+    options = [GeneratedOption(value=6, misconception_id=None), GeneratedOption(value=5, misconception_id=None)]
+    llm = FakeLLM(lambda s, u, schema: good(stem="Count them", function="nested_count", args=[2, 3], options=options))
+    question = generate_question("nested_loops", "g1", content, llm)
+    assert question.stem.startswith("How many stars does this program print?\n\n")
+
+
+def test_prompt_offers_the_rounding_misconception_for_floor_division(content):
+    llm = FakeLLM(lambda s, u, schema: good())
+    generate_question("arithmetic_operators", _question_id_assigned("floor_div"), content, llm)
+    assert "integer_division_rounds" in llm.calls[0][1]
+
+
+@pytest.mark.parametrize("function", ["modulo", "power_of"])
+def test_prompt_hides_the_rounding_misconception_from_other_operators(content, function):
+    llm = FakeLLM(lambda s, u, schema: good())
+    generate_question("arithmetic_operators", _question_id_assigned(function), content, llm)
+    assert "integer_division_rounds" not in llm.calls[0][1]

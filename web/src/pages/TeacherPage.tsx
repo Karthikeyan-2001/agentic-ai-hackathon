@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { ApiError, api, percent } from '../api'
-import type { ClassSummary, LessonPlan } from '../types'
+import type { ClassSummary, DifficultyRow, LessonPlan, LiveStudent, StudentState } from '../types'
 
 function cellClass(value: number | null): string {
   if (value === null) return 'bg-none text-mute'
@@ -61,6 +61,58 @@ function DemoControls({ offsetDays, onChanged }: { offsetDays: number; onChanged
           Reset demo
         </button>
       </div>
+    </section>
+  )
+}
+
+interface LiveStudentView {
+  student: LiveStudent
+  state: StudentState
+}
+
+function LiveStudentCard({ student, state }: LiveStudentView) {
+  const assessed = state.concepts.filter((concept) => concept.assessed && concept.has_questions)
+  const weakest = [...assessed].sort((first, second) => first.mastery - second.mastery)[0]
+  const belief = state.misconceptions.find((item) => item.status === 'active' || item.status === 'candidate')
+  return (
+    <li className="rounded-md border border-line p-4 text-sm">
+      <p className="font-semibold">{student.name}</p>
+      {state.answer_count === 0 ? (
+        <p className="mt-1 text-mute">No answers yet.</p>
+      ) : (
+        <>
+          <p className="mt-1 text-mute">
+            {state.answer_count} {state.answer_count === 1 ? 'answer' : 'answers'}, {state.due_reviews.length}{' '}
+            {state.due_reviews.length === 1 ? 'review' : 'reviews'} due
+          </p>
+          {weakest && (
+            <p className="mt-2">
+              <span className="font-medium">Weakest:</span> {weakest.name}, {percent(weakest.mastery)}
+            </p>
+          )}
+          {belief && belief.probability >= 0.2 && (
+            <p className="mt-2">
+              <span className="font-medium">Still testing, {percent(belief.probability)}:</span> {belief.description}
+            </p>
+          )}
+        </>
+      )}
+    </li>
+  )
+}
+
+function LiveStudents({ students }: { students: LiveStudentView[] }) {
+  return (
+    <section aria-label="Live demo students" className="rounded-lg border border-line bg-card p-5">
+      <h2 className="font-semibold">Live demo students</h2>
+      <p className="mt-1 text-xs text-mute">
+        These four accounts answered on this computer. They aren't counted in the simulated class below.
+      </p>
+      <ul className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        {students.map((view) => (
+          <LiveStudentCard key={view.student.id} {...view} />
+        ))}
+      </ul>
     </section>
   )
 }
@@ -278,23 +330,36 @@ function RootCauses({ summary }: { summary: ClassSummary }) {
   )
 }
 
+function DifficultyItem({ row }: { row: DifficultyRow }) {
+  return (
+    <li>
+      <span className="font-semibold">{row.direction === 'harder' ? 'Harder than predicted' : 'Easier than predicted'}</span>{' '}
+      (Elo {Math.round(row.predicted_elo)} → {Math.round(row.current_elo)}, {row.attempts} attempts)
+      <span className="block font-mono text-xs whitespace-pre-wrap text-mute">{row.stem}</span>
+    </li>
+  )
+}
+
 function CalibrationFlags({ summary }: { summary: ClassSummary }) {
   return (
     <section className="rounded-lg border border-line bg-card p-5">
       <h2 className="font-semibold">Difficulty surprises</h2>
       <p className="mt-1 text-xs text-mute">Questions where class results disagree with the predicted difficulty.</p>
       {summary.calibration_flags.length === 0 ? (
-        <p className="mt-2 text-sm text-mute">Nothing stands out yet.</p>
+        <>
+          <p className="mt-2 text-sm text-mute">
+            No question has moved 150 Elo points from its prediction yet, so none is flagged. The largest moves so far:
+          </p>
+          <ul className="mt-3 space-y-3 text-sm">
+            {summary.difficulty_shifts.map((row) => (
+              <DifficultyItem key={row.question_id} row={row} />
+            ))}
+          </ul>
+        </>
       ) : (
         <ul className="mt-3 space-y-3 text-sm">
-          {summary.calibration_flags.map((flag) => (
-            <li key={flag.question_id}>
-              <span className="font-semibold">
-                {flag.direction === 'harder' ? 'Harder than predicted' : 'Easier than predicted'}
-              </span>{' '}
-              (Elo {Math.round(flag.predicted_elo)} → {Math.round(flag.current_elo)}, {flag.attempts} attempts)
-              <span className="block font-mono text-xs whitespace-pre-wrap text-mute">{flag.stem}</span>
-            </li>
+          {summary.calibration_flags.map((row) => (
+            <DifficultyItem key={row.question_id} row={row} />
           ))}
         </ul>
       )}
@@ -355,10 +420,14 @@ function MondayPlan({ hasGroups }: { hasGroups: boolean }) {
 
 export function TeacherPage() {
   const [summary, setSummary] = useState<ClassSummary | null>(null)
+  const [students, setStudents] = useState<LiveStudentView[]>([])
   const [error, setError] = useState('')
 
   const load = useCallback(async () => {
-    setSummary(await api.classSummary())
+    const [summaryResponse, studentList] = await Promise.all([api.classSummary(), api.students()])
+    const states = await Promise.all(studentList.map((student) => api.state(student.id)))
+    setSummary(summaryResponse)
+    setStudents(studentList.map((student, index) => ({ student, state: states[index] })))
   }, [])
 
   useEffect(() => {
@@ -377,6 +446,7 @@ export function TeacherPage() {
         </p>
       )}
       {summary && <DemoControls offsetDays={summary.offset_days} onChanged={load} />}
+      {students.length > 0 && <LiveStudents students={students} />}
       {summary && summary.student_count === 0 && (
         <section className="rounded-lg border border-line bg-card p-6">
           <h2 className="text-xl font-semibold">No class data yet</h2>

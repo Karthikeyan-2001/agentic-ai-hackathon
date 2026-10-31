@@ -12,6 +12,7 @@ import {
 import { useEffect, useRef, type ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { homeFor, useAuth } from '../auth'
+import { StartDemoButton } from '../demo'
 import { DiagnosisDemo } from '../components/landing/DiagnosisDemo'
 import { HeroGraph } from '../components/landing/HeroGraph'
 
@@ -166,6 +167,7 @@ export function LandingPage() {
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-5">
               <PrimaryAction />
+              <StartDemoButton />
               <a href="#diagnosis" className="font-semibold hover:text-accent">
                 See a diagnosis
               </a>
@@ -268,7 +270,7 @@ export function LandingPage() {
           </Reveal>
         </section>
 
-        <section className="mx-auto max-w-7xl px-4 py-16 lg:py-24">
+        <section id="measured" className="mx-auto max-w-7xl scroll-mt-6 px-4 py-16 lg:py-24">
           <Reveal>
             <h2 className="text-3xl font-semibold tracking-tight md:text-4xl">Measured, and honest about it</h2>
             <dl className="mt-10 grid gap-8 md:grid-cols-3">

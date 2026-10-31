@@ -23,6 +23,7 @@ export interface PublicQuestion {
   concept_id: string
   concept_name: string
   stem: string
+  source: 'seed' | 'generated'
   options: { id: string; text: string }[]
 }
 
@@ -78,6 +79,39 @@ export interface StudentState {
   offset_days: number
   answer_count: number
   diagnostic_complete: boolean
+  diagnostic_length: number
+}
+
+export interface LiveStudent {
+  id: string
+  name: string
+  diagnostic_complete: boolean
+}
+
+export interface DemoAnswer {
+  question_id: string
+  option: string
+  reasoning: string
+  confidence: 'sure' | 'not_sure'
+}
+
+export interface DemoStep {
+  id: string
+  title: string
+  note: string
+  account: string | null
+  answers: DemoAnswer[]
+  clock_days: number | null
+  anchor: string | null
+}
+
+export interface DifficultyRow {
+  question_id: string
+  stem: string
+  predicted_elo: number
+  current_elo: number
+  attempts: number
+  direction: 'harder' | 'easier'
 }
 
 export interface ClassSummary {
@@ -101,14 +135,8 @@ export interface ClassSummary {
   }
   groups: { misconception_id: string; description: string; students: { id: string; name: string }[] }[]
   root_causes: { concept_id: string; name: string; student_count: number; affects: string[] }[]
-  calibration_flags: {
-    question_id: string
-    stem: string
-    predicted_elo: number
-    current_elo: number
-    attempts: number
-    direction: 'harder' | 'easier'
-  }[]
+  calibration_flags: DifficultyRow[]
+  difficulty_shifts: DifficultyRow[]
   student_count: number
   is_simulated: boolean
   offset_days: number

@@ -5,7 +5,7 @@ from fastapi import APIRouter, Depends, HTTPException, Request
 from pydantic import BaseModel, Field
 from sqlmodel import select
 
-from agent.loop import decide_next, process_answer
+from agent.loop import DIAGNOSTIC_LENGTH, decide_next, process_answer
 from agent.plan import draft_lesson_plan
 from api import store
 from api.auth import (
@@ -55,6 +55,7 @@ def _public_question(question: Question, content) -> dict:
         "concept_id": question.concept_id,
         "concept_name": content.concepts[question.concept_id].name,
         "stem": question.stem,
+        "source": question.source,
         "options": [{"id": option.id, "text": option.text} for option in question.options],
     }
 
@@ -83,6 +84,11 @@ def _account_payload(account: DemoAccount) -> dict:
 @router.get("/auth/demo-accounts")
 def demo_accounts() -> list[dict]:
     return [{**_account_payload(account), "password": account.password} for account in DEMO_ACCOUNTS]
+
+
+@router.get("/auth/demo-script")
+def demo_script(request: Request) -> dict:
+    return {"steps": [step.model_dump() for step in request.app.state.demo_script]}
 
 
 @router.post("/auth/login")
@@ -267,6 +273,7 @@ def student_state(student_id: str, request: Request) -> dict:
         "offset_days": offset,
         "answer_count": snapshot.answer_count,
         "diagnostic_complete": snapshot.diagnostic_complete,
+        "diagnostic_length": DIAGNOSTIC_LENGTH,
     }
 
 

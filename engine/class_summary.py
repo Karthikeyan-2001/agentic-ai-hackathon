@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import Protocol
 
-from engine.elo import is_flagged, starting_elo
+from engine.elo import FLAG_MIN_ATTEMPTS, is_flagged, starting_elo
 from engine.graph import root_prerequisite_below
 from engine.scheduling import concept_recall, displayed_mastery, is_due
 from engine.types import Concept, ConceptState, Misconception, MisconceptionState, Question
@@ -10,6 +10,7 @@ from engine.types import Concept, ConceptState, Misconception, MisconceptionStat
 ASSESSED_CHAPTER = "Python Programming"
 LOW_MASTERY = 0.5
 GAP_THRESHOLD = 0.4
+SHIFTS_SHOWN = 3
 
 
 class SummaryContent(Protocol):
@@ -117,14 +118,14 @@ def _root_causes(students: list[StudentView], concepts: list[Concept], content: 
     return sorted(causes, key=lambda cause: (-cause["student_count"], cause["concept_id"]))
 
 
-def _calibration_flags(question_elo: dict[str, tuple[float, int]], content: SummaryContent) -> list[dict]:
-    flags = []
+def _difficulty_rows(question_elo: dict[str, tuple[float, int]], content: SummaryContent) -> list[dict]:
+    rows = []
     for question_id, (current, attempts) in question_elo.items():
         question = content.questions.get(question_id)
-        if question is None or not is_flagged(current, question.difficulty_prior, attempts):
+        if question is None or attempts < FLAG_MIN_ATTEMPTS:
             continue
         predicted = starting_elo(question.difficulty_prior)
-        flags.append(
+        rows.append(
             {
                 "question_id": question_id,
                 "stem": question.stem,
@@ -132,9 +133,18 @@ def _calibration_flags(question_elo: dict[str, tuple[float, int]], content: Summ
                 "current_elo": current,
                 "attempts": attempts,
                 "direction": "harder" if current > predicted else "easier",
+                "flagged": is_flagged(current, question.difficulty_prior, attempts),
             }
         )
-    return sorted(flags, key=lambda flag: (-abs(flag["current_elo"] - flag["predicted_elo"]), flag["question_id"]))
+    return sorted(rows, key=lambda row: (-abs(row["current_elo"] - row["predicted_elo"]), row["question_id"]))
+
+
+def _calibration_flags(question_elo: dict[str, tuple[float, int]], content: SummaryContent) -> list[dict]:
+    return [row for row in _difficulty_rows(question_elo, content) if row["flagged"]]
+
+
+def _difficulty_shifts(question_elo: dict[str, tuple[float, int]], content: SummaryContent) -> list[dict]:
+    return [row for row in _difficulty_rows(question_elo, content) if not row["flagged"]][:SHIFTS_SHOWN]
 
 
 def _reviews_by_concept(students: list[StudentView], content: SummaryContent, now: datetime) -> list[dict]:
@@ -186,6 +196,7 @@ def build_class_summary(
         "groups": _groups(students, content),
         "root_causes": _root_causes(students, concepts, content),
         "calibration_flags": _calibration_flags(question_elo, content),
+        "difficulty_shifts": _difficulty_shifts(question_elo, content),
         "student_count": len(students),
         "is_simulated": True,
     }

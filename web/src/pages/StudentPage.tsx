@@ -1,15 +1,28 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { ApiError, api } from '../api'
+import { ApiError, api, percent } from '../api'
 import { useAuth } from '../auth'
 import { ConceptGraph } from '../components/ConceptGraph'
 import { QuestionCard, type AnswerDraft } from '../components/QuestionCard'
 import { ResultCard } from '../components/ResultCard'
 import { ReviewsPanel } from '../components/ReviewsPanel'
 import { ThinkingPanel } from '../components/ThinkingPanel'
+import { useDemo } from '../demo'
 import type { AnswerResponse, NextResponse, StudentState } from '../types'
+
+function DiagnosticDone({ state }: { state: StudentState }) {
+  const assessed = state.concepts.filter((concept) => concept.assessed && concept.has_questions)
+  const weakest = [...assessed].sort((first, second) => first.mastery - second.mastery)[0]
+  return (
+    <p role="status" className="rounded-md bg-accent-soft px-4 py-3 text-sm">
+      <span className="font-semibold">Diagnostic complete.</span> All {state.diagnostic_length} questions are answered.
+      {weakest && ` The weakest concept so far is ${weakest.name}, at ${percent(weakest.mastery)}.`}
+    </p>
+  )
+}
 
 export function StudentPage() {
   const { session } = useAuth()
+  const { prefillFor } = useDemo()
   const studentId = session?.student_id ?? ''
   const [next, setNext] = useState<NextResponse | null>(null)
   const [state, setState] = useState<StudentState | null>(null)
@@ -17,6 +30,7 @@ export function StudentPage() {
   const [formVersion, setFormVersion] = useState(0)
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState('')
+  const [diagnosticDone, setDiagnosticDone] = useState(false)
   const submitting = useRef(false)
   const view = useRef({ questionId: '', showingResult: false, busy: false })
   view.current = { questionId: next?.question?.id ?? '', showingResult: result !== null, busy }
@@ -29,6 +43,7 @@ export function StudentPage() {
       setNext(nextResponse)
       setState(stateResponse)
       setResult(null)
+      setDiagnosticDone(false)
       setFormVersion((version) => version + 1)
     } catch (caught) {
       setError(caught instanceof Error ? caught.message : 'Something went wrong.')
@@ -67,7 +82,9 @@ export function StudentPage() {
     try {
       const response = await api.answer(studentId, { question_id: next.question.id, ...draft })
       setResult(response)
-      setState(await api.state(studentId))
+      const stateResponse = await api.state(studentId)
+      setDiagnosticDone(state?.diagnostic_complete === false && stateResponse.diagnostic_complete)
+      setState(stateResponse)
     } catch (caught) {
       if (caught instanceof ApiError && caught.status === 409) {
         await load()
@@ -80,6 +97,10 @@ export function StudentPage() {
     }
   }
 
+  const prefill = next?.question ? prefillFor(next.question) : null
+  const progress =
+    state && !state.diagnostic_complete ? `Diagnostic: question ${state.answer_count + 1} of ${state.diagnostic_length}` : undefined
+
   return (
     <div className="mx-auto max-w-7xl px-4 py-6">
       {error && (
@@ -90,10 +111,18 @@ export function StudentPage() {
 
       <div className="grid gap-4 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
         <div className="space-y-4">
+          {diagnosticDone && state && <DiagnosticDone state={state} />}
           {result ? (
             <ResultCard result={result} loading={busy} onNext={() => void load()} />
           ) : next?.question ? (
-            <QuestionCard key={formVersion} question={next.question} submitting={busy} onSubmit={submit} />
+            <QuestionCard
+              key={`${formVersion}-${prefill ? 'filled' : 'empty'}`}
+              question={next.question}
+              submitting={busy}
+              prefill={prefill}
+              progress={progress}
+              onSubmit={submit}
+            />
           ) : (
             next && (
               <section className="rounded-lg border border-line bg-card p-6">

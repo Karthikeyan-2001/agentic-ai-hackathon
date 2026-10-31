@@ -8,7 +8,7 @@ from api.auth import DEMO_ACCOUNTS
 from api.main import create_app
 from tests.fakes import FakeLLM
 
-PUBLIC_ROUTES = {"/api/auth/login", "/api/auth/demo-accounts"}
+PUBLIC_ROUTES = {"/api/auth/login", "/api/auth/demo-accounts", "/api/auth/demo-script"}
 TEACHER_ONLY = [
     ("get", "/api/students", None),
     ("get", "/api/class/summary", None),

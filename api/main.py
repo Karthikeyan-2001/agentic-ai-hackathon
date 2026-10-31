@@ -7,7 +7,7 @@ from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from sqlmodel import Session, SQLModel, create_engine
 
-from agent.content import load_content
+from agent.content import load_content, load_demo_script
 from agent.llm import DEFAULT_MODEL, CachedClient, LLMClient, OllamaClient
 from api import store
 from api.auth import SessionStore
@@ -21,6 +21,7 @@ def create_app(
 ) -> FastAPI:
     load_dotenv()
     content = load_content(content_dir)
+    demo_script = load_demo_script(content_dir, content)
     engine = create_engine(db_url, connect_args={"check_same_thread": False})
     SQLModel.metadata.create_all(engine)
 
@@ -34,6 +35,7 @@ def create_app(
     inner = llm or OllamaClient(model=model)
     app = FastAPI(title="Differential")
     app.state.content = content
+    app.state.demo_script = demo_script
     app.state.session_factory = session_factory
     app.state.sessions = SessionStore()
     app.state.llm = CachedClient(inner, store.SqlCacheStore(session_factory), model)

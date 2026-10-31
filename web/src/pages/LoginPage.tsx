@@ -3,6 +3,7 @@ import { useEffect, useState, type FormEvent } from 'react'
 import { Link, Navigate, useNavigate } from 'react-router-dom'
 import { ApiError, api } from '../api'
 import { homeFor, useAuth } from '../auth'
+import { StartDemoButton } from '../demo'
 import type { DemoAccount } from '../types'
 
 export function LoginPage() {
@@ -118,6 +119,12 @@ export function LoginPage() {
             )
           })}
         </ul>
+        <div className="mt-6 space-y-2 border-t border-line pt-6">
+          <StartDemoButton className="w-full" />
+          <p className="max-w-[50ch] text-sm text-mute">
+            Resets the four demo students, then walks through every feature with the answers filled in.
+          </p>
+        </div>
       </section>
     </main>
   )

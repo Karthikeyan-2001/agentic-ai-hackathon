@@ -1,0 +1,186 @@
+{
+  "steps": [
+    {
+      "id": "student_a",
+      "title": "Student A: the wrong answer has a reason",
+      "note": "A thinks range includes its stop value. The tutor names that belief, quotes A's own words, then asks the question that tests it.",
+      "account": "student.a",
+      "answers": [
+        {
+          "question_id": "q_range_count",
+          "option": "5 times",
+          "reasoning": "It counts up to and including 5",
+          "confidence": "sure",
+          "expect_error_type": "misconception",
+          "expect_misconception_id": "range_includes_stop"
+        },
+        {
+          "question_id": "q_range_last_value",
+          "option": "6",
+          "reasoning": "range stops before its stop value, so 6 is the last number printed",
+          "confidence": "sure",
+          "expect_error_type": "none"
+        }
+      ]
+    },
+    {
+      "id": "student_b",
+      "title": "Student B: same answer, different belief",
+      "note": "B picks the same wrong answer for a different reason, so B gets a different diagnosis and a different next question.",
+      "account": "student.b",
+      "answers": [
+        {
+          "question_id": "q_range_count",
+          "option": "5 times",
+          "reasoning": "The 5 says how many times",
+          "confidence": "sure",
+          "expect_error_type": "misconception",
+          "expect_misconception_id": "range_stop_is_count"
+        },
+        {
+          "question_id": "q_range_two_bounds",
+          "option": "2 times",
+          "reasoning": "i takes the values 4 and 5, so the loop runs twice",
+          "confidence": "sure",
+          "expect_error_type": "none"
+        }
+      ]
+    },
+    {
+      "id": "student_c",
+      "title": "Student C: right answer, wrong reason",
+      "note": "C's answer is correct but the reason is flawed, so mastery stays where it was until a second question shows real understanding.",
+      "account": "student.c",
+      "answers": [
+        {
+          "question_id": "q_range_count",
+          "option": "4 times",
+          "reasoning": "It is always one less than the stop number",
+          "confidence": "sure",
+          "expect_error_type": "misconception",
+          "expect_misconception_id": "range_one_less_than_stop"
+        },
+        {
+          "question_id": "q_range_other_start",
+          "option": "5 times",
+          "reasoning": "8 minus 3 is 5, so the loop runs for 3, 4, 5, 6 and 7",
+          "confidence": "sure",
+          "expect_error_type": "none"
+        }
+      ]
+    },
+    {
+      "id": "student_d_diagnostic",
+      "title": "Student D: the 8-question diagnostic",
+      "note": "Each question goes to the concept the tutor is least certain about. D admits a guess on the last one, and the concept map shows the weak spot.",
+      "account": "student.d",
+      "answers": [
+        {
+          "question_id": "q_assign_copy",
+          "option": "5",
+          "reasoning": "b got the value 5 when it was assigned, and changing a later does not touch b",
+          "confidence": "sure",
+          "expect_error_type": "none"
+        },
+        {
+          "question_id": "q_string_plus",
+          "option": "23",
+          "reasoning": "They are in quotes so they are strings, and + joins strings into 23",
+          "confidence": "sure",
+          "expect_error_type": "none"
+        },
+        {
+          "question_id": "g_arithmetic_operators_2",
+          "option": "2",
+          "reasoning": "17 divided by 3 is 5 with 2 left over and % gives the remainder",
+          "confidence": "sure",
+          "expect_error_type": "none"
+        },
+        {
+          "question_id": "q_floor_div_round",
+          "option": "4",
+          "reasoning": "19 divided by 4 is 4.75 and // drops the part after the decimal point, so it gives 4",
+          "confidence": "sure",
+          "expect_error_type": "none"
+        },
+        {
+          "question_id": "q_range_count",
+          "option": "4 times",
+          "reasoning": "It starts at 1 and stops before 5, so it runs for 1, 2, 3 and 4",
+          "confidence": "sure",
+          "expect_error_type": "none"
+        },
+        {
+          "question_id": "q_range_two_bounds",
+          "option": "2 times",
+          "reasoning": "It starts at 4 and stops before 6, so i is 4 and then 5",
+          "confidence": "sure",
+          "expect_error_type": "none"
+        },
+        {
+          "question_id": "q_list_index",
+          "option": "55",
+          "reasoning": "Indexes start at 0, so marks[1] is the second item, which is 55",
+          "confidence": "sure",
+          "expect_error_type": "none"
+        },
+        {
+          "question_id": "q_list_total",
+          "option": "5",
+          "reasoning": "I don't know how the loop works, so I guessed",
+          "confidence": "not_sure",
+          "expect_error_type": "gap"
+        }
+      ]
+    },
+    {
+      "id": "student_d_targeted",
+      "title": "Student D: a generated question on the weakest concept",
+      "note": "Code picks Traversing a list because it's now D's weakest concept. This question was generated ahead of time, code worked out its answer, and its difficulty is the closest fit to a 60% chance of success.",
+      "account": "student.d",
+      "answers": [
+        {
+          "question_id": "g_list_traversal_2",
+          "option": "30",
+          "reasoning": "The loop adds 15, 12 and 3 to total, which makes 30",
+          "confidence": "sure",
+          "expect_error_type": "none"
+        }
+      ]
+    },
+    {
+      "id": "teacher_jump",
+      "title": "Teacher: move the clock 7 days",
+      "note": "Click Jump 7 days. Predicted recall falls for everything the students practised, so reviews start to come due.",
+      "account": "teacher",
+      "clock_days": 7
+    },
+    {
+      "id": "student_c_review",
+      "title": "Student C: a spaced review comes due",
+      "note": "Reviews due now lists for loops with range at low predicted recall, so the tutor brings that concept back.",
+      "account": "student.c",
+      "answers": [
+        {
+          "question_id": "q_range_two_bounds",
+          "option": "2 times",
+          "reasoning": "i takes the values 4 and 5, so the loop runs twice",
+          "confidence": "sure",
+          "expect_error_type": "none"
+        }
+      ]
+    },
+    {
+      "id": "teacher_dashboard",
+      "title": "Teacher: class-wide gaps",
+      "note": "This is a simulated class of 30 made-up students. Show the biggest gaps, shared misconceptions, root causes and difficulty calibration, then click Draft a plan.",
+      "account": "teacher"
+    },
+    {
+      "id": "close",
+      "title": "How accuracy was measured",
+      "note": "These results come from 30 written test cases, not real students, so treat them as a check that the system works.",
+      "anchor": "measured"
+    }
+  ]
+}

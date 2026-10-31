@@ -10,6 +10,7 @@ from tests.helpers import DemoClient
 from agent.content import ContentError
 from agent.generate import GeneratedOption, GeneratedQuestion
 from api.main import create_app
+from api.models import Student
 from tests.fakes import FailingLLM, FakeLLM
 
 REASONING = {
@@ -282,3 +283,39 @@ def test_concurrent_double_submit_applies_once(tmp_path, content_dir):
             statuses = sorted(future.result().status_code for future in futures)
         assert statuses == [200, 409]
         assert client.get("/api/students/A/state").json()["answer_count"] == 1
+
+
+def test_startup_repairs_questions_that_no_longer_exist(tmp_path, content_dir):
+    db_url = f"sqlite:///{tmp_path}/stale.db"
+    first = create_app(db_url=db_url, llm=FakeLLM(responder), content_dir=content_dir)
+    with first.state.session_factory() as session:
+        student = session.get(Student, "A")
+        student.pinned_question_id = "q_removed"
+        student.served_question_id = "q_removed"
+        session.add(student)
+        session.commit()
+
+    with DemoClient(create_app(db_url=db_url, llm=FakeLLM(responder), content_dir=content_dir)) as client:
+        assert client.get("/api/students/A/next").json()["question"]["id"] == "q_range_count"
+
+
+def test_startup_keeps_a_served_question_that_still_exists(tmp_path, content_dir):
+    db_url = f"sqlite:///{tmp_path}/kept.db"
+    first = create_app(db_url=db_url, llm=FakeLLM(responder), content_dir=content_dir)
+    with first.state.session_factory() as session:
+        student = session.get(Student, "A")
+        student.pinned_question_id = None
+        student.served_question_id = "q_list_index"
+        session.add(student)
+        session.commit()
+
+    with DemoClient(create_app(db_url=db_url, llm=FakeLLM(responder), content_dir=content_dir)) as client:
+        assert client.get("/api/students/A/next").json()["question"]["id"] == "q_list_index"
+
+
+def test_state_says_how_long_the_diagnostic_is(client):
+    assert client.get("/api/students/D/state").json()["diagnostic_length"] == 8
+
+
+def test_next_says_where_a_question_came_from(client):
+    assert client.get("/api/students/A/next").json()["question"]["source"] == "seed"

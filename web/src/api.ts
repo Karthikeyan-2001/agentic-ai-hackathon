@@ -2,7 +2,9 @@ import type {
   AnswerResponse,
   ClassSummary,
   DemoAccount,
+  DemoStep,
   LessonPlan,
+  LiveStudent,
   NextResponse,
   Session,
   StudentState,
@@ -24,22 +26,28 @@ export function setAuthToken(value: string | null) {
   token = value
 }
 
+export function isSignedIn() {
+  return token !== null
+}
+
 export function setSignedOutHandler(handler: () => void) {
   onSignedOut = handler
 }
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
+  const sentToken = token
   const response = await fetch(`/api${path}`, {
     ...init,
     headers: {
       'Content-Type': 'application/json',
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      ...(sentToken ? { Authorization: `Bearer ${sentToken}` } : {}),
     },
   })
   if (!response.ok) {
     const body = await response.json().catch(() => ({}))
     const detail = typeof body.detail === 'string' ? body.detail : `Request failed (${response.status})`
-    if (response.status === 401 && token) onSignedOut()
+    // A slow reply can arrive after the guided demo has moved to another account, and must not sign that one out.
+    if (response.status === 401 && sentToken && sentToken === token) onSignedOut()
     throw new ApiError(response.status, detail)
   }
   return response.json()
@@ -47,9 +55,11 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
 
 export const api = {
   demoAccounts: () => request<DemoAccount[]>('/auth/demo-accounts'),
+  demoScript: () => request<{ steps: DemoStep[] }>('/auth/demo-script'),
   login: (username: string, password: string) =>
     request<Session>('/auth/login', { method: 'POST', body: JSON.stringify({ username, password }) }),
   logout: () => request<{ status: string }>('/auth/logout', { method: 'POST' }),
+  students: () => request<LiveStudent[]>('/students'),
   next: (id: string) => request<NextResponse>(`/students/${id}/next`),
   state: (id: string) => request<StudentState>(`/students/${id}/state`),
   answer: (

@@ -97,23 +97,23 @@ The passwords are in the code in plain text, sessions are kept in memory, and re
 
 Each browser tab signs in separately, so you can keep the teacher in one window and a student in another.
 
-## Demo script (3 minutes)
+## Guided demo (about 4 minutes)
 
-Keep the teacher signed in on one window, and click **Reset demo** there first. Use a second window for students: sign in, answer, sign out, then choose the next student. Type these exact answers, tapping **Sure** each time, so they're answered from the cache even if Ollama stops.
+Click **Start guided demo** on the landing page or the sign-in page. It resets the four demo students, then a bar at the bottom of the page walks through 9 steps, switching accounts for you:
 
-| Student | Choose | Reasoning |
-|---|---|---|
-| A | 5 times | It counts up to and including 5 |
-| A, next question | 6 | range stops before its stop value, so 6 is the last number printed |
-| B | 5 times | The 5 says how many times |
-| B, next question | 2 times | i takes the values 4 and 5, so the loop runs twice |
-| C | 4 times | It is always one less than the stop number |
-| C, next question | 5 times | 8 minus 3 is 5, so the loop runs for 3, 4, 5, 6 and 7 |
+1. **Student A** has a misconception, and the next question tests it.
+2. **Student B** gives the same wrong answer for a different reason, and gets a different diagnosis.
+3. **Student C** gives the right answer for the wrong reason, so mastery doesn't move.
+4. **Student D** takes the 8-question diagnostic, then the concept map shows the weak spot.
+5. **Student D** gets a generated question on the weakest concept.
+6. **Teacher** clicks **Jump 7 days**.
+7. **Student C** has a spaced review come due.
+8. **Teacher** shows class-wide gaps and drafts the Monday plan.
+9. **Close** shows the accuracy result and how it was measured.
 
-1. Show students A, B and C with the thinking panel visible (90 seconds).
-2. Show a misconception's probability falling. Then click **Jump 7 days** in the teacher window, and return to the student window to show the review due (30 seconds).
-3. Go to the teacher window for the class summary, biggest gaps, shared misconceptions and root causes, and draft the Monday plan (40 seconds).
-4. Finish with the accuracy result and how it was measured (20 seconds).
+Each form is filled in from `content/demo_script.json`, so you only click **Submit answer**, **Next question** and **Next step**. The answers still go through the same diagnosis and scoring as typed ones. `warm_demo` caches them, so they work even if Ollama stops, and it fails loudly if the tutor stops following the script.
+
+Timings, narration and a list of where each requirement appears are in [docs/demo-video-script.md](docs/demo-video-script.md).
 
 ## Tests
 
@@ -129,6 +129,8 @@ The second command runs the demo cases against the real model.
 ## Limits
 
 - Questions cover Python Programming only. Other chapters appear in the graph as "not assessed".
+- Comparison and logic, if and else, and functions have no questions yet.
+- Code can generate new questions for arithmetic, running totals, nested loops and list traversal only. A student who stays weak on any other concept cycles through its existing questions. If generation fails, the student sees an older question again.
 - Sign-in is mock, so this runs as a local demo. Don't expose it to the internet as it is.
 - No real student has used it yet.
 - The AI-written lesson plan is a draft for a teacher to review.

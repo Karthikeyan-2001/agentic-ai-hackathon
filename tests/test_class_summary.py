@@ -198,3 +198,21 @@ def test_heatmap_sorts_weakest_students_and_concepts_first(content):
     assert [s["id"] for s in heatmap["students"]] == ["weak", "strong", "new"]
     assert [c["id"] for c in heatmap["concepts"][:2]] == ["for_range", "arithmetic_operators"]
 
+
+
+def test_difficulty_shifts_list_the_largest_moves_below_the_flag_level(content):
+    elo = {
+        "q_range_count": (1476.0, 22),
+        "q_string_plus": (1120.0, 40),
+        "q_modulo_basic": (1250.0, 12),
+        "q_list_index": (1600.0, 12),
+    }
+    shifts = build_class_summary([], content, elo, NOW)["difficulty_shifts"]
+    assert [shift["question_id"] for shift in shifts] == ["q_range_count", "q_string_plus", "q_modulo_basic"]
+    assert shifts[0]["direction"] == "harder" and shifts[0]["predicted_elo"] == 1350.0 and shifts[0]["attempts"] == 22
+    assert shifts[1]["direction"] == "easier"
+
+
+def test_difficulty_shifts_ignore_questions_with_too_few_attempts(content):
+    elo = {"q_range_count": (1476.0, 9)}
+    assert build_class_summary([], content, elo, NOW)["difficulty_shifts"] == []

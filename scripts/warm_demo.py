@@ -1,54 +1,56 @@
 from fastapi.testclient import TestClient
 
+from agent.content import DemoStep
 from api.auth import DEMO_ACCOUNTS
 
-# Type these exact answers in the demo. Each one is then answered from the cache, even with Ollama stopped.
-DEMO_SCRIPT = {
-    "A": [
-        ("5 times", "It counts up to and including 5"),
-        ("6", "range stops before its stop value, so 6 is the last number printed"),
-    ],
-    "B": [
-        ("5 times", "The 5 says how many times"),
-        ("2 times", "i takes the values 4 and 5, so the loop runs twice"),
-    ],
-    "C": [
-        ("4 times", "It is always one less than the stop number"),
-        ("5 times", "8 minus 3 is 5, so the loop runs for 3, 4, 5, 6 and 7"),
-    ],
-}
 
-
-def _sign_in(client: TestClient, student_id: str | None) -> dict[str, str]:
-    account = next(a for a in DEMO_ACCOUNTS if a.student_id == student_id)
+def _sign_in(client: TestClient, username: str) -> dict[str, str]:
+    account = next(a for a in DEMO_ACCOUNTS if a.username == username)
     response = client.post("/api/auth/login", json={"username": account.username, "password": account.password})
     response.raise_for_status()
     return {"Authorization": f"Bearer {response.json()['token']}"}
 
 
-def warm_demo(client: TestClient) -> None:
-    teacher = _sign_in(client, None)
-    client.post("/api/demo/reset", headers=teacher)
-    for student, steps in DEMO_SCRIPT.items():
-        headers = _sign_in(client, student)
-        for text, reasoning in steps:
-            question = client.get(f"/api/students/{student}/next", headers=headers).json()["question"]
-            option = next((o for o in question["options"] if o["text"] == text), None) if question else None
-            if option is None:
-                raise RuntimeError(f"Student {student}: the demo expected option '{text}', but got {question}")
-            response = client.post(
-                f"/api/students/{student}/answers",
-                json={
-                    "question_id": question["id"],
-                    "option_id": option["id"],
-                    "reasoning": reasoning,
-                    "confidence_tap": "sure",
-                },
-                headers=headers,
+def play_step(client: TestClient, step: DemoStep) -> None:
+    """Plays one step the way the guided demo does, and stops if the tutor does anything the script doesn't expect."""
+    if step.clock_days:
+        client.post("/api/clock/advance", json={"days": step.clock_days}, headers=_sign_in(client, "teacher")).raise_for_status()
+    if not step.answers:
+        return
+    student = next(a.student_id for a in DEMO_ACCOUNTS if a.username == step.account)
+    headers = _sign_in(client, step.account)
+    for answer in step.answers:
+        question = client.get(f"/api/students/{student}/next", headers=headers).json()["question"]
+        if question is None or question["id"] != answer.question_id:
+            raise RuntimeError(
+                f"Step {step.id}: the script expected {answer.question_id}, but the tutor served "
+                f"{question['id'] if question else 'nothing'}. Run scripts.seed_class, then try again."
             )
-            response.raise_for_status()
-            body = response.json()
-            print(f"{student}: {question['id']} -> {body['diagnosis']['error_type']}/{body['diagnosis']['misconception_id']}")
+        option = next(o for o in question["options"] if o["text"] == answer.option)
+        response = client.post(
+            f"/api/students/{student}/answers",
+            json={
+                "question_id": question["id"],
+                "option_id": option["id"],
+                "reasoning": answer.reasoning,
+                "confidence_tap": answer.confidence,
+            },
+            headers=headers,
+        )
+        response.raise_for_status()
+        diagnosis = response.json()["diagnosis"]
+        found = (diagnosis["error_type"], diagnosis["misconception_id"])
+        wanted = (answer.expect_error_type, answer.expect_misconception_id)
+        if found != wanted:
+            raise RuntimeError(f"Step {step.id}, {answer.question_id}: the script expected {wanted}, but got {found}.")
+        print(f"{student}: {question['id']} -> {found[0]}/{found[1]}")
+
+
+def warm_demo(client: TestClient) -> None:
+    teacher = _sign_in(client, "teacher")
+    client.post("/api/demo/reset", headers=teacher)
+    for step in client.app.state.demo_script:
+        play_step(client, step)
     plan = client.post("/api/class/plan", headers=teacher)
     print(f"Lesson plan: {plan.status_code}")
     client.post("/api/demo/reset", headers=teacher)

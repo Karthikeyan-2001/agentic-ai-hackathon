@@ -96,6 +96,7 @@ export function ConceptGraph({ concepts }: { concepts: ConceptView[] }) {
           nodes={nodes}
           edges={edges}
           fitView
+          colorMode="system"
           nodesDraggable={false}
           nodesConnectable={false}
           proOptions={{ hideAttribution: true }}

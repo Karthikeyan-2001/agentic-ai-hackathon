@@ -4,7 +4,7 @@ from pathlib import Path
 
 from pydantic import BaseModel, ValidationError
 
-from engine.types import Concept, Misconception, Question
+from engine.types import Concept, ConfidenceTap, ErrorType, Misconception, Question
 
 
 class ContentError(Exception):
@@ -16,6 +16,25 @@ class Content:
     concepts: dict[str, Concept]
     misconceptions: dict[str, Misconception]
     questions: dict[str, Question]
+
+
+class DemoAnswer(BaseModel):
+    question_id: str
+    option: str
+    reasoning: str
+    confidence: ConfidenceTap
+    expect_error_type: ErrorType
+    expect_misconception_id: str | None = None
+
+
+class DemoStep(BaseModel):
+    id: str
+    title: str
+    note: str
+    account: str | None = None
+    answers: list[DemoAnswer] = []
+    clock_days: int | None = None
+    anchor: str | None = None
 
 
 def _load_items(path: Path, model: type[BaseModel]) -> dict:
@@ -95,3 +114,22 @@ def load_content(content_dir: Path) -> Content:
             check_question(question, content, generated_path.name)
             content.questions[question.id] = question
     return content
+
+
+def load_demo_script(content_dir: Path, content: Content) -> list[DemoStep]:
+    path = Path(content_dir) / "demo_script.json"
+    if not path.exists():
+        return []
+    try:
+        raw = json.loads(path.read_text(encoding="utf-8"))
+        steps = [DemoStep.model_validate(entry) for entry in raw["steps"]]
+    except (OSError, KeyError, TypeError, json.JSONDecodeError, ValidationError) as error:
+        raise ContentError(f"{path.name}: {error}") from error
+    for step in steps:
+        for answer in step.answers:
+            question = content.questions.get(answer.question_id)
+            if question is None:
+                raise ContentError(f"{path.name}: step {step.id}: unknown question {answer.question_id}")
+            if answer.option not in {option.text for option in question.options}:
+                raise ContentError(f"{path.name}: step {step.id}: {answer.question_id} has no option {answer.option}")
+    return steps

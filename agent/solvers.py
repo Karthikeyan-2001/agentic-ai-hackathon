@@ -46,6 +46,7 @@ class SolverSpec:
     variadic: bool = False
     is_range: bool = False
     stem_words: tuple[str, ...] = PRINTED_VALUE_WORDS
+    stem: str = "What does this program print?"
 
 
 SOLVER_SPECS: dict[str, SolverSpec] = {
@@ -61,6 +62,7 @@ SOLVER_SPECS: dict[str, SolverSpec] = {
         ("outer", "inner"),
         'for i in range({}):\n    for j in range({}):\n        print("*")',
         stem_words=("how many",),
+        stem="How many stars does this program print?",
     ),
     "list_total": SolverSpec(
         ("item",),

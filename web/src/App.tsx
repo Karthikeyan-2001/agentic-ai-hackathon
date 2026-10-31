@@ -1,5 +1,6 @@
 import { BrowserRouter, Link, Navigate, Route, Routes } from 'react-router-dom'
 import { AuthProvider, RequireRole, useAuth } from './auth'
+import { DemoBar, DemoProvider } from './demo'
 import { LandingPage } from './pages/LandingPage'
 import { LoginPage } from './pages/LoginPage'
 import { StudentPage } from './pages/StudentPage'
@@ -32,35 +33,44 @@ function AppShell({ children }: { children: ReactNode }) {
   )
 }
 
+function StudentRoute() {
+  const { session } = useAuth()
+  // The guided demo moves straight from one student to the next, so each one gets a fresh page.
+  return <StudentPage key={session?.student_id} />
+}
+
 export default function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route
-            path="/student"
-            element={
-              <RequireRole role="student">
-                <AppShell>
-                  <StudentPage />
-                </AppShell>
-              </RequireRole>
-            }
-          />
-          <Route
-            path="/teacher"
-            element={
-              <RequireRole role="teacher">
-                <AppShell>
-                  <TeacherPage />
-                </AppShell>
-              </RequireRole>
-            }
-          />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
+        <DemoProvider>
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route
+              path="/student"
+              element={
+                <RequireRole role="student">
+                  <AppShell>
+                    <StudentRoute />
+                  </AppShell>
+                </RequireRole>
+              }
+            />
+            <Route
+              path="/teacher"
+              element={
+                <RequireRole role="teacher">
+                  <AppShell>
+                    <TeacherPage />
+                  </AppShell>
+                </RequireRole>
+              }
+            />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+          <DemoBar />
+        </DemoProvider>
       </AuthProvider>
     </BrowserRouter>
   )

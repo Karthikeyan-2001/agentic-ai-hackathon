@@ -164,7 +164,8 @@ def generate_question(concept_id: str, question_id: str, content: Content, llm: 
     function, arguments = _assignment(concept_id, question_id)
     concept = content.concepts[concept_id]
     related = [m for m in content.misconceptions.values() if m.concept_id == concept_id]
-    catalogue = "\n".join(f"- {m.id}: {m.description}" for m in related) or "- None. Use null for every misconception ID."
+    offered = [m for m in related if m.id != "integer_division_rounds" or function == "floor_div"]
+    catalogue = "\n".join(f"- {m.id}: {m.description}" for m in offered) or "- None. Use null for every misconception ID."
     prompt = (
         f"Concept: {concept.name}. {concept.description}\n"
         f"Use function {function} with arguments {arguments}.\n"
@@ -180,6 +181,8 @@ def generate_question(concept_id: str, question_id: str, content: Content, llm: 
             generated = llm.complete(SYSTEM, attempt, GeneratedQuestion).value
         except LLMError:
             return None
+        # The model kept repeating numbers in the wording, so code writes the stem and the model writes the options.
+        generated = generated.model_copy(update={"stem": SOLVER_SPECS[function].stem})
         rejection = verify_generated(generated, concept_id, valid_ids)
         if rejection is None:
             return to_question(generated, question_id, concept_id)

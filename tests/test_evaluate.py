@@ -5,19 +5,17 @@ from pathlib import Path
 import pytest
 from tests.helpers import DemoClient
 
-from agent.content import load_content
+from agent.content import load_content, load_demo_script
 from agent.plan import LessonPlan
+from api import store
 from api.main import create_app
 from scripts.evaluate import load_samples, score
-from scripts.warm_demo import DEMO_SCRIPT, warm_demo
+from scripts.seed_class import seed_class
+from scripts.warm_demo import warm_demo
 from tests.fakes import FailingLLM, FakeLLM
 
-
-MISCONCEPTIONS = {
-    "It counts up to and including 5": "range_includes_stop",
-    "The 5 says how many times": "range_stop_is_count",
-    "It is always one less than the stop number": "range_one_less_than_stop",
-}
+SCRIPT = load_demo_script(Path("content"), load_content(Path("content")))
+EXPECTED = {answer.reasoning: answer for step in SCRIPT for answer in step.answers}
 
 
 def row(expected_type, actual_type, expected_id=None, actual_id=None, seconds=1.0):
@@ -73,12 +71,12 @@ def responder(system, user, schema):
     if schema is LessonPlan:
         return LessonPlan(title="T", board_demo="D", check_question_id="q_range_last_value")
     reasoning = user.split("<student_reasoning>\n")[1].split("\n</student_reasoning>")[0]
-    misconception_id = MISCONCEPTIONS.get(reasoning)
+    answer = EXPECTED[reasoning]
     return schema(
-        error_type="misconception" if misconception_id else "none",
-        misconception_id=misconception_id,
+        error_type=answer.expect_error_type,
+        misconception_id=answer.expect_misconception_id,
         first_wrong_step=None,
-        evidence_quote=reasoning if misconception_id else None,
+        evidence_quote=reasoning if answer.expect_misconception_id else None,
         confidence=0.9,
     )
 
@@ -87,25 +85,35 @@ def responder(system, user, schema):
 def content_dir(tmp_path):
     target = tmp_path / "content"
     target.mkdir()
-    for name in ["concepts.json", "misconceptions.json", "questions.json"]:
+    for name in ["concepts.json", "misconceptions.json", "questions.json", "generated_questions.json", "demo_script.json"]:
         shutil.copy(Path("content") / name, target / name)
     return target
+
+
+def seeded(app):
+    with app.state.session_factory() as session:
+        now = store.current_time(session)
+    seed_class(app.state.session_factory, app.state.content, now)
+    return app
 
 
 def replay(client, app):
     statuses = []
     client.post("/api/demo/reset")
-    for student, steps in DEMO_SCRIPT.items():
-        for text, reasoning in steps:
+    for step in SCRIPT:
+        if step.clock_days:
+            client.post("/api/clock/advance", json={"days": step.clock_days})
+        student = step.account.replace("student.", "").upper() if step.answers else None
+        for answer in step.answers:
             question = client.get(f"/api/students/{student}/next").json()["question"]
-            option = next(o for o in question["options"] if o["text"] == text)
+            option = next(o for o in question["options"] if o["text"] == answer.option)
             response = client.post(
                 f"/api/students/{student}/answers",
                 json={
                     "question_id": question["id"],
                     "option_id": option["id"],
-                    "reasoning": reasoning,
-                    "confidence_tap": "sure",
+                    "reasoning": answer.reasoning,
+                    "confidence_tap": answer.confidence,
                 },
             )
             statuses.append(response.json()["diagnosis_status"])
@@ -114,7 +122,7 @@ def replay(client, app):
 
 def test_warmed_demo_works_when_ollama_is_down(tmp_path, content_dir):
     db_url = f"sqlite:///{tmp_path}/w.db"
-    warm_app = create_app(db_url=db_url, llm=FakeLLM(responder), content_dir=content_dir)
+    warm_app = seeded(create_app(db_url=db_url, llm=FakeLLM(responder), content_dir=content_dir))
     with DemoClient(warm_app) as client:
         warm_demo(client)
     down_app = create_app(db_url=db_url, llm=FailingLLM(), content_dir=content_dir)
@@ -124,7 +132,7 @@ def test_warmed_demo_works_when_ollama_is_down(tmp_path, content_dir):
 
 
 def test_warm_demo_leaves_students_reset(tmp_path, content_dir):
-    app = create_app(db_url=f"sqlite:///{tmp_path}/r.db", llm=FakeLLM(responder), content_dir=content_dir)
+    app = seeded(create_app(db_url=f"sqlite:///{tmp_path}/r.db", llm=FakeLLM(responder), content_dir=content_dir))
     with DemoClient(app) as client:
         warm_demo(client)
         assert client.get("/api/students/A/next").json()["question"]["id"] == "q_range_count"
