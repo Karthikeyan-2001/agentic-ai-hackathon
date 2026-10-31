@@ -10,6 +10,7 @@
 | **Syllabus** | Class 10 Computer Science (Python Programming assessed) |
 | **Repository** | https://github.com/Karthikeyan-2001/agentic-ai-hackathon |
 | **Demo video** | _Add link before submitting_ |
+| **PDF documentation** | [Differential-Works-Locally-Hackathon-Submission.pdf](Differential-Works-Locally-Hackathon-Submission.pdf) |
 
 ---
 
@@ -106,7 +107,7 @@ With thinking turned on, accuracy was the same but each diagnosis took about 3.8
 
 **Honest limits of this result:** these are written test cases, not real student data. The same AI assistant that helped write the misconception catalogue also wrote the test cases, in fairly clear wording. Real students will be harder, so we treat this as a check that the system works, not as evidence of accuracy with real students.
 
-**Testing:** 271 automated tests cover the engine formulas, graph and content checks, selection rules, the agent with a fake LLM, the three-student demo, sign-in and the API. A separate `pytest -m llm` run checks the demo cases against the real model.
+**Testing:** 302 automated tests (all passing) cover the engine formulas, graph and content checks, selection rules, the agent with a fake LLM, the three-student demo, sign-in and the API. A separate `pytest -m llm` run checks the demo cases against the real model.
 
 ## 6. Demo
 
