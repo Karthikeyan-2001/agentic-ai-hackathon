@@ -1,0 +1,262 @@
+[
+  {
+    "id": "variables_assignment",
+    "name": "Variables and assignment",
+    "chapter": "Python Programming",
+    "description": "A variable names a value, and assignment copies the current value of the right-hand side into it.",
+    "prerequisites": []
+  },
+  {
+    "id": "data_types",
+    "name": "Data types",
+    "chapter": "Python Programming",
+    "description": "Values have types such as int, float, str and bool, and the type decides what an operator does.",
+    "prerequisites": [
+      "variables_assignment"
+    ]
+  },
+  {
+    "id": "arithmetic_operators",
+    "name": "Arithmetic operators",
+    "chapter": "Python Programming",
+    "description": "Python calculates with + - * / as well as // for floor division, % for the remainder and ** for powers.",
+    "prerequisites": [
+      "data_types"
+    ]
+  },
+  {
+    "id": "comparison_logic",
+    "name": "Comparison and logic",
+    "chapter": "Python Programming",
+    "description": "Comparisons such as == and < give True or False, and and, or and not combine them.",
+    "prerequisites": [
+      "data_types"
+    ]
+  },
+  {
+    "id": "if_else",
+    "name": "if and else",
+    "chapter": "Python Programming",
+    "description": "An if statement runs one block when its condition is True, and else runs another when it is False.",
+    "prerequisites": [
+      "comparison_logic"
+    ]
+  },
+  {
+    "id": "for_range",
+    "name": "for loops with range",
+    "chapter": "Python Programming",
+    "description": "range(start, stop) counts from start up to, but not including, stop, so the loop runs stop minus start times.",
+    "prerequisites": [
+      "if_else"
+    ]
+  },
+  {
+    "id": "while_loops",
+    "name": "while loops",
+    "chapter": "Python Programming",
+    "description": "A while loop checks its condition before each pass, and always finishes the body it has started.",
+    "prerequisites": [
+      "for_range",
+      "comparison_logic"
+    ]
+  },
+  {
+    "id": "running_total",
+    "name": "Running totals",
+    "chapter": "Python Programming",
+    "description": "A loop builds a total by starting from zero and adding to the same variable on every pass.",
+    "prerequisites": [
+      "for_range",
+      "arithmetic_operators"
+    ]
+  },
+  {
+    "id": "nested_loops",
+    "name": "Nested loops",
+    "chapter": "Python Programming",
+    "description": "An inner loop runs completely on every pass of the outer loop, so the passes multiply.",
+    "prerequisites": [
+      "for_range",
+      "arithmetic_operators"
+    ]
+  },
+  {
+    "id": "list_indexing",
+    "name": "Lists and indexing",
+    "chapter": "Python Programming",
+    "description": "A list holds items in order, and its first item is at index 0.",
+    "prerequisites": [
+      "arithmetic_operators"
+    ]
+  },
+  {
+    "id": "list_traversal",
+    "name": "Traversing a list",
+    "chapter": "Python Programming",
+    "description": "A for loop can visit every item of a list in order, for example to add them up.",
+    "prerequisites": [
+      "list_indexing",
+      "for_range"
+    ]
+  },
+  {
+    "id": "functions",
+    "name": "Functions",
+    "chapter": "Python Programming",
+    "description": "A function is a named block of code that takes parameters and can return a value.",
+    "prerequisites": [
+      "if_else",
+      "arithmetic_operators"
+    ]
+  },
+  {
+    "id": "network_basics",
+    "name": "What a network is",
+    "chapter": "Computer Networks",
+    "description": "A network links computers so they can share data and resources.",
+    "prerequisites": []
+  },
+  {
+    "id": "network_types",
+    "name": "LAN, MAN and WAN",
+    "chapter": "Computer Networks",
+    "description": "Networks are grouped by the area they cover, from a single building to the whole world.",
+    "prerequisites": [
+      "network_basics"
+    ]
+  },
+  {
+    "id": "network_topologies",
+    "name": "Network topologies",
+    "chapter": "Computer Networks",
+    "description": "Bus, star, ring and tree topologies describe how the devices in a network are connected.",
+    "prerequisites": [
+      "network_types"
+    ]
+  },
+  {
+    "id": "transmission_media",
+    "name": "Transmission media",
+    "chapter": "Computer Networks",
+    "description": "Data travels over wired media such as twisted pair and optical fibre, or wirelessly by radio waves.",
+    "prerequisites": [
+      "network_basics"
+    ]
+  },
+  {
+    "id": "network_protocols",
+    "name": "Network protocols",
+    "chapter": "Computer Networks",
+    "description": "Protocols such as HTTP, FTP and TCP/IP are the rules devices follow to exchange data.",
+    "prerequisites": [
+      "network_types"
+    ]
+  },
+  {
+    "id": "internet_services",
+    "name": "Internet services",
+    "chapter": "Computer Networks",
+    "description": "The internet carries services such as the web, email, e-commerce and video conferencing.",
+    "prerequisites": [
+      "network_protocols"
+    ]
+  },
+  {
+    "id": "html_structure",
+    "name": "HTML page structure",
+    "chapter": "Web Pages with HTML",
+    "description": "An HTML page uses tags, with a head for information about the page and a body for its content.",
+    "prerequisites": [
+      "internet_services"
+    ]
+  },
+  {
+    "id": "html_text",
+    "name": "Formatting text",
+    "chapter": "Web Pages with HTML",
+    "description": "Headings, paragraphs and formatting tags control how text appears on a page.",
+    "prerequisites": [
+      "html_structure"
+    ]
+  },
+  {
+    "id": "html_lists",
+    "name": "Ordered and unordered lists",
+    "chapter": "Web Pages with HTML",
+    "description": "The ol and ul tags make numbered and bulleted lists, with an li tag for each item.",
+    "prerequisites": [
+      "html_structure"
+    ]
+  },
+  {
+    "id": "html_images_links",
+    "name": "Images and links",
+    "chapter": "Web Pages with HTML",
+    "description": "The img tag places a picture on a page, and the a tag links to another page.",
+    "prerequisites": [
+      "html_text"
+    ]
+  },
+  {
+    "id": "html_tables",
+    "name": "Tables",
+    "chapter": "Web Pages with HTML",
+    "description": "The table, tr, th and td tags arrange content in rows and columns.",
+    "prerequisites": [
+      "html_text"
+    ]
+  },
+  {
+    "id": "html_forms",
+    "name": "Forms",
+    "chapter": "Web Pages with HTML",
+    "description": "The form and input tags collect information from the person using a page.",
+    "prerequisites": [
+      "html_tables"
+    ]
+  },
+  {
+    "id": "netiquette",
+    "name": "Netiquette",
+    "chapter": "Cyber Ethics",
+    "description": "Netiquette is the set of rules for behaving politely and responsibly online.",
+    "prerequisites": []
+  },
+  {
+    "id": "digital_footprint",
+    "name": "Digital footprint",
+    "chapter": "Cyber Ethics",
+    "description": "Most of what a person does online leaves a lasting record that others may be able to see.",
+    "prerequisites": [
+      "netiquette"
+    ]
+  },
+  {
+    "id": "intellectual_property",
+    "name": "Copyright and plagiarism",
+    "chapter": "Cyber Ethics",
+    "description": "Creative work belongs to its creator, so it should be credited and used only as its licence allows.",
+    "prerequisites": [
+      "netiquette"
+    ]
+  },
+  {
+    "id": "cyber_safety",
+    "name": "Staying safe online",
+    "chapter": "Cyber Ethics",
+    "description": "Strong passwords and care with personal details protect people from many online risks.",
+    "prerequisites": [
+      "digital_footprint"
+    ]
+  },
+  {
+    "id": "cyber_crime",
+    "name": "Cyber crime",
+    "chapter": "Cyber Ethics",
+    "description": "Phishing, hacking and cyberbullying are harmful online acts that should be recognised and reported.",
+    "prerequisites": [
+      "cyber_safety"
+    ]
+  }
+]

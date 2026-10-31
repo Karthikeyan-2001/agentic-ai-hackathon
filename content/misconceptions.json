@@ -1,0 +1,74 @@
+[
+  {
+    "id": "range_includes_stop",
+    "concept_id": "for_range",
+    "description": "Believes range(start, stop) includes the stop value, so the loop reaches that number.",
+    "example_wordings": [
+      "it counts up to and including 5",
+      "the loop goes all the way to the last number"
+    ]
+  },
+  {
+    "id": "range_stop_is_count",
+    "concept_id": "for_range",
+    "description": "Believes the stop value says how many times the loop runs, whatever the start value is.",
+    "example_wordings": [
+      "the 5 says how many times",
+      "the last number is the number of repeats"
+    ]
+  },
+  {
+    "id": "range_one_less_than_stop",
+    "concept_id": "for_range",
+    "description": "Believes a loop always runs one less time than its stop value, ignoring the start value.",
+    "example_wordings": [
+      "it is always one less than the stop number",
+      "just take the last number minus 1"
+    ]
+  },
+  {
+    "id": "assignment_links_variables",
+    "concept_id": "variables_assignment",
+    "description": "Believes b = a links the two variables, so changing a later also changes b.",
+    "example_wordings": [
+      "b is joined to a",
+      "b follows a so it changes too"
+    ]
+  },
+  {
+    "id": "integer_division_rounds",
+    "concept_id": "arithmetic_operators",
+    "description": "Believes // rounds to the nearest whole number instead of dropping the part after the decimal point.",
+    "example_wordings": [
+      "4.75 rounds up to 5",
+      "double slash rounds the answer off"
+    ]
+  },
+  {
+    "id": "string_plus_adds",
+    "concept_id": "data_types",
+    "description": "Believes + adds digits as numbers even when they are strings in quotes.",
+    "example_wordings": [
+      "2 plus 3 is 5, the quotes do not matter",
+      "plus always adds"
+    ]
+  },
+  {
+    "id": "while_exits_mid_body",
+    "concept_id": "while_loops",
+    "description": "Believes a while loop stops at the moment its condition becomes false, skipping the rest of the body.",
+    "example_wordings": [
+      "once n is 2 it leaves the loop straight away",
+      "the print is skipped because the condition is false"
+    ]
+  },
+  {
+    "id": "index_starts_at_one",
+    "concept_id": "list_indexing",
+    "description": "Believes list indexes start at 1, so index 1 is the first item.",
+    "example_wordings": [
+      "marks[1] is the first mark",
+      "counting starts from 1"
+    ]
+  }
+]

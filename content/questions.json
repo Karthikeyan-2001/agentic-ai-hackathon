@@ -1,0 +1,345 @@
+[
+  {
+    "id": "q_range_count",
+    "concept_id": "for_range",
+    "stem": "How many times does the body of this loop run?\n\nfor i in range(1, 5):\n    print(i)",
+    "options": [
+      {
+        "id": "a",
+        "text": "5 times",
+        "is_correct": false,
+        "misconception_ids": [
+          "range_includes_stop",
+          "range_stop_is_count"
+        ]
+      },
+      {
+        "id": "b",
+        "text": "4 times",
+        "is_correct": true,
+        "misconception_ids": []
+      },
+      {
+        "id": "c",
+        "text": "3 times",
+        "is_correct": false,
+        "misconception_ids": []
+      }
+    ],
+    "difficulty_prior": 2,
+    "source": "seed"
+  },
+  {
+    "id": "q_range_last_value",
+    "concept_id": "for_range",
+    "stem": "What is the last number this loop prints?\n\nfor i in range(3, 7):\n    print(i)",
+    "options": [
+      {
+        "id": "a",
+        "text": "7",
+        "is_correct": false,
+        "misconception_ids": [
+          "range_includes_stop"
+        ]
+      },
+      {
+        "id": "b",
+        "text": "6",
+        "is_correct": true,
+        "misconception_ids": []
+      },
+      {
+        "id": "c",
+        "text": "5",
+        "is_correct": false,
+        "misconception_ids": []
+      }
+    ],
+    "difficulty_prior": 2,
+    "source": "seed"
+  },
+  {
+    "id": "q_range_two_bounds",
+    "concept_id": "for_range",
+    "stem": "How many times does the body of this loop run?\n\nfor i in range(4, 6):\n    print(i)",
+    "options": [
+      {
+        "id": "a",
+        "text": "6 times",
+        "is_correct": false,
+        "misconception_ids": [
+          "range_stop_is_count"
+        ]
+      },
+      {
+        "id": "b",
+        "text": "2 times",
+        "is_correct": true,
+        "misconception_ids": []
+      },
+      {
+        "id": "c",
+        "text": "4 times",
+        "is_correct": false,
+        "misconception_ids": []
+      }
+    ],
+    "difficulty_prior": 3,
+    "source": "seed"
+  },
+  {
+    "id": "q_range_other_start",
+    "concept_id": "for_range",
+    "stem": "How many times does the body of this loop run?\n\nfor i in range(3, 8):\n    print(i)",
+    "options": [
+      {
+        "id": "a",
+        "text": "5 times",
+        "is_correct": true,
+        "misconception_ids": []
+      },
+      {
+        "id": "b",
+        "text": "7 times",
+        "is_correct": false,
+        "misconception_ids": [
+          "range_one_less_than_stop"
+        ]
+      },
+      {
+        "id": "c",
+        "text": "3 times",
+        "is_correct": false,
+        "misconception_ids": []
+      }
+    ],
+    "difficulty_prior": 3,
+    "source": "seed"
+  },
+  {
+    "id": "q_modulo_basic",
+    "concept_id": "arithmetic_operators",
+    "stem": "What does this program print?\n\nprint(17 % 5)",
+    "options": [
+      {
+        "id": "a",
+        "text": "3",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "b",
+        "text": "3.4",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "c",
+        "text": "2",
+        "is_correct": true,
+        "misconception_ids": []
+      }
+    ],
+    "difficulty_prior": 1,
+    "source": "seed"
+  },
+  {
+    "id": "q_floor_div_round",
+    "concept_id": "arithmetic_operators",
+    "stem": "What does this program print?\n\nprint(19 // 4)",
+    "options": [
+      {
+        "id": "a",
+        "text": "4",
+        "is_correct": true,
+        "misconception_ids": []
+      },
+      {
+        "id": "b",
+        "text": "5",
+        "is_correct": false,
+        "misconception_ids": [
+          "integer_division_rounds"
+        ]
+      },
+      {
+        "id": "c",
+        "text": "4.75",
+        "is_correct": false,
+        "misconception_ids": []
+      }
+    ],
+    "difficulty_prior": 3,
+    "source": "seed"
+  },
+  {
+    "id": "q_assign_copy",
+    "concept_id": "variables_assignment",
+    "stem": "What does this program print?\n\na = 5\nb = a\na = 7\nprint(b)",
+    "options": [
+      {
+        "id": "a",
+        "text": "7",
+        "is_correct": false,
+        "misconception_ids": [
+          "assignment_links_variables"
+        ]
+      },
+      {
+        "id": "b",
+        "text": "5",
+        "is_correct": true,
+        "misconception_ids": []
+      },
+      {
+        "id": "c",
+        "text": "12",
+        "is_correct": false,
+        "misconception_ids": []
+      }
+    ],
+    "difficulty_prior": 3,
+    "source": "seed"
+  },
+  {
+    "id": "q_string_plus",
+    "concept_id": "data_types",
+    "stem": "What does this program print?\n\nprint(\"2\" + \"3\")",
+    "options": [
+      {
+        "id": "a",
+        "text": "23",
+        "is_correct": true,
+        "misconception_ids": []
+      },
+      {
+        "id": "b",
+        "text": "5",
+        "is_correct": false,
+        "misconception_ids": [
+          "string_plus_adds"
+        ]
+      },
+      {
+        "id": "c",
+        "text": "An error",
+        "is_correct": false,
+        "misconception_ids": []
+      }
+    ],
+    "difficulty_prior": 1,
+    "source": "seed"
+  },
+  {
+    "id": "q_nested_count",
+    "concept_id": "nested_loops",
+    "stem": "How many stars does this program print?\n\nfor i in range(2):\n    for j in range(3):\n        print(\"*\")",
+    "options": [
+      {
+        "id": "a",
+        "text": "5",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "b",
+        "text": "3",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "c",
+        "text": "6",
+        "is_correct": true,
+        "misconception_ids": []
+      }
+    ],
+    "difficulty_prior": 2,
+    "source": "seed"
+  },
+  {
+    "id": "q_list_index",
+    "concept_id": "list_indexing",
+    "stem": "What does this program print?\n\nmarks = [40, 55, 70]\nprint(marks[1])",
+    "options": [
+      {
+        "id": "a",
+        "text": "40",
+        "is_correct": false,
+        "misconception_ids": [
+          "index_starts_at_one"
+        ]
+      },
+      {
+        "id": "b",
+        "text": "55",
+        "is_correct": true,
+        "misconception_ids": []
+      },
+      {
+        "id": "c",
+        "text": "70",
+        "is_correct": false,
+        "misconception_ids": []
+      }
+    ],
+    "difficulty_prior": 2,
+    "source": "seed"
+  },
+  {
+    "id": "q_while_mid_body",
+    "concept_id": "while_loops",
+    "stem": "What does this program print?\n\nn = 0\nwhile n < 2:\n    n = n + 1\n    print(n)",
+    "options": [
+      {
+        "id": "a",
+        "text": "Only 1",
+        "is_correct": false,
+        "misconception_ids": [
+          "while_exits_mid_body"
+        ]
+      },
+      {
+        "id": "b",
+        "text": "1, then 2",
+        "is_correct": true,
+        "misconception_ids": []
+      },
+      {
+        "id": "c",
+        "text": "0, then 1",
+        "is_correct": false,
+        "misconception_ids": []
+      }
+    ],
+    "difficulty_prior": 3,
+    "source": "seed"
+  },
+  {
+    "id": "q_list_total",
+    "concept_id": "list_traversal",
+    "stem": "What does this program print?\n\nmarks = [2, 3, 5]\ntotal = 0\nfor mark in marks:\n    total = total + mark\nprint(total)",
+    "options": [
+      {
+        "id": "a",
+        "text": "5",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "b",
+        "text": "10",
+        "is_correct": true,
+        "misconception_ids": []
+      },
+      {
+        "id": "c",
+        "text": "3",
+        "is_correct": false,
+        "misconception_ids": []
+      }
+    ],
+    "difficulty_prior": 2,
+    "source": "seed"
+  }
+]

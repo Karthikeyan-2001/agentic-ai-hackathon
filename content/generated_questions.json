@@ -1,0 +1,664 @@
+[
+  {
+    "id": "g_arithmetic_operators_1",
+    "concept_id": "arithmetic_operators",
+    "stem": "What does this program print?\n\nprint(4 ** 2)",
+    "options": [
+      {
+        "id": "a",
+        "text": "8",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "b",
+        "text": "2",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "c",
+        "text": "16",
+        "is_correct": true,
+        "misconception_ids": []
+      },
+      {
+        "id": "d",
+        "text": "4",
+        "is_correct": false,
+        "misconception_ids": []
+      }
+    ],
+    "difficulty_prior": 1,
+    "source": "generated"
+  },
+  {
+    "id": "g_running_total_1",
+    "concept_id": "running_total",
+    "stem": "What does this program print?\n\ntotal = 0\nfor i in range(1, 8):\n    total = total + i\nprint(total)",
+    "options": [
+      {
+        "id": "a",
+        "text": "36",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "b",
+        "text": "28",
+        "is_correct": true,
+        "misconception_ids": []
+      },
+      {
+        "id": "c",
+        "text": "56",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "d",
+        "text": "45",
+        "is_correct": false,
+        "misconception_ids": []
+      }
+    ],
+    "difficulty_prior": 2,
+    "source": "generated"
+  },
+  {
+    "id": "g_nested_loops_1",
+    "concept_id": "nested_loops",
+    "stem": "How many stars does this program print?\n\nfor i in range(4):\n    for j in range(2):\n        print(\"*\")",
+    "options": [
+      {
+        "id": "a",
+        "text": "6",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "b",
+        "text": "8",
+        "is_correct": true,
+        "misconception_ids": []
+      },
+      {
+        "id": "c",
+        "text": "4",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "d",
+        "text": "2",
+        "is_correct": false,
+        "misconception_ids": []
+      }
+    ],
+    "difficulty_prior": 2,
+    "source": "generated"
+  },
+  {
+    "id": "g_list_traversal_1",
+    "concept_id": "list_traversal",
+    "stem": "What does this program print?\n\nmarks = [10, 2, 12, 3]\ntotal = 0\nfor mark in marks:\n    total = total + mark\nprint(total)",
+    "options": [
+      {
+        "id": "a",
+        "text": "27",
+        "is_correct": true,
+        "misconception_ids": []
+      },
+      {
+        "id": "b",
+        "text": "47",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "c",
+        "text": "15",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "d",
+        "text": "20",
+        "is_correct": false,
+        "misconception_ids": []
+      }
+    ],
+    "difficulty_prior": 2,
+    "source": "generated"
+  },
+  {
+    "id": "g_arithmetic_operators_2",
+    "concept_id": "arithmetic_operators",
+    "stem": "What does this program print?\n\nprint(17 % 3)",
+    "options": [
+      {
+        "id": "a",
+        "text": "5.67",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "b",
+        "text": "14",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "c",
+        "text": "2",
+        "is_correct": true,
+        "misconception_ids": []
+      },
+      {
+        "id": "d",
+        "text": "20",
+        "is_correct": false,
+        "misconception_ids": []
+      }
+    ],
+    "difficulty_prior": 2,
+    "source": "generated"
+  },
+  {
+    "id": "g_running_total_2",
+    "concept_id": "running_total",
+    "stem": "What does this program print?\n\ntotal = 0\nfor i in range(4, 7):\n    total = total + i\nprint(total)",
+    "options": [
+      {
+        "id": "a",
+        "text": "15",
+        "is_correct": true,
+        "misconception_ids": []
+      },
+      {
+        "id": "b",
+        "text": "6",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "c",
+        "text": "12",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "d",
+        "text": "0",
+        "is_correct": false,
+        "misconception_ids": []
+      }
+    ],
+    "difficulty_prior": 2,
+    "source": "generated"
+  },
+  {
+    "id": "g_nested_loops_2",
+    "concept_id": "nested_loops",
+    "stem": "How many stars does this program print?\n\nfor i in range(3):\n    for j in range(3):\n        print(\"*\")",
+    "options": [
+      {
+        "id": "a",
+        "text": "3",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "b",
+        "text": "0",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "c",
+        "text": "6",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "d",
+        "text": "9",
+        "is_correct": true,
+        "misconception_ids": []
+      }
+    ],
+    "difficulty_prior": 2,
+    "source": "generated"
+  },
+  {
+    "id": "g_list_traversal_2",
+    "concept_id": "list_traversal",
+    "stem": "What does this program print?\n\nmarks = [15, 12, 3]\ntotal = 0\nfor mark in marks:\n    total = total + mark\nprint(total)",
+    "options": [
+      {
+        "id": "a",
+        "text": "48",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "b",
+        "text": "33",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "c",
+        "text": "15",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "d",
+        "text": "30",
+        "is_correct": true,
+        "misconception_ids": []
+      }
+    ],
+    "difficulty_prior": 2,
+    "source": "generated"
+  },
+  {
+    "id": "g_arithmetic_operators_3",
+    "concept_id": "arithmetic_operators",
+    "stem": "What does this program print?\n\nprint(17 // 3)",
+    "options": [
+      {
+        "id": "a",
+        "text": "6",
+        "is_correct": false,
+        "misconception_ids": [
+          "integer_division_rounds"
+        ]
+      },
+      {
+        "id": "b",
+        "text": "14",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "c",
+        "text": "5.67",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "d",
+        "text": "5",
+        "is_correct": true,
+        "misconception_ids": []
+      }
+    ],
+    "difficulty_prior": 2,
+    "source": "generated"
+  },
+  {
+    "id": "g_list_traversal_3",
+    "concept_id": "list_traversal",
+    "stem": "What does this program print?\n\nmarks = [8, 10, 20, 3]\ntotal = 0\nfor mark in marks:\n    total = total + mark\nprint(total)",
+    "options": [
+      {
+        "id": "a",
+        "text": "42",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "b",
+        "text": "41",
+        "is_correct": true,
+        "misconception_ids": []
+      },
+      {
+        "id": "c",
+        "text": "39",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "d",
+        "text": "40",
+        "is_correct": false,
+        "misconception_ids": []
+      }
+    ],
+    "difficulty_prior": 2,
+    "source": "generated"
+  },
+  {
+    "id": "g_running_total_4",
+    "concept_id": "running_total",
+    "stem": "What does this program print?\n\ntotal = 0\nfor i in range(1, 5):\n    total = total + i\nprint(total)",
+    "options": [
+      {
+        "id": "a",
+        "text": "15",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "b",
+        "text": "9",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "c",
+        "text": "4",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "d",
+        "text": "10",
+        "is_correct": true,
+        "misconception_ids": []
+      }
+    ],
+    "difficulty_prior": 2,
+    "source": "generated"
+  },
+  {
+    "id": "g_list_traversal_4",
+    "concept_id": "list_traversal",
+    "stem": "What does this program print?\n\nmarks = [20, 8, 3, 12]\ntotal = 0\nfor mark in marks:\n    total = total + mark\nprint(total)",
+    "options": [
+      {
+        "id": "a",
+        "text": "43",
+        "is_correct": true,
+        "misconception_ids": []
+      },
+      {
+        "id": "b",
+        "text": "52",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "c",
+        "text": "41",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "d",
+        "text": "35",
+        "is_correct": false,
+        "misconception_ids": []
+      }
+    ],
+    "difficulty_prior": 2,
+    "source": "generated"
+  },
+  {
+    "id": "g_arithmetic_operators_5",
+    "concept_id": "arithmetic_operators",
+    "stem": "What does this program print?\n\nprint(5 ** 3)",
+    "options": [
+      {
+        "id": "a",
+        "text": "8",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "b",
+        "text": "125",
+        "is_correct": true,
+        "misconception_ids": []
+      },
+      {
+        "id": "c",
+        "text": "10",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "d",
+        "text": "25",
+        "is_correct": false,
+        "misconception_ids": []
+      }
+    ],
+    "difficulty_prior": 1,
+    "source": "generated"
+  },
+  {
+    "id": "g_running_total_5",
+    "concept_id": "running_total",
+    "stem": "What does this program print?\n\ntotal = 0\nfor i in range(1, 10):\n    total = total + i\nprint(total)",
+    "options": [
+      {
+        "id": "a",
+        "text": "90",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "b",
+        "text": "54",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "c",
+        "text": "45",
+        "is_correct": true,
+        "misconception_ids": []
+      },
+      {
+        "id": "d",
+        "text": "36",
+        "is_correct": false,
+        "misconception_ids": []
+      }
+    ],
+    "difficulty_prior": 2,
+    "source": "generated"
+  },
+  {
+    "id": "g_nested_loops_5",
+    "concept_id": "nested_loops",
+    "stem": "How many stars does this program print?\n\nfor i in range(2):\n    for j in range(2):\n        print(\"*\")",
+    "options": [
+      {
+        "id": "a",
+        "text": "2",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "b",
+        "text": "0",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "c",
+        "text": "8",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "d",
+        "text": "4",
+        "is_correct": true,
+        "misconception_ids": []
+      }
+    ],
+    "difficulty_prior": 2,
+    "source": "generated"
+  },
+  {
+    "id": "g_list_traversal_5",
+    "concept_id": "list_traversal",
+    "stem": "What does this program print?\n\nmarks = [20, 3, 12, 10]\ntotal = 0\nfor mark in marks:\n    total = total + mark\nprint(total)",
+    "options": [
+      {
+        "id": "a",
+        "text": "45",
+        "is_correct": true,
+        "misconception_ids": []
+      },
+      {
+        "id": "b",
+        "text": "23",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "c",
+        "text": "67",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "d",
+        "text": "450",
+        "is_correct": false,
+        "misconception_ids": []
+      }
+    ],
+    "difficulty_prior": 2,
+    "source": "generated"
+  },
+  {
+    "id": "g_running_total_6",
+    "concept_id": "running_total",
+    "stem": "What does this program print?\n\ntotal = 0\nfor i in range(4, 5):\n    total = total + i\nprint(total)",
+    "options": [
+      {
+        "id": "a",
+        "text": "10",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "b",
+        "text": "0",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "c",
+        "text": "4",
+        "is_correct": true,
+        "misconception_ids": []
+      },
+      {
+        "id": "d",
+        "text": "9",
+        "is_correct": false,
+        "misconception_ids": []
+      }
+    ],
+    "difficulty_prior": 2,
+    "source": "generated"
+  },
+  {
+    "id": "g_nested_loops_6",
+    "concept_id": "nested_loops",
+    "stem": "How many stars does this program print?\n\nfor i in range(4):\n    for j in range(5):\n        print(\"*\")",
+    "options": [
+      {
+        "id": "a",
+        "text": "20",
+        "is_correct": true,
+        "misconception_ids": []
+      },
+      {
+        "id": "b",
+        "text": "4",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "c",
+        "text": "16",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "d",
+        "text": "9",
+        "is_correct": false,
+        "misconception_ids": []
+      }
+    ],
+    "difficulty_prior": 2,
+    "source": "generated"
+  },
+  {
+    "id": "g_list_traversal_6",
+    "concept_id": "list_traversal",
+    "stem": "What does this program print?\n\nmarks = [12, 5, 10, 3]\ntotal = 0\nfor mark in marks:\n    total = total + mark\nprint(total)",
+    "options": [
+      {
+        "id": "a",
+        "text": "30",
+        "is_correct": true,
+        "misconception_ids": []
+      },
+      {
+        "id": "b",
+        "text": "35",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "c",
+        "text": "40",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "d",
+        "text": "28",
+        "is_correct": false,
+        "misconception_ids": []
+      }
+    ],
+    "difficulty_prior": 2,
+    "source": "generated"
+  },
+  {
+    "id": "g_running_total_7",
+    "concept_id": "running_total",
+    "stem": "What does this program print?\n\ntotal = 0\nfor i in range(3, 6):\n    total = total + i\nprint(total)",
+    "options": [
+      {
+        "id": "a",
+        "text": "9",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "b",
+        "text": "12",
+        "is_correct": true,
+        "misconception_ids": []
+      },
+      {
+        "id": "c",
+        "text": "3",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "d",
+        "text": "0",
+        "is_correct": false,
+        "misconception_ids": []
+      }
+    ],
+    "difficulty_prior": 2,
+    "source": "generated"
+  }
+]

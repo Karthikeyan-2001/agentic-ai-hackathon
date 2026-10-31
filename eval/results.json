@@ -1,0 +1,113 @@
+{
+  "tune_off": {
+    "count": 10,
+    "error_type_accuracy": 1.0,
+    "misconception_accuracy": 1.0,
+    "per_misconception": {
+      "range_includes_stop": {
+        "correct": 1,
+        "total": 1
+      },
+      "range_stop_is_count": {
+        "correct": 1,
+        "total": 1
+      },
+      "range_one_less_than_stop": {
+        "correct": 1,
+        "total": 1
+      },
+      "index_starts_at_one": {
+        "correct": 1,
+        "total": 1
+      },
+      "string_plus_adds": {
+        "correct": 1,
+        "total": 1
+      }
+    },
+    "avg_seconds": 0.8225508600000466,
+    "mistakes": []
+  },
+  "heldout_off": {
+    "count": 30,
+    "error_type_accuracy": 1.0,
+    "misconception_accuracy": 1.0,
+    "per_misconception": {
+      "range_includes_stop": {
+        "correct": 2,
+        "total": 2
+      },
+      "range_stop_is_count": {
+        "correct": 3,
+        "total": 3
+      },
+      "range_one_less_than_stop": {
+        "correct": 3,
+        "total": 3
+      },
+      "integer_division_rounds": {
+        "correct": 2,
+        "total": 2
+      },
+      "assignment_links_variables": {
+        "correct": 2,
+        "total": 2
+      },
+      "index_starts_at_one": {
+        "correct": 2,
+        "total": 2
+      },
+      "string_plus_adds": {
+        "correct": 2,
+        "total": 2
+      },
+      "while_exits_mid_body": {
+        "correct": 2,
+        "total": 2
+      }
+    },
+    "avg_seconds": 0.8407623833330339,
+    "mistakes": []
+  },
+  "heldout_on": {
+    "count": 30,
+    "error_type_accuracy": 1.0,
+    "misconception_accuracy": 1.0,
+    "per_misconception": {
+      "range_includes_stop": {
+        "correct": 2,
+        "total": 2
+      },
+      "range_stop_is_count": {
+        "correct": 3,
+        "total": 3
+      },
+      "range_one_less_than_stop": {
+        "correct": 3,
+        "total": 3
+      },
+      "integer_division_rounds": {
+        "correct": 2,
+        "total": 2
+      },
+      "assignment_links_variables": {
+        "correct": 2,
+        "total": 2
+      },
+      "index_starts_at_one": {
+        "correct": 2,
+        "total": 2
+      },
+      "string_plus_adds": {
+        "correct": 2,
+        "total": 2
+      },
+      "while_exits_mid_body": {
+        "correct": 2,
+        "total": 2
+      }
+    },
+    "avg_seconds": 3.8399188166666134,
+    "mistakes": []
+  }
+}
