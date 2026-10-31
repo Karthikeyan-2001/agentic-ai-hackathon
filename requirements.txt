@@ -5,4 +5,4 @@ python-dotenv
 ollama
 pydantic
 pytest
-httpx
+httpx2
