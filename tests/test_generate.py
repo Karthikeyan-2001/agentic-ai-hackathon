@@ -184,6 +184,14 @@ def test_accepts_power_from_voltage_and_resistance():
     assert verify_generated(question, "electric_power", set()) is None
 
 
+def test_to_question_rounds_long_decimals():
+    options = [GeneratedOption(value=1.90476, misconception_id=None), GeneratedOption(value=26, misconception_id=None)]
+    question = to_question(
+        good(function="parallel_resistance", args=[8, 15, 3], options=options), "g1", "parallel_resistance"
+    )
+    assert question.options[0].text == "1.9 ohm" and question.options[0].is_correct
+
+
 def test_to_question_uses_code_owned_unit():
     question = to_question(good(unit="Amperes (A)"), "g1", "ohms_law")
     assert question.options[0].text == "3 A"

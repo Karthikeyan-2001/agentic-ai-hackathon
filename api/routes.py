@@ -6,8 +6,10 @@ from pydantic import BaseModel, Field
 from sqlmodel import select
 
 from agent.loop import decide_next, process_answer
+from agent.plan import draft_lesson_plan
 from api import store
-from api.models import ConceptStateRow, MisconceptionStateRow, Student
+from api.models import QuestionState, Student
+from engine.class_summary import StudentView, build_class_summary
 from engine.scheduling import concept_recall, displayed_mastery, is_due, misconception_recall
 from engine.selection import DEFAULT_MASTERY
 from engine.types import ConceptState, MisconceptionState, Question
@@ -250,18 +252,45 @@ def reset_demo(request: Request) -> dict:
     return {"status": "ok"}
 
 
+def _class_summary(request: Request) -> dict:
+    content = request.app.state.content
+    with request.app.state.session_factory() as session:
+        now = store.current_time(session)
+        students = session.exec(
+            select(Student).where(Student.is_simulated == True).order_by(Student.id)  # noqa: E712
+        ).all()
+        views = []
+        for student in students:
+            snapshot = store.load_snapshot(session, student.id)
+            views.append(StudentView(student.id, student.name, snapshot.concept_states, snapshot.misconception_states))
+        question_elo = {
+            row.question_id: (row.difficulty_elo, row.attempts) for row in session.exec(select(QuestionState)).all()
+        }
+    return build_class_summary(views, content, question_elo, now)
+
+
 @router.get("/class/summary")
 def class_summary(request: Request) -> dict:
-    return {
-        "heatmap": {"concepts": [], "students": []},
-        "groups": [],
-        "root_causes": [],
-        "calibration_flags": [],
-        "student_count": 0,
-        "is_simulated": True,
-    }
+    return _class_summary(request)
 
 
 @router.post("/class/plan")
 def class_plan(request: Request) -> dict:
-    raise HTTPException(status_code=404, detail="No active misconception to plan for.")
+    state = request.app.state
+    content = state.content
+    groups = _class_summary(request)["groups"]
+    if not groups:
+        raise HTTPException(status_code=404, detail="No active misconception to plan for.")
+    top = groups[0]
+    student_count = len(top["students"])
+    plan = draft_lesson_plan(top["misconception_id"], student_count, content, state.llm)
+    if plan is None:
+        raise HTTPException(status_code=503, detail="The lesson plan couldn't be drafted. Check that Ollama is running.")
+    check_question = content.questions.get(plan.check_question_id)
+    return {
+        **plan.model_dump(),
+        "check_question_stem": check_question.stem if check_question else "",
+        "misconception_id": top["misconception_id"],
+        "misconception_description": top["description"],
+        "student_count": student_count,
+    }

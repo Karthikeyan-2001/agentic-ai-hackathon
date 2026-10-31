@@ -130,7 +130,7 @@ def to_question(g: GeneratedQuestion, question_id: str, concept_id: str) -> Ques
     options = [
         Option(
             id=chr(ord("a") + index),
-            text=f"{option.value:g} {unit}",
+            text=f"{round(option.value, 2):g} {unit}",
             is_correct=_matches(option.value, answer),
             misconception_ids=[option.misconception_id] if option.misconception_id else [],
         )

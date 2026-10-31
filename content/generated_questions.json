@@ -1,0 +1,676 @@
+[
+  {
+    "id": "g_ohms_law_1",
+    "concept_id": "ohms_law",
+    "stem": "A conductor has a potential difference of 12 V across it and a current of 1 A flowing through it. What is the resistance of the conductor?",
+    "options": [
+      {
+        "id": "a",
+        "text": "12 ohm",
+        "is_correct": true,
+        "misconception_ids": []
+      },
+      {
+        "id": "b",
+        "text": "13 ohm",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "c",
+        "text": "11 ohm",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "d",
+        "text": "12.5 ohm",
+        "is_correct": false,
+        "misconception_ids": []
+      }
+    ],
+    "difficulty_prior": 2,
+    "source": "generated"
+  },
+  {
+    "id": "g_parallel_resistance_1",
+    "concept_id": "parallel_resistance",
+    "stem": "Three resistors with resistances of 8 ohm, 15 ohm, and 3 ohm are connected in parallel. What is the total equivalent resistance of this circuit?",
+    "options": [
+      {
+        "id": "a",
+        "text": "26 ohm",
+        "is_correct": false,
+        "misconception_ids": [
+          "parallel_resistance_adds"
+        ]
+      },
+      {
+        "id": "b",
+        "text": "1.9 ohm",
+        "is_correct": true,
+        "misconception_ids": []
+      },
+      {
+        "id": "c",
+        "text": "5.33 ohm",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "d",
+        "text": "2.86 ohm",
+        "is_correct": false,
+        "misconception_ids": []
+      }
+    ],
+    "difficulty_prior": 3,
+    "source": "generated"
+  },
+  {
+    "id": "g_electric_power_1",
+    "concept_id": "electric_power",
+    "stem": "A resistor with a resistance of 5 ohm is connected across a voltage source of 6 V. What is the electric power dissipated by the resistor?",
+    "options": [
+      {
+        "id": "a",
+        "text": "7.2 W",
+        "is_correct": true,
+        "misconception_ids": []
+      },
+      {
+        "id": "b",
+        "text": "30 W",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "c",
+        "text": "1.2 W",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "d",
+        "text": "36 W",
+        "is_correct": false,
+        "misconception_ids": []
+      }
+    ],
+    "difficulty_prior": 2,
+    "source": "generated"
+  },
+  {
+    "id": "g_ohms_law_2",
+    "concept_id": "ohms_law",
+    "stem": "A resistor with a resistance of 6 ohm carries a current of 1.5 A. What is the potential difference across the resistor?",
+    "options": [
+      {
+        "id": "a",
+        "text": "9 V",
+        "is_correct": true,
+        "misconception_ids": []
+      },
+      {
+        "id": "b",
+        "text": "2.25 V",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "c",
+        "text": "1.5 V",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "d",
+        "text": "6 V",
+        "is_correct": false,
+        "misconception_ids": []
+      }
+    ],
+    "difficulty_prior": 2,
+    "source": "generated"
+  },
+  {
+    "id": "g_parallel_resistance_2",
+    "concept_id": "parallel_resistance",
+    "stem": "Three resistors with resistances of 12 ohm, 8 ohm, and 3 ohm are connected in parallel. What is the total equivalent resistance of this circuit?",
+    "options": [
+      {
+        "id": "a",
+        "text": "23 ohm",
+        "is_correct": false,
+        "misconception_ids": [
+          "parallel_resistance_adds"
+        ]
+      },
+      {
+        "id": "b",
+        "text": "1.85 ohm",
+        "is_correct": true,
+        "misconception_ids": []
+      },
+      {
+        "id": "c",
+        "text": "3.75 ohm",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "d",
+        "text": "2 ohm",
+        "is_correct": false,
+        "misconception_ids": []
+      }
+    ],
+    "difficulty_prior": 3,
+    "source": "generated"
+  },
+  {
+    "id": "g_electric_power_2",
+    "concept_id": "electric_power",
+    "stem": "A resistor with a current of 2 A flowing through it has a resistance of 3 ohm. What is the electric power dissipated by the resistor?",
+    "options": [
+      {
+        "id": "a",
+        "text": "12 W",
+        "is_correct": true,
+        "misconception_ids": []
+      },
+      {
+        "id": "b",
+        "text": "6 W",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "c",
+        "text": "4 W",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "d",
+        "text": "18 W",
+        "is_correct": false,
+        "misconception_ids": []
+      }
+    ],
+    "difficulty_prior": 2,
+    "source": "generated"
+  },
+  {
+    "id": "g_ohms_law_3",
+    "concept_id": "ohms_law",
+    "stem": "A resistor with a resistance of 4 ohm is connected to a battery providing a potential difference of 3 V. What is the current flowing through the resistor?",
+    "options": [
+      {
+        "id": "a",
+        "text": "0.75 A",
+        "is_correct": true,
+        "misconception_ids": []
+      },
+      {
+        "id": "b",
+        "text": "12 A",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "c",
+        "text": "3 A",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "d",
+        "text": "4 A",
+        "is_correct": false,
+        "misconception_ids": []
+      }
+    ],
+    "difficulty_prior": 2,
+    "source": "generated"
+  },
+  {
+    "id": "g_parallel_resistance_3",
+    "concept_id": "parallel_resistance",
+    "stem": "A circuit contains two resistors connected in parallel with resistances of 5 ohm and 3 ohm. What is the total equivalent resistance of this parallel combination?",
+    "options": [
+      {
+        "id": "a",
+        "text": "8 ohm",
+        "is_correct": false,
+        "misconception_ids": [
+          "parallel_resistance_adds"
+        ]
+      },
+      {
+        "id": "b",
+        "text": "1.88 ohm",
+        "is_correct": true,
+        "misconception_ids": []
+      },
+      {
+        "id": "c",
+        "text": "15 ohm",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "d",
+        "text": "2 ohm",
+        "is_correct": false,
+        "misconception_ids": []
+      }
+    ],
+    "difficulty_prior": 3,
+    "source": "generated"
+  },
+  {
+    "id": "g_ohms_law_4",
+    "concept_id": "ohms_law",
+    "stem": "A resistor has a potential difference of 24 V across it and a current of 3 A flowing through it. What is the resistance of the resistor?",
+    "options": [
+      {
+        "id": "a",
+        "text": "8 ohm",
+        "is_correct": true,
+        "misconception_ids": []
+      },
+      {
+        "id": "b",
+        "text": "72 ohm",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "c",
+        "text": "96 ohm",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "d",
+        "text": "0.12 ohm",
+        "is_correct": false,
+        "misconception_ids": []
+      }
+    ],
+    "difficulty_prior": 2,
+    "source": "generated"
+  },
+  {
+    "id": "g_parallel_resistance_4",
+    "concept_id": "parallel_resistance",
+    "stem": "A circuit contains two resistors connected in parallel with resistances of 20 ohm and 5 ohm. What is the total equivalent resistance of this parallel combination?",
+    "options": [
+      {
+        "id": "a",
+        "text": "4 ohm",
+        "is_correct": true,
+        "misconception_ids": []
+      },
+      {
+        "id": "b",
+        "text": "25 ohm",
+        "is_correct": false,
+        "misconception_ids": [
+          "parallel_resistance_adds"
+        ]
+      },
+      {
+        "id": "c",
+        "text": "16 ohm",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "d",
+        "text": "20 ohm",
+        "is_correct": false,
+        "misconception_ids": []
+      }
+    ],
+    "difficulty_prior": 3,
+    "source": "generated"
+  },
+  {
+    "id": "g_electric_power_4",
+    "concept_id": "electric_power",
+    "stem": "A resistor with a resistance of 6 ohm is connected across a voltage source of 6 V. What is the electric power dissipated by the resistor?",
+    "options": [
+      {
+        "id": "a",
+        "text": "36 W",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "b",
+        "text": "12 W",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "c",
+        "text": "9 W",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "d",
+        "text": "6 W",
+        "is_correct": true,
+        "misconception_ids": []
+      }
+    ],
+    "difficulty_prior": 2,
+    "source": "generated"
+  },
+  {
+    "id": "g_ohms_law_5",
+    "concept_id": "ohms_law",
+    "stem": "A resistor with a resistance of 2 ohm is connected to a battery. If the current flowing through the resistor is 1 A, what is the potential difference across the resistor?",
+    "options": [
+      {
+        "id": "a",
+        "text": "2 V",
+        "is_correct": true,
+        "misconception_ids": []
+      },
+      {
+        "id": "b",
+        "text": "1 V",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "c",
+        "text": "3 V",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "d",
+        "text": "0.5 V",
+        "is_correct": false,
+        "misconception_ids": []
+      }
+    ],
+    "difficulty_prior": 2,
+    "source": "generated"
+  },
+  {
+    "id": "g_parallel_resistance_5",
+    "concept_id": "parallel_resistance",
+    "stem": "A circuit contains two resistors connected in parallel with resistance values of 4 ohm and 15 ohm. What is the total equivalent resistance of this combination?",
+    "options": [
+      {
+        "id": "a",
+        "text": "3.16 ohm",
+        "is_correct": true,
+        "misconception_ids": []
+      },
+      {
+        "id": "b",
+        "text": "19 ohm",
+        "is_correct": false,
+        "misconception_ids": [
+          "parallel_resistance_adds"
+        ]
+      },
+      {
+        "id": "c",
+        "text": "60 ohm",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "d",
+        "text": "3.75 ohm",
+        "is_correct": false,
+        "misconception_ids": []
+      }
+    ],
+    "difficulty_prior": 3,
+    "source": "generated"
+  },
+  {
+    "id": "g_electric_power_5",
+    "concept_id": "electric_power",
+    "stem": "A resistor with a resistance of 6 ohm carries a current of 1.5 A. What is the electric power dissipated by the resistor?",
+    "options": [
+      {
+        "id": "a",
+        "text": "9 W",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "b",
+        "text": "27 W",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "c",
+        "text": "4.5 W",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "d",
+        "text": "13.5 W",
+        "is_correct": true,
+        "misconception_ids": []
+      }
+    ],
+    "difficulty_prior": 2,
+    "source": "generated"
+  },
+  {
+    "id": "g_ohms_law_6",
+    "concept_id": "ohms_law",
+    "stem": "A resistor with a resistance of 12 ohm is connected to a battery providing a potential difference of 6 V. What is the current flowing through the resistor?",
+    "options": [
+      {
+        "id": "a",
+        "text": "0.5 A",
+        "is_correct": true,
+        "misconception_ids": []
+      },
+      {
+        "id": "b",
+        "text": "72 A",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "c",
+        "text": "18 A",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "d",
+        "text": "6 A",
+        "is_correct": false,
+        "misconception_ids": []
+      }
+    ],
+    "difficulty_prior": 2,
+    "source": "generated"
+  },
+  {
+    "id": "g_parallel_resistance_6",
+    "concept_id": "parallel_resistance",
+    "stem": "A circuit contains two resistors connected in parallel with resistance values of 12 ohm and 20 ohm. What is the total equivalent resistance of this parallel combination?",
+    "options": [
+      {
+        "id": "a",
+        "text": "32 ohm",
+        "is_correct": false,
+        "misconception_ids": [
+          "parallel_resistance_adds"
+        ]
+      },
+      {
+        "id": "b",
+        "text": "7.5 ohm",
+        "is_correct": true,
+        "misconception_ids": []
+      },
+      {
+        "id": "c",
+        "text": "1.58 ohm",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "d",
+        "text": "240 ohm",
+        "is_correct": false,
+        "misconception_ids": []
+      }
+    ],
+    "difficulty_prior": 3,
+    "source": "generated"
+  },
+  {
+    "id": "g_ohms_law_7",
+    "concept_id": "ohms_law",
+    "stem": "A resistor has a potential difference of 18 V across it and a current of 4 A flowing through it. What is the resistance of the resistor?",
+    "options": [
+      {
+        "id": "a",
+        "text": "4.5 ohm",
+        "is_correct": true,
+        "misconception_ids": []
+      },
+      {
+        "id": "b",
+        "text": "72 ohm",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "c",
+        "text": "18 ohm",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "d",
+        "text": "4 ohm",
+        "is_correct": false,
+        "misconception_ids": []
+      }
+    ],
+    "difficulty_prior": 2,
+    "source": "generated"
+  },
+  {
+    "id": "g_parallel_resistance_7",
+    "concept_id": "parallel_resistance",
+    "stem": "A circuit contains two resistors connected in parallel with resistances of 4 ohm and 10 ohm. What is the total equivalent resistance of this parallel combination?",
+    "options": [
+      {
+        "id": "a",
+        "text": "6 ohm",
+        "is_correct": false,
+        "misconception_ids": [
+          "parallel_resistance_adds"
+        ]
+      },
+      {
+        "id": "b",
+        "text": "3.64 ohm",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "c",
+        "text": "14 ohm",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "d",
+        "text": "2.86 ohm",
+        "is_correct": true,
+        "misconception_ids": []
+      }
+    ],
+    "difficulty_prior": 3,
+    "source": "generated"
+  },
+  {
+    "id": "g_electric_power_7",
+    "concept_id": "electric_power",
+    "stem": "A circuit has a voltage of 9 V and a current of 2 A. What is the electric power consumed by the circuit?",
+    "options": [
+      {
+        "id": "a",
+        "text": "18 W",
+        "is_correct": true,
+        "misconception_ids": []
+      },
+      {
+        "id": "b",
+        "text": "4.5 W",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "c",
+        "text": "27 W",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "d",
+        "text": "11 W",
+        "is_correct": false,
+        "misconception_ids": []
+      }
+    ],
+    "difficulty_prior": 3,
+    "source": "generated"
+  },
+  {
+    "id": "g_ohms_law_8",
+    "concept_id": "ohms_law",
+    "stem": "A resistor with a resistance of 5 ohm is connected to a battery. If the current flowing through the resistor is 1 A, what is the potential difference across the resistor?",
+    "options": [
+      {
+        "id": "a",
+        "text": "5 V",
+        "is_correct": true,
+        "misconception_ids": []
+      },
+      {
+        "id": "b",
+        "text": "1 V",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "c",
+        "text": "6 V",
+        "is_correct": false,
+        "misconception_ids": []
+      },
+      {
+        "id": "d",
+        "text": "4 V",
+        "is_correct": false,
+        "misconception_ids": []
+      }
+    ],
+    "difficulty_prior": 2,
+    "source": "generated"
+  }
+]

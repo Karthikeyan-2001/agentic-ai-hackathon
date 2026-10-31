@@ -1,5 +1,6 @@
 import { BrowserRouter, NavLink, Route, Routes } from 'react-router-dom'
 import { StudentPage } from './pages/StudentPage'
+import { TeacherPage } from './pages/TeacherPage'
 
 const navClass = ({ isActive }: { isActive: boolean }) =>
   `rounded-md px-3 py-2 text-sm font-semibold ${isActive ? 'bg-accent text-white' : 'text-ink hover:bg-none'}`
@@ -17,12 +18,16 @@ export default function App() {
             <NavLink to="/" end className={navClass}>
               Student
             </NavLink>
+            <NavLink to="/teacher" className={navClass}>
+              Teacher
+            </NavLink>
           </nav>
         </div>
       </header>
       <main>
         <Routes>
           <Route path="/" element={<StudentPage />} />
+          <Route path="/teacher" element={<TeacherPage />} />
         </Routes>
       </main>
     </BrowserRouter>

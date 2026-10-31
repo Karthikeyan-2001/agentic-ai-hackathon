@@ -71,7 +71,7 @@ export interface StudentState {
 export interface ClassSummary {
   heatmap: {
     concepts: { id: string; name: string }[]
-    students: { id: string; name: string; mastery: Record<string, number> }[]
+    students: { id: string; name: string; mastery: Record<string, number | null> }[]
   }
   groups: { misconception_id: string; description: string; students: { id: string; name: string }[] }[]
   root_causes: { concept_id: string; name: string; student_count: number; affects: string[] }[]

@@ -41,7 +41,7 @@ export function ThinkingPanel({ next, result }: Props) {
   const reason = result?.next_reason ?? next?.reason
 
   return (
-    <aside className="rounded-lg border border-line bg-card p-5">
+    <aside className="self-start rounded-lg border border-line bg-card p-5">
       <h2 className="font-semibold">What the agent is thinking</h2>
 
       <h3 className="mt-4 text-xs font-semibold tracking-wide text-mute uppercase">Current explanations</h3>
