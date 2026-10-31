@@ -87,4 +87,11 @@ def load_content(content_dir: Path) -> Content:
         questions=_load_items(content_dir / "questions.json", Question),
     )
     _check_references(content)
+    generated_path = content_dir / "generated_questions.json"
+    if generated_path.exists():
+        for question in _load_items(generated_path, Question).values():
+            if question.id in content.questions:
+                raise ContentError(f"{generated_path.name}: duplicate item {question.id}")
+            check_question(question, content, generated_path.name)
+            content.questions[question.id] = question
     return content

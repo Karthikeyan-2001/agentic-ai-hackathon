@@ -82,6 +82,23 @@ def test_rejects_invalid_json_names_file(tmp_path):
     assert "questions.json" in str(error.value)
 
 
+def test_merges_generated_questions_when_present(tmp_path):
+    write(tmp_path)
+    generated = question(id="g1")
+    generated["source"] = "generated"
+    (tmp_path / "generated_questions.json").write_text(json.dumps([generated]))
+    content = load_content(tmp_path)
+    assert set(content.questions) == {"q1", "g1"}
+
+
+def test_rejects_malformed_generated_question_names_file(tmp_path):
+    write(tmp_path)
+    (tmp_path / "generated_questions.json").write_text(json.dumps([question(id="g1", concept_id="ghost")]))
+    with pytest.raises(ContentError) as error:
+        load_content(tmp_path)
+    assert "generated_questions.json" in str(error.value)
+
+
 def test_rejects_invalid_item_names_file_and_item(tmp_path):
     bad = question()
     bad["difficulty_prior"] = 9
