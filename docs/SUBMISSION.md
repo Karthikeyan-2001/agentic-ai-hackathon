@@ -8,8 +8,7 @@
 | **Team members** | Karthikeyan, Nandini |
 | **Project name** | Differential (from "differential diagnosis") |
 | **Syllabus** | Class 10 Computer Science (Python Programming assessed) |
-| **Repository** | https://github.com/Karthikeyan-2001/agentic-ai-hackathon |
-| **Demo video** | _Add link before submitting_ |
+| **GitHub repository** | [https://github.com/Karthikeyan-2001/agentic-ai-hackathon](https://github.com/Karthikeyan-2001/agentic-ai-hackathon) |
 | **PDF documentation** | [Differential-Works-Locally-Hackathon-Submission.pdf](Differential-Works-Locally-Hackathon-Submission.pdf) |
 
 ---
@@ -123,8 +122,6 @@ The app includes a **guided demo** (about 4 minutes) that switches accounts and 
 8. **Teacher** sees class-wide gaps and drafts the Monday plan.
 9. **Close** shows the accuracy result and how it was measured.
 
-The narration and timings are in [`docs/demo-video-script.md`](demo-video-script.md).
-
 ### Demo accounts (mock, local only)
 
 | Role | Username | Password |
@@ -140,6 +137,15 @@ The teacher dashboard uses a **simulated class of 30 made-up students** to show 
 ## 7. How to run it
 
 You need Python 3.12 or later, Node 20 or later, and [Ollama](https://ollama.com) running locally. On macOS or Linux, use `.venv/bin` instead of `.venv/Scripts`.
+
+Get the code from [GitHub](https://github.com/Karthikeyan-2001/agentic-ai-hackathon):
+
+```bash
+git clone https://github.com/Karthikeyan-2001/agentic-ai-hackathon.git
+```
+```bash
+cd agentic-ai-hackathon
+```
 
 ```bash
 ollama pull qwen3.5:9b
