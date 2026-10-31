@@ -2,6 +2,8 @@
 
 A Class 10 Python programming tutor that diagnoses a student's reasoning, not just their final answer. It works like a doctor: it forms competing explanations for a mistake, then asks the question that best separates them.
 
+Built by team **Works Locally** (Karthikeyan and Nandini) for the Product Space AI Hackathon. The submission document is [docs/SUBMISSION.md](docs/SUBMISSION.md).
+
 ## The idea in one example
 
 Three students answer: *"How many times does the body of `for i in range(1, 5):` run?"*

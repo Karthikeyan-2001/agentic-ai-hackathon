@@ -1,0 +1,813 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Differential: Hackathon Submission</title>
+<style>
+  @page { size: A4; margin: 18mm 16mm 18mm 16mm; }
+  :root {
+    --ink: #1c2526; --muted: #5b6668; --line: #d9dedd; --soft: #f3f5f4;
+    --teal: #0f5a60; --teal-soft: #e3f0ef; --red: #a8322a; --red-soft: #f8e4e1;
+    --amber: #8a5a00; --amber-soft: #fbefd6; --green: #23663d; --green-soft: #e1f0e6;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body { font-family: "Inter", "Helvetica Neue", Arial, sans-serif; color: var(--ink); font-size: 9.7pt; line-height: 1.45; margin: 0; background: #fff; }
+  h1, h2, h3 { line-height: 1.2; margin: 0; }
+  h2 { font-size: 18pt; color: var(--teal); margin: 0 0 4mm; padding-bottom: 2mm; border-bottom: 2px solid var(--teal); }
+  h3 { font-size: 12pt; margin: 4mm 0 2mm; page-break-after: avoid; break-after: avoid; }
+  th code { background: transparent; color: #fff; padding: 0; }
+  p { margin: 0 0 2.6mm; }
+  ul, ol { margin: 0 0 3mm; padding-left: 5.5mm; }
+  li { margin-bottom: 1mm; }
+  code { font-family: "JetBrains Mono", "DejaVu Sans Mono", Menlo, monospace; font-size: 8.8pt; background: var(--soft); padding: 0.3mm 1.2mm; border-radius: 3px; }
+  pre { font-family: "DejaVu Sans Mono", Menlo, monospace; font-size: 8.6pt; background: var(--soft); border: 1px solid var(--line); border-radius: 6px; padding: 3mm 4mm; margin: 0 0 3mm; white-space: pre-wrap; }
+  table { width: 100%; border-collapse: collapse; margin: 0 0 4mm; font-size: 9pt; page-break-inside: auto; }
+  tr { page-break-inside: avoid; }
+  th { text-align: left; background: var(--teal); color: #fff; font-weight: 600; padding: 1.8mm 2.4mm; }
+  td { padding: 1.5mm 2.4mm; border-bottom: 1px solid var(--line); vertical-align: top; }
+  tbody tr:nth-child(even) td { background: #fafbfb; }
+  .section { page-break-before: always; }
+  .keep { page-break-inside: avoid; }
+  .muted { color: var(--muted); }
+  .small { font-size: 8.6pt; }
+  .callout { background: var(--teal-soft); border-left: 4px solid var(--teal); padding: 3mm 4mm; border-radius: 0 6px 6px 0; margin: 0 0 4mm; }
+  .callout.warn { background: var(--amber-soft); border-left-color: var(--amber); }
+  .callout b:first-child { color: var(--teal); }
+  .callout.warn b:first-child { color: var(--amber); }
+  figure { margin: 0 0 5mm; page-break-inside: avoid; }
+  figure img { width: 100%; border: 1px solid var(--line); border-radius: 6px; display: block; }
+  figcaption { font-size: 8.6pt; color: var(--muted); margin-top: 1.5mm; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 4mm; }
+  .card { border: 1px solid var(--line); border-radius: 8px; padding: 3.5mm 4mm; page-break-inside: avoid; }
+  .card h4 { margin: 0 0 1.5mm; font-size: 10.5pt; color: var(--teal); }
+  .pill { display: inline-block; font-size: 7.8pt; font-weight: 600; padding: 0.4mm 2mm; border-radius: 99px; background: var(--teal-soft); color: var(--teal); }
+  .pill.llm { background: var(--amber-soft); color: var(--amber); }
+  .pill.wrong { background: var(--red-soft); color: var(--red); }
+  .pill.right { background: var(--green-soft); color: var(--green); }
+  svg text { font-family: "Inter", "Helvetica Neue", Arial, sans-serif; }
+
+  /* Cover */
+  .cover { height: 258mm; display: flex; flex-direction: column; justify-content: space-between; }
+  .cover .brand { font-weight: 700; font-size: 13pt; color: var(--teal); letter-spacing: 0.02em; }
+  .cover h1 { font-size: 44pt; letter-spacing: -0.02em; margin: 0 0 3mm; }
+  .cover .tag { font-size: 17pt; color: var(--muted); line-height: 1.3; margin-bottom: 8mm; }
+  .cover .meta { width: 100%; font-size: 10pt; }
+  .cover .meta td { border-bottom: 1px solid var(--line); padding: 2.4mm 0; background: none !important; }
+  .cover .meta td:first-child { color: var(--muted); width: 42mm; }
+  .cover .team { display: flex; gap: 4mm; margin-top: 6mm; }
+  .cover .team div { flex: 1; border: 1px solid var(--line); border-radius: 8px; padding: 4mm; }
+  .cover .team b { font-size: 13pt; display: block; }
+  .toc { columns: 2; column-gap: 10mm; font-size: 10pt; }
+  .toc div { margin-bottom: 1.4mm; break-inside: avoid; }
+  .toc span { color: var(--teal); font-weight: 700; display: inline-block; width: 7mm; }
+</style>
+</head>
+<body>
+
+<!-- ============ COVER ============ -->
+<div class="cover">
+  <div>
+    <div class="brand">PRODUCT SPACE AI HACKATHON · SUBMISSION</div>
+  </div>
+  <div>
+    <h1>Differential</h1>
+    <div class="tag">An adaptive exam-prep tutor with a learner model.<br>It knows the answer was wrong, and it knows <i>why</i>.</div>
+    <table class="meta">
+      <tr><td>Problem statement</td><td><b>Adaptive exam-prep tutor with a learner model</b></td></tr>
+      <tr><td>Team name</td><td><b>Works Locally</b></td></tr>
+      <tr><td>Syllabus</td><td>Class 10 Computer Science, with Python Programming fully assessed</td></tr>
+      <tr><td>Runs on</td><td>One PC, with a local LLM (<code>qwen3.5:9b</code> on Ollama). No cloud, and no student data leaves the machine</td></tr>
+      <tr><td>Repository</td><td>github.com/Karthikeyan-2001/agentic-ai-hackathon</td></tr>
+      <tr><td>Demo video</td><td class="muted">Link to be added</td></tr>
+    </table>
+    <div class="team">
+      <div><span class="muted small">Team member</span><b>Karthikeyan</b></div>
+      <div><span class="muted small">Team member</span><b>Nandini</b></div>
+    </div>
+  </div>
+  <div>
+    <h3 style="margin-top:0">Contents</h3>
+    <div class="toc">
+      <div><span>1</span>The problem and our idea</div>
+      <div><span>2</span>Requirements and how we met them</div>
+      <div><span>3</span>System architecture</div>
+      <div><span>4</span>What happens on every answer</div>
+      <div><span>5</span>The learner model</div>
+      <div><span>6</span>Misconception detection</div>
+      <div><span>7</span>Choosing and generating questions</div>
+      <div><span>8</span>Spaced repetition</div>
+      <div><span>9</span>Student experience</div>
+      <div><span>10</span>Teacher dashboard</div>
+      <div><span>11</span>Evaluation and testing</div>
+      <div><span>12</span>Guided demo walkthrough</div>
+      <div><span>13</span>Running the project</div>
+      <div><span>14</span>Limits and next steps</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 1. PROBLEM ============ -->
+<div class="section">
+  <h2>1. The problem and our idea</h2>
+  <p>Generic AI tutors answer questions, but they don't track what a student actually understands. Most quiz tools also look only at the final answer. Yet the same wrong answer can come from completely different misunderstandings, and a right answer can hide a wrong belief that will break on the next problem.</p>
+
+  <p><b>Differential</b> is a Class 10 Python Programming tutor that reads the student's <b>reasoning</b>, not just the answer. Its name comes from a doctor's <i>differential diagnosis</i>: when a student makes a mistake, it forms competing explanations, then asks the question that best separates them.</p>
+
+  <h3>One question, three students, three different problems</h3>
+  <p>Every student is asked: <i>"How many times does the body of <code>for i in range(1, 5):</code> run?"</i> (Correct answer: 4 times.)</p>
+  <table>
+    <thead><tr><th>Student</th><th>Answer</th><th>Their reasoning</th><th>Differential's diagnosis</th><th>Mastery</th><th>Next question tests</th></tr></thead>
+    <tbody>
+      <tr><td><b>A</b></td><td>5 times <span class="pill wrong">Wrong</span></td><td>"It counts up to and including 5"</td><td>Thinks <code>range</code> includes its stop value</td><td>Falls</td><td>The last number printed by <code>range(3, 7)</code></td></tr>
+      <tr><td><b>B</b></td><td>5 times <span class="pill wrong">Wrong</span></td><td>"The 5 says how many times"</td><td>Thinks the stop value is the number of repeats</td><td>Falls</td><td>How many times <code>range(4, 6)</code> runs</td></tr>
+      <tr><td><b>C</b></td><td>4 times <span class="pill right">Right</span></td><td>"It is always one less than the stop number"</td><td>Right answer, wrong reason</td><td>Unchanged</td><td>How many times <code>range(3, 8)</code> runs</td></tr>
+    </tbody>
+  </table>
+  <p>An answer-only tutor treats A and B the same and gives C full marks. Differential gives A and B different diagnoses and different follow-up questions, and it gives C no credit until the reasoning holds up on a loop that doesn't start at 1.</p>
+
+  <figure style="width:88%;margin-left:auto;margin-right:auto">
+    <img src="images/diagnosis.jpg" alt="Student A diagnosis on the landing page">
+    <figcaption>Figure 1. Student A's diagnosis, recorded from a real run on the local model. The tutor quotes the student's words, lowers mastery from 30% to 5%, keeps two explanations open (72% and 24%), and picks a question to separate them.</figcaption>
+  </figure>
+
+  <div class="callout"><b>Our main design rule: the LLM interprets and the code decides.</b> The language model only reads the student's reasoning and returns structured data. Tested, deterministic code marks every answer, changes every score and chooses every question. Code written by the LLM is never run. This makes every number on screen explainable and testable.</div>
+</div>
+
+<!-- ============ 2. REQUIREMENTS ============ -->
+<div class="section">
+  <h2>2. Requirements and how we met them</h2>
+  <p>The brief asked for seven things. All seven work in the running app and appear in the guided demo (section 12).</p>
+  <table>
+    <thead><tr><th style="width:4%">#</th><th style="width:20%">Requirement</th><th>What we built</th><th style="width:22%">Where in the code</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td><b>Diagnostic test</b></td><td>An 8-question <b>adaptive</b> diagnostic. Each question goes to the concept the tutor is least certain about (mastery closest to 50%), with ties going to the concept the most other concepts depend on. Every answer needs written reasoning and a "Sure" / "Not sure" confidence tap.</td><td><code>engine/selection.py</code></td></tr>
+      <tr><td>2</td><td><b>Concept graph for one syllabus</b></td><td>29 concepts across Class 10 Computer Science, linked by prerequisites: Python Programming (12), Computer Networks (6), Web Pages with HTML (6) and Cyber Ethics (5). A test makes sure the graph has no cycles. Python is assessed; other chapters show as "not assessed".</td><td><code>content/concepts.json</code><br><code>engine/graph.py</code></td></tr>
+      <tr><td>3</td><td><b>Learner model updated after every answer</b></td><td>Bayesian Knowledge Tracing per concept, with slip and guess values that depend on the <i>diagnosis</i>, not just correctness. Changes spread to prerequisites up to two links away. Each misconception has its own probability and status.</td><td><code>engine/mastery.py</code><br><code>engine/misconceptions.py</code></td></tr>
+      <tr><td>4</td><td><b>Question generation targeted at weak concepts, with difficulty calibration</b></td><td>Code picks the target (suspected misconception, due review, or weakest ready concept), then the question closest to a 60% chance of success. Generated questions use fixed program templates: the LLM writes only the wording and options, code computes the answer and rejects bad questions. Elo ratings for students and questions update after every answer.</td><td><code>engine/selection.py</code><br><code>engine/elo.py</code><br><code>agent/generate.py</code><br><code>agent/solvers.py</code></td></tr>
+      <tr><td>5</td><td><b>Misconception detection from reasoning</b></td><td>The LLM classifies the written reasoning into an error type and matches it against a catalogue of 8 Python misconceptions. It must quote the student's own words; code checks that the quote really appears in the text.</td><td><code>agent/diagnose.py</code><br><code>content/misconceptions.json</code></td></tr>
+      <tr><td>6</td><td><b>Spaced-repetition scheduling</b></td><td>A forgetting curve for each concept and each cleared misconception. A review comes due when predicted recall drops below 85%. A <b>Jump 7 days</b> button moves the app clock for the demo.</td><td><code>engine/scheduling.py</code></td></tr>
+      <tr><td>7</td><td><b>Teacher dashboard of class-wide gaps</b></td><td>Class summary, biggest gaps, reviews due, shared misconceptions, root causes, a student-by-concept heatmap, difficulty surprises from Elo and an AI-drafted Monday lesson plan. Always labelled "Simulated class".</td><td><code>engine/class_summary.py</code><br><code>agent/plan.py</code><br><code>web/src/pages/TeacherPage.tsx</code></td></tr>
+    </tbody>
+  </table>
+
+  <h3>Beyond the brief</h3>
+  <ul>
+    <li><b>Separating explanations:</b> when two misconceptions are both possible, code picks the question whose options split them apart, like a doctor ordering the test that rules one out.</li>
+    <li><b>"Right answer, wrong reason":</b> a correct answer with flawed reasoning earns no mastery.</li>
+    <li><b>Thinking panel:</b> the student sees the explanations the tutor is weighing and why it chose the next question.</li>
+    <li><b>Root causes:</b> the dashboard traces low scores back to the earliest weak prerequisite behind them.</li>
+    <li><b>Fully local and private:</b> the model runs on the team's own PC, so the tutor works offline.</li>
+    <li><b>Measured accuracy</b> on held-out test cases, reported honestly (section 11).</li>
+  </ul>
+</div>
+
+<!-- ============ 3. ARCHITECTURE ============ -->
+<div class="section">
+  <h2>3. System architecture</h2>
+  <p>Differential is one Python service. FastAPI serves both the API and the built React app, so there is a single process to start. The LLM is reached through one file, <code>agent/llm.py</code>, so changing provider changes one file.</p>
+
+  <figure class="keep">
+  <svg viewBox="0 0 760 330" width="100%">
+    <defs>
+      <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#5b6668"/></marker>
+    </defs>
+    <!-- browser -->
+    <rect x="10" y="20" width="160" height="120" rx="10" fill="#e3f0ef" stroke="#0f5a60"/>
+    <text x="90" y="44" text-anchor="middle" font-weight="700" font-size="14" fill="#0f5a60">React web app</text>
+    <text x="90" y="66" text-anchor="middle" font-size="11" fill="#1c2526">Landing page</text>
+    <text x="90" y="82" text-anchor="middle" font-size="11" fill="#1c2526">Student app</text>
+    <text x="90" y="98" text-anchor="middle" font-size="11" fill="#1c2526">Teacher dashboard</text>
+    <text x="90" y="114" text-anchor="middle" font-size="11" fill="#1c2526">Guided demo bar</text>
+    <text x="90" y="130" text-anchor="middle" font-size="10" fill="#5b6668">web/</text>
+    <!-- api -->
+    <rect x="215" y="20" width="160" height="120" rx="10" fill="#fff" stroke="#0f5a60"/>
+    <text x="295" y="44" text-anchor="middle" font-weight="700" font-size="14" fill="#0f5a60">FastAPI</text>
+    <text x="295" y="66" text-anchor="middle" font-size="11">REST routes</text>
+    <text x="295" y="82" text-anchor="middle" font-size="11">Role checks per request</text>
+    <text x="295" y="98" text-anchor="middle" font-size="11">Persistence</text>
+    <text x="295" y="114" text-anchor="middle" font-size="11">Serves built React app</text>
+    <text x="295" y="130" text-anchor="middle" font-size="10" fill="#5b6668">api/</text>
+    <!-- agent -->
+    <rect x="420" y="20" width="160" height="120" rx="10" fill="#fff" stroke="#0f5a60"/>
+    <text x="500" y="44" text-anchor="middle" font-weight="700" font-size="14" fill="#0f5a60">Agent loop</text>
+    <text x="500" y="66" text-anchor="middle" font-size="11">Diagnosis + validation</text>
+    <text x="500" y="82" text-anchor="middle" font-size="11">Question generation</text>
+    <text x="500" y="98" text-anchor="middle" font-size="11">Solvers (code answers)</text>
+    <text x="500" y="114" text-anchor="middle" font-size="11">Lesson plan</text>
+    <text x="500" y="130" text-anchor="middle" font-size="10" fill="#5b6668">agent/</text>
+    <!-- ollama -->
+    <rect x="620" y="20" width="130" height="120" rx="10" fill="#fbefd6" stroke="#8a5a00"/>
+    <text x="685" y="44" text-anchor="middle" font-weight="700" font-size="14" fill="#8a5a00">Ollama</text>
+    <text x="685" y="66" text-anchor="middle" font-size="11">qwen3.5:9b</text>
+    <text x="685" y="82" text-anchor="middle" font-size="11">Local GPU</text>
+    <text x="685" y="98" text-anchor="middle" font-size="11">Temperature 0</text>
+    <text x="685" y="114" text-anchor="middle" font-size="11">JSON schema output</text>
+    <text x="685" y="130" text-anchor="middle" font-size="10" fill="#5b6668">via agent/llm.py only</text>
+    <line x1="170" y1="80" x2="213" y2="80" stroke="#5b6668" stroke-width="1.6" marker-end="url(#arr)"/>
+    <line x1="375" y1="80" x2="418" y2="80" stroke="#5b6668" stroke-width="1.6" marker-end="url(#arr)"/>
+    <line x1="580" y1="80" x2="618" y2="80" stroke="#5b6668" stroke-width="1.6" marker-end="url(#arr)"/>
+    <!-- engine -->
+    <rect x="300" y="195" width="280" height="120" rx="10" fill="#e3f0ef" stroke="#0f5a60" stroke-width="1.6"/>
+    <text x="440" y="219" text-anchor="middle" font-weight="700" font-size="14" fill="#0f5a60">Engine (pure functions)</text>
+    <text x="440" y="241" text-anchor="middle" font-size="11">Mastery (BKT) · Graph propagation</text>
+    <text x="440" y="257" text-anchor="middle" font-size="11">Misconception probabilities · Scheduling</text>
+    <text x="440" y="273" text-anchor="middle" font-size="11">Elo calibration · Next-question selection</text>
+    <text x="440" y="289" text-anchor="middle" font-size="11">Class summary</text>
+    <text x="440" y="306" text-anchor="middle" font-size="10" fill="#5b6668">engine/ · no LLM, database, network or clock</text>
+    <!-- storage -->
+    <rect x="20" y="195" width="230" height="120" rx="10" fill="#fff" stroke="#0f5a60"/>
+    <text x="135" y="219" text-anchor="middle" font-weight="700" font-size="14" fill="#0f5a60">Storage</text>
+    <text x="135" y="241" text-anchor="middle" font-size="11">SQLite: students, concept and</text>
+    <text x="135" y="257" text-anchor="middle" font-size="11">misconception state, answers,</text>
+    <text x="135" y="273" text-anchor="middle" font-size="11">Elo, LLM cache, app clock</text>
+    <text x="135" y="289" text-anchor="middle" font-size="11">Content JSON (graph, questions)</text>
+    <text x="135" y="306" text-anchor="middle" font-size="10" fill="#5b6668">content/ · api/models.py</text>
+    <line x1="500" y1="140" x2="470" y2="193" stroke="#5b6668" stroke-width="1.6" marker-end="url(#arr)"/>
+    <line x1="295" y1="140" x2="190" y2="193" stroke="#5b6668" stroke-width="1.6" marker-end="url(#arr)"/>
+    <line x1="340" y1="140" x2="380" y2="193" stroke="#5b6668" stroke-width="1.6" marker-end="url(#arr)"/>
+  </svg>
+  <figcaption>Figure 2. System architecture. Only <code>agent/llm.py</code> talks to the model. The engine is pure, so every formula is unit-tested and time is passed in, which also powers the "Jump 7 days" demo clock.</figcaption>
+  </figure>
+
+  <h3>Folder ownership</h3>
+  <table>
+    <thead><tr><th style="width:16%">Folder</th><th>Owns</th></tr></thead>
+    <tbody>
+      <tr><td><code>content/</code></td><td>Concept graph, misconception catalogue, 12 hand-checked seed questions, 20 pre-generated questions, 40 evaluation samples, demo script</td></tr>
+      <tr><td><code>engine/</code></td><td>Mastery, misconceptions, scheduling, Elo, graph, selection, class summary. Pure code with no LLM, database, network or system clock</td></tr>
+      <tr><td><code>agent/</code></td><td>LLM client, diagnosis, question generation, solvers, lesson plan, the agent loop</td></tr>
+      <tr><td><code>api/</code></td><td>Database tables, persistence, routes, mock sign-in and role checks</td></tr>
+      <tr><td><code>scripts/</code></td><td>Seeding the simulated class, pre-generating questions, evaluation, demo warm-up</td></tr>
+      <tr><td><code>web/</code></td><td>React app: landing page, sign-in, student app, teacher dashboard, guided demo</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Technology</h3>
+  <table>
+    <thead><tr><th style="width:16%">Layer</th><th>Choice</th></tr></thead>
+    <tbody>
+      <tr><td>Backend</td><td>Python 3.12+, FastAPI, Uvicorn, SQLModel on SQLite, Pydantic</td></tr>
+      <tr><td>LLM</td><td>Ollama with <code>qwen3.5:9b</code>: thinking off, temperature 0, 8192-token context, kept loaded, 30-second timeout, up to two retries, every reply validated against a schema and cached</td></tr>
+      <tr><td>Frontend</td><td>React 19, Vite, TypeScript, Tailwind CSS, React Flow with Dagre for the concept graph</td></tr>
+      <tr><td>Tests</td><td>pytest and httpx, with a fake LLM for fast deterministic tests and a separate live-model test run</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ============ 4. FLOW PER ANSWER ============ -->
+<div class="section">
+  <h2>4. What happens on every answer</h2>
+  <p>This is the core flow of the product. Each time a student submits an answer, the agent loop runs six steps. Only one of them uses the LLM.</p>
+
+  <figure class="keep">
+  <svg viewBox="0 0 760 210" width="100%">
+    <defs>
+      <marker id="a2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#5b6668"/></marker>
+    </defs>
+    <g font-size="11">
+      <rect x="5" y="10" width="112" height="110" rx="10" fill="#fff" stroke="#0f5a60"/>
+      <text x="61" y="32" text-anchor="middle" font-size="10" fill="#0f5a60" font-weight="700">1 · CODE</text>
+      <text x="61" y="52" text-anchor="middle" font-size="14" font-weight="700">Check</text>
+      <text x="61" y="74" text-anchor="middle">Marks the chosen</text><text x="61" y="88" text-anchor="middle">option right or</text><text x="61" y="102" text-anchor="middle">wrong</text>
+
+      <rect x="132" y="10" width="112" height="110" rx="10" fill="#fbefd6" stroke="#8a5a00"/>
+      <text x="188" y="32" text-anchor="middle" font-size="10" fill="#8a5a00" font-weight="700">2 · LOCAL LLM</text>
+      <text x="188" y="52" text-anchor="middle" font-size="14" font-weight="700">Diagnose</text>
+      <text x="188" y="74" text-anchor="middle">Reads reasoning,</text><text x="188" y="88" text-anchor="middle">returns error type,</text><text x="188" y="102" text-anchor="middle">misconception, quote</text>
+
+      <rect x="259" y="10" width="112" height="110" rx="10" fill="#fff" stroke="#0f5a60"/>
+      <text x="315" y="32" text-anchor="middle" font-size="10" fill="#0f5a60" font-weight="700">3 · CODE</text>
+      <text x="315" y="52" text-anchor="middle" font-size="14" font-weight="700">Validate</text>
+      <text x="315" y="74" text-anchor="middle">Quote must be in</text><text x="315" y="88" text-anchor="middle">student's words; ID</text><text x="315" y="102" text-anchor="middle">must be in catalogue</text>
+
+      <rect x="386" y="10" width="112" height="110" rx="10" fill="#fff" stroke="#0f5a60"/>
+      <text x="442" y="32" text-anchor="middle" font-size="10" fill="#0f5a60" font-weight="700">4 · CODE</text>
+      <text x="442" y="52" text-anchor="middle" font-size="14" font-weight="700">Update</text>
+      <text x="442" y="74" text-anchor="middle">Mastery, graph,</text><text x="442" y="88" text-anchor="middle">misconceptions,</text><text x="442" y="102" text-anchor="middle">schedule, Elo</text>
+
+      <rect x="513" y="10" width="112" height="110" rx="10" fill="#fff" stroke="#0f5a60"/>
+      <text x="569" y="32" text-anchor="middle" font-size="10" fill="#0f5a60" font-weight="700">5 · CODE</text>
+      <text x="569" y="52" text-anchor="middle" font-size="14" font-weight="700">Decide</text>
+      <text x="569" y="74" text-anchor="middle">Chooses the next</text><text x="569" y="88" text-anchor="middle">question by fixed</text><text x="569" y="102" text-anchor="middle">priority rules</text>
+
+      <rect x="640" y="10" width="112" height="110" rx="10" fill="#e3f0ef" stroke="#0f5a60"/>
+      <text x="696" y="32" text-anchor="middle" font-size="10" fill="#0f5a60" font-weight="700">6 · CODE</text>
+      <text x="696" y="52" text-anchor="middle" font-size="14" font-weight="700">Explain</text>
+      <text x="696" y="74" text-anchor="middle">Trace shown in</text><text x="696" y="88" text-anchor="middle">the student's</text><text x="696" y="102" text-anchor="middle">thinking panel</text>
+
+      <line x1="117" y1="65" x2="130" y2="65" stroke="#5b6668" stroke-width="1.6" marker-end="url(#a2)"/>
+      <line x1="244" y1="65" x2="257" y2="65" stroke="#5b6668" stroke-width="1.6" marker-end="url(#a2)"/>
+      <line x1="371" y1="65" x2="384" y2="65" stroke="#5b6668" stroke-width="1.6" marker-end="url(#a2)"/>
+      <line x1="498" y1="65" x2="511" y2="65" stroke="#5b6668" stroke-width="1.6" marker-end="url(#a2)"/>
+      <line x1="625" y1="65" x2="638" y2="65" stroke="#5b6668" stroke-width="1.6" marker-end="url(#a2)"/>
+
+      <path d="M188,120 L188,160 L61,160 L61,122" fill="none" stroke="#a8322a" stroke-dasharray="4 3" stroke-width="1.4" marker-end="url(#a2)"/>
+      <text x="196" y="178" font-size="10.5" fill="#a8322a">If the LLM is down, slow or invalid after 2 retries: the answer is still saved and scored</text>
+      <text x="196" y="193" font-size="10.5" fill="#a8322a">from the chosen option alone (as "unclear"), and the student sees a small notice.</text>
+    </g>
+  </svg>
+  <figcaption>Figure 3. The agent loop for one answer. Teal steps are deterministic code; the amber step is the only LLM call.</figcaption>
+  </figure>
+
+  <h3>Step by step</h3>
+  <ol>
+    <li><b>Check.</b> Each option in the question bank has an <code>is_correct</code> flag. Code compares the student's option. The LLM never marks answers.</li>
+    <li><b>Diagnose.</b> The local LLM receives the question, the chosen option, whether it was correct, the student's reasoning and the misconception catalogue. It returns JSON matching a fixed schema: <code>error_type</code>, <code>misconception_id</code>, <code>first_wrong_step</code>, <code>evidence_quote</code> and <code>confidence</code>.</li>
+    <li><b>Validate.</b> Code rejects anything it can't verify: the quote must appear in the student's text, the misconception ID must be in the catalogue, and diagnoses below 60% confidence are treated as "unclear".</li>
+    <li><b>Update.</b> The engine updates concept mastery (section 5), spreads the change to prerequisites, updates each misconception's probability, reschedules reviews (section 8) and updates Elo ratings for the student and the question.</li>
+    <li><b>Decide.</b> The engine chooses the next question with fixed priority rules (section 7).</li>
+    <li><b>Explain.</b> The response carries a trace: the explanations being weighed, their probabilities and why the next question was chosen. The student sees this in the "What the agent is thinking" panel.</li>
+  </ol>
+
+  <h3>Answer response (from <code>POST /api/students/{id}/answers</code>)</h3>
+  <table>
+    <thead><tr><th style="width:26%">Field</th><th>Meaning</th></tr></thead>
+    <tbody>
+      <tr><td><code>correct</code></td><td>Whether the chosen option was right (set by code)</td></tr>
+      <tr><td><code>diagnosis</code></td><td>The validated error type, misconception and quoted evidence</td></tr>
+      <tr><td><code>diagnosis_status</code></td><td><code>ok</code>, <code>cached</code> or <code>failed</code>, so the UI is honest about where the diagnosis came from</td></tr>
+      <tr><td><code>mastery_changes</code>, <code>misconception_changes</code></td><td>Before and after values, shown on the result card</td></tr>
+      <tr><td><code>trace</code></td><td>The reasoning behind the next question, shown in the thinking panel</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ============ 5. LEARNER MODEL ============ -->
+<div class="section">
+  <h2>5. The learner model</h2>
+  <p>For each student, the learner model holds a <b>mastery</b> value for every concept and a <b>probability</b> for every misconception. Both update after every answer. All functions are pure and take the current time as an argument.</p>
+
+  <h3>5.1 Mastery: Bayesian Knowledge Tracing that listens to the reasoning</h3>
+  <p>Each concept starts at mastery 0.30 and stays between 0.01 and 0.99. The update uses standard Bayesian Knowledge Tracing:</p>
+  <pre>Correct:  p' = p(1-s) / ( p(1-s) + (1-p)g )
+Wrong:    p' = p·s   / ( p·s    + (1-p)(1-g) )
+Learning: p'' = p' + (1-p')·T</pre>
+  <p>The key idea is that the <b>slip (s)</b>, <b>guess (g)</b> and <b>learn (T)</b> values depend on the diagnosis, not just on right or wrong:</p>
+  <table>
+    <thead><tr><th>Answer</th><th>Diagnosis (<code>error_type</code>)</th><th>s</th><th>g</th><th>T</th><th>Starting from 0.5</th><th>Meaning</th></tr></thead>
+    <tbody>
+      <tr><td>Correct</td><td><code>none</code> (sound reasoning)</td><td>0.1</td><td>0.2</td><td>0.1</td><td>0.836</td><td>Real understanding: mastery rises</td></tr>
+      <tr><td>Correct</td><td><code>misconception</code>, <code>gap</code></td><td>0.1</td><td>0.9</td><td>0</td><td>0.500</td><td>Right for the wrong reason: no credit</td></tr>
+      <tr><td>Correct</td><td><code>slip</code>, <code>unclear</code></td><td>0.1</td><td>0.5</td><td>0</td><td>0.643</td><td>Partial credit</td></tr>
+      <tr><td>Wrong</td><td><code>misconception</code>, <code>gap</code>, <code>none</code>, <code>unclear</code></td><td>0.1</td><td>0.2</td><td>0</td><td>0.111</td><td>Mastery falls</td></tr>
+      <tr><td>Wrong</td><td><code>slip</code> (careless error)</td><td>0.6</td><td>0.2</td><td>0</td><td>0.429</td><td>Barely lowered</td></tr>
+    </tbody>
+  </table>
+
+  <h3>5.2 Spreading along the concept graph</h3>
+  <p>A mastery change of <i>d</i> also moves the concept's prerequisites, up to two links back: by <i>d × 0.3</i> per link when it rises, and <i>d × 0.1</i> per link when it falls. Failing "Nested loops" is mild evidence of weakness in "for loops with range", but succeeding at it is stronger evidence of strength.</p>
+
+  <figure class="keep">
+  <svg viewBox="0 0 760 250" width="100%">
+    <defs><marker id="a3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#8a9496"/></marker></defs>
+    <g font-size="10.5">
+      <g stroke="#8a9496" stroke-width="1.3" fill="none" marker-end="url(#a3)">
+        <path d="M108,125 L138,125"/>
+        <path d="M232,125 C255,125 255,70 278,70"/>
+        <path d="M232,125 C255,125 255,180 278,180"/>
+        <path d="M372,180 L398,180"/>
+        <path d="M492,180 L518,180"/>
+        <path d="M612,180 C630,180 630,215 646,215"/>
+        <path d="M372,70 L398,70"/>
+        <path d="M612,180 C630,180 630,145 646,145"/>
+        <path d="M372,70 C390,70 625,90 646,105"/>
+        <path d="M372,70 C440,30 520,30 646,35"/>
+        <path d="M492,70 C520,70 600,60 646,70"/>
+        <path d="M612,180 C630,180 630,75 646,72"/>
+        <path d="M372,70 C460,90 500,110 518,125"/>
+      </g>
+      <g>
+        <rect x="14" y="110" width="94" height="30" rx="6" fill="#e1f0e6" stroke="#23663d"/><text x="61" y="129" text-anchor="middle">Variables</text>
+        <rect x="138" y="110" width="94" height="30" rx="6" fill="#fbefd6" stroke="#8a5a00"/><text x="185" y="129" text-anchor="middle">Data types</text>
+        <rect x="278" y="55" width="94" height="30" rx="6" fill="#e1f0e6" stroke="#23663d"/><text x="325" y="74" text-anchor="middle">Arithmetic</text>
+        <rect x="278" y="165" width="94" height="30" rx="6" fill="#eceeee" stroke="#8a9496"/><text x="325" y="184" text-anchor="middle">Comparison</text>
+        <rect x="398" y="55" width="94" height="30" rx="6" fill="#e1f0e6" stroke="#23663d"/><text x="445" y="74" text-anchor="middle">Lists, indexing</text>
+        <rect x="398" y="165" width="94" height="30" rx="6" fill="#eceeee" stroke="#8a9496"/><text x="445" y="184" text-anchor="middle">if and else</text>
+        <rect x="518" y="110" width="94" height="30" rx="6" fill="#eceeee" stroke="#8a9496"/><text x="565" y="129" text-anchor="middle">Functions</text>
+        <rect x="518" y="165" width="94" height="30" rx="6" fill="#f8e4e1" stroke="#a8322a" stroke-width="1.8"/><text x="565" y="184" text-anchor="middle" font-weight="700">for with range</text>
+        <rect x="646" y="20" width="104" height="30" rx="6" fill="#fbefd6" stroke="#8a5a00"/><text x="698" y="39" text-anchor="middle">Running totals</text>
+        <rect x="646" y="57" width="104" height="30" rx="6" fill="#fbefd6" stroke="#8a5a00"/><text x="698" y="76" text-anchor="middle">Traversing a list</text>
+        <rect x="646" y="94" width="104" height="30" rx="6" fill="#f8e4e1" stroke="#a8322a"/><text x="698" y="113" text-anchor="middle">Nested loops</text>
+        <rect x="646" y="200" width="104" height="30" rx="6" fill="#fbefd6" stroke="#8a5a00"/><text x="698" y="219" text-anchor="middle">while loops</text>
+      </g>
+    </g>
+    <g font-size="10">
+      <rect x="14" y="225" width="12" height="12" rx="2" fill="#e1f0e6" stroke="#23663d"/><text x="31" y="235">strong (≥70%)</text>
+      <rect x="110" y="225" width="12" height="12" rx="2" fill="#fbefd6" stroke="#8a5a00"/><text x="127" y="235">partial (40–70%)</text>
+      <rect x="220" y="225" width="12" height="12" rx="2" fill="#f8e4e1" stroke="#a8322a"/><text x="237" y="235">weak (&lt;40%)</text>
+      <rect x="310" y="225" width="12" height="12" rx="2" fill="#eceeee" stroke="#8a9496"/><text x="327" y="235">not assessed</text>
+    </g>
+  </svg>
+  <figcaption>Figure 4. The Python Programming part of the concept graph (simplified), coloured for one example student. Arrows run from a prerequisite to the concept that needs it. The full graph has 29 concepts across four chapters.</figcaption>
+  </figure>
+
+  <h3>5.3 Misconception probabilities</h3>
+  <p>Each misconception starts at probability 0.05. The confidence tap sets a multiplier <i>k</i>: 1.0 for "Sure", 0.6 for "Not sure".</p>
+  <table>
+    <thead><tr><th>Event</th><th>Update</th></tr></thead>
+    <tbody>
+      <tr><td>Diagnosis names misconception <i>m</i> with confidence <i>c</i> ≥ 0.6</td><td><code>p += (1-p) × 0.7 × c × k</code></td></tr>
+      <tr><td>The chosen option maps to <i>m</i>, but the diagnosis didn't name it</td><td><code>p += (1-p) × 0.2 × k</code></td></tr>
+      <tr><td>Correct answer with sound reasoning on a question that has an option for <i>m</i></td><td><code>p × 0.5</code></td></tr>
+    </tbody>
+  </table>
+  <p>Status follows the probability: <span class="pill">inactive</span> below 0.2 → <span class="pill">candidate</span> 0.2–0.5 → <span class="pill">active</span> 0.5 and above → <span class="pill">resolved</span> when an active one falls below 0.2. A resolved misconception that climbs back to 0.5 becomes active again.</p>
+
+  <h3>5.4 Difficulty calibration with Elo</h3>
+  <p>Each student starts at 1500 Elo. Each question starts from its difficulty prior (1 → 1200, 2 → 1350, 3 → 1500, 4 → 1650, 5 → 1800). Expected success is <code>E = 1 / (1 + 10^((d − a)/400))</code>, and after each answer both ratings move by <code>32 × (actual − E)</code>. The dashboard flags a question when its rating has moved 150 or more from its prior after at least 10 attempts, so teachers can see questions that are harder or easier than expected.</p>
+</div>
+
+<!-- ============ 6. MISCONCEPTIONS ============ -->
+<div class="section">
+  <h2>6. Misconception detection from reasoning</h2>
+  <p>The brief asked for misconceptions to be detected from the <b>reasoning</b> in wrong answers, not just the wrong final answer. Differential does this in two layers: the local LLM reads the explanation, and code checks the LLM's work.</p>
+
+  <h3>6.1 The misconception catalogue (Python Programming)</h3>
+  <table>
+    <thead><tr><th style="width:32%">ID</th><th>The student believes…</th></tr></thead>
+    <tbody>
+      <tr><td><code>range_includes_stop</code></td><td><code>range(start, stop)</code> includes the stop value, so the loop reaches that number</td></tr>
+      <tr><td><code>range_stop_is_count</code></td><td>The stop value says how many times the loop runs, whatever the start value is</td></tr>
+      <tr><td><code>range_one_less_than_stop</code></td><td>A loop always runs one less time than its stop value, ignoring the start value</td></tr>
+      <tr><td><code>assignment_links_variables</code></td><td><code>b = a</code> links the two variables, so changing <code>a</code> later also changes <code>b</code></td></tr>
+      <tr><td><code>integer_division_rounds</code></td><td><code>//</code> rounds to the nearest whole number instead of dropping the part after the decimal point</td></tr>
+      <tr><td><code>string_plus_adds</code></td><td><code>+</code> adds digits as numbers even when they are strings in quotes</td></tr>
+      <tr><td><code>while_exits_mid_body</code></td><td>A <code>while</code> loop stops the moment its condition becomes false, skipping the rest of the body</td></tr>
+      <tr><td><code>index_starts_at_one</code></td><td>List indexes start at 1, so index 1 is the first item</td></tr>
+    </tbody>
+  </table>
+  <p>Each question option is mapped to the misconceptions that would lead a student to pick it. One option can map to several misconceptions, which is exactly why reading the reasoning matters: Students A and B pick the same option for different reasons.</p>
+
+  <h3>6.2 Error types</h3>
+  <table>
+    <thead><tr><th style="width:20%"><code>error_type</code></th><th>Meaning</th></tr></thead>
+    <tbody>
+      <tr><td><code>none</code></td><td>The reasoning is sound</td></tr>
+      <tr><td><code>misconception</code></td><td>The reasoning shows a catalogued false belief (must name which one)</td></tr>
+      <tr><td><code>slip</code></td><td>The reasoning is sound, with a careless or calculation error</td></tr>
+      <tr><td><code>gap</code></td><td>The student doesn't know, or guessed</td></tr>
+      <tr><td><code>unclear</code></td><td>The reasoning can't be judged from the text</td></tr>
+    </tbody>
+  </table>
+
+  <div class="keep"><h3>6.3 How code keeps the LLM honest</h3>
+  <div class="grid2">
+    <div class="card"><h4>Evidence must be real</h4>The LLM must quote the student's own words. If the quote doesn't appear in the student's text, code removes it and caps the confidence at 0.5.</div>
+    <div class="card"><h4>Uncertain means ask again</h4>A diagnosis below 0.6 confidence is treated as "unclear". The tutor then asks another question instead of asserting a misconception.</div>
+    <div class="card"><h4>Fixed vocabulary</h4>The reply must match a Pydantic JSON schema, and the misconception ID must come from the catalogue. Invalid replies are retried up to two times.</div>
+    <div class="card"><h4>Student text is untrusted</h4>Reasoning is wrapped in clear delimiters and the prompt treats it only as data, so a student can't instruct the model. Empty reasoning skips the LLM.</div>
+  </div></div>
+</div>
+
+<!-- ============ 7. SELECTION ============ -->
+<div class="section">
+  <h2>7. Choosing and generating questions</h2>
+  <p>After every answer, code applies the first rule in this list that returns a question. The student's three most recent questions are always excluded.</p>
+
+  <figure class="keep">
+  <svg viewBox="0 0 760 300" width="100%">
+    <g font-size="11.5">
+      <g>
+        <rect x="10" y="8" width="740" height="40" rx="8" fill="#fff" stroke="#d9dedd"/>
+        <circle cx="34" cy="28" r="13" fill="#0f5a60"/><text x="34" y="32" text-anchor="middle" fill="#fff" font-weight="700">1</text>
+        <text x="58" y="25" font-weight="700">Pinned question</text><text x="58" y="40" fill="#5b6668" font-size="10.5">A question set for this student (used by the demo), then the pin is cleared</text>
+      </g>
+      <g transform="translate(0,48)">
+        <rect x="10" y="8" width="740" height="40" rx="8" fill="#fff" stroke="#d9dedd"/>
+        <circle cx="34" cy="28" r="13" fill="#0f5a60"/><text x="34" y="32" text-anchor="middle" fill="#fff" font-weight="700">2</text>
+        <text x="58" y="25" font-weight="700">Diagnostic not finished</text><text x="58" y="40" fill="#5b6668" font-size="10.5">The concept the tutor is least certain about (mastery closest to 50%); ties go to the concept most others depend on</text>
+      </g>
+      <g transform="translate(0,96)">
+        <rect x="10" y="8" width="740" height="40" rx="8" fill="#e3f0ef" stroke="#0f5a60"/>
+        <circle cx="34" cy="28" r="13" fill="#0f5a60"/><text x="34" y="32" text-anchor="middle" fill="#fff" font-weight="700">3</text>
+        <text x="58" y="25" font-weight="700">A misconception is suspected (probability ≥ 0.2)</text><text x="58" y="40" fill="#5b6668" font-size="10.5">The question that best separates the top two explanations: the "differential diagnosis" step</text>
+      </g>
+      <g transform="translate(0,144)">
+        <rect x="10" y="8" width="740" height="40" rx="8" fill="#fff" stroke="#d9dedd"/>
+        <circle cx="34" cy="28" r="13" fill="#0f5a60"/><text x="34" y="32" text-anchor="middle" fill="#fff" font-weight="700">4</text>
+        <text x="58" y="25" font-weight="700">A review is due</text><text x="58" y="40" fill="#5b6668" font-size="10.5">Lowest recall first; cleared misconceptions are rechecked before concepts</text>
+      </g>
+      <g transform="translate(0,192)">
+        <rect x="10" y="8" width="740" height="40" rx="8" fill="#fff" stroke="#d9dedd"/>
+        <circle cx="34" cy="28" r="13" fill="#0f5a60"/><text x="34" y="32" text-anchor="middle" fill="#fff" font-weight="700">5</text>
+        <text x="58" y="25" font-weight="700">A concept is below 70% mastery</text><text x="58" y="40" fill="#5b6668" font-size="10.5">The weakest concept whose prerequisites are all at least 50%; otherwise its weakest prerequisite</text>
+      </g>
+      <g transform="translate(0,240)">
+        <rect x="10" y="8" width="740" height="40" rx="8" fill="#fff" stroke="#d9dedd"/>
+        <circle cx="34" cy="28" r="13" fill="#5b6668"/><text x="34" y="32" text-anchor="middle" fill="#fff" font-weight="700">6</text>
+        <text x="58" y="25" font-weight="700">Nothing needed</text><text x="58" y="40" fill="#5b6668" font-size="10.5">"All caught up"</text>
+      </g>
+    </g>
+  </svg>
+  <figcaption>Figure 5. Next-question priority rules (<code>engine/selection.py</code>). Within a rule, the question whose expected success (from Elo) is closest to 60% wins, then question ID, so results are repeatable.</figcaption>
+  </figure>
+
+  <h3>7.1 Separating explanations</h3>
+  <p>When two misconceptions are both plausible, every available question gets a score:</p>
+  <pre>score = sum of p(m) for each of the top-two misconceptions that has an option in the question
+        + 0.5 if both have options and those options are different</pre>
+  <p>The highest score wins. A question where the two beliefs lead to <i>different</i> wrong answers tells them apart in one step. For Student A, "What is the last number printed by <code>range(3, 7)</code>?" separates "includes the stop" from "stop is the count".</p>
+
+  <h3>7.2 Generating questions safely</h3>
+  <p>When a weak concept runs out of unseen questions, the agent can generate a new one. To avoid wrong answer keys, <b>the LLM never writes the code or the answer</b>:</p>
+  <ol>
+    <li>Code chooses a template from a fixed list in <code>agent/solvers.py</code>: floor division, modulo, powers, running totals with <code>range</code>, nested-loop counts and list totals.</li>
+    <li>Code writes the Python program from that template and works out the correct result itself.</li>
+    <li>The LLM writes only the question wording and the answer options, naming the misconception behind each wrong option.</li>
+    <li>Code rejects the question unless exactly one option matches the computed answer, all options differ, every misconception ID is in the catalogue and the wording matches the numbers used. Rejected questions are retried up to two times.</li>
+  </ol>
+  <p><code>scripts/pregenerate.py</code> builds a pool of 20 checked questions ahead of time, so the demo doesn't wait on generation. LLM-written code is never run.</p>
+</div>
+
+<!-- ============ 8. SPACED REPETITION ============ -->
+<div class="section">
+  <h2>8. Spaced repetition</h2>
+  <p>Knowledge fades. Differential models this with a forgetting curve for every concept and for every misconception the student has cleared.</p>
+  <pre>Recall R = exp( −days since last practice / S )        review due when R &lt; 0.85
+Displayed mastery = mastery × (0.5 + 0.5·R)</pre>
+  <div class="grid2">
+    <div class="card">
+      <h4>Concept stability S</h4>
+      <ul style="margin:0">
+        <li>Starts at 2 days</li>
+        <li>Correct with sound reasoning: <b>doubles</b></li>
+        <li>Slip or unclear: unchanged</li>
+        <li>Anything else: <b>halves</b> (minimum 1 day)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Cleared misconceptions</h4>
+      <ul style="margin:0">
+        <li>Start with S = 3 days once resolved</li>
+        <li>Rechecked when recall drops below 85%</li>
+        <li>A sound answer on the recheck doubles S</li>
+        <li>A failed recheck raises the probability again</li>
+      </ul>
+    </div>
+  </div>
+
+  <figure class="keep" style="margin-top:5mm">
+  <svg viewBox="0 0 760 210" width="100%">
+    <g font-size="10.5">
+      <line x1="60" y1="170" x2="740" y2="170" stroke="#5b6668"/>
+      <line x1="60" y1="20" x2="60" y2="170" stroke="#5b6668"/>
+      <text x="52" y="24" text-anchor="end">100%</text><text x="52" y="44" text-anchor="end" fill="#a8322a">85%</text><text x="52" y="173" text-anchor="end">0</text>
+      <line x1="60" y1="40" x2="740" y2="40" stroke="#a8322a" stroke-dasharray="4 3"/>
+      <text x="736" y="35" text-anchor="end" fill="#a8322a">review due below this line</text>
+      <!-- S=2 curve: R(t)=exp(-t/2), x per day = 40px -->
+      <path d="M60,20 C80,40 100,58 120,70 C160,95 200,118 260,136" fill="none" stroke="#a8322a" stroke-width="2"/>
+      <text x="262" y="136" fill="#a8322a">S = 2 days (new or shaky)</text>
+      <path d="M60,20 C160,40 300,62 460,86 C560,100 650,110 740,118" fill="none" stroke="#0f5a60" stroke-width="2"/>
+      <text x="560" y="94" fill="#0f5a60">S = 16 days (after several sound answers)</text>
+      <text x="400" y="195" text-anchor="middle">days since last practice →</text>
+    </g>
+  </svg>
+  <figcaption>Figure 6. Illustrative forgetting curves. Sound answers raise stability, so reviews of well-understood concepts come due later.</figcaption>
+  </figure>
+  <ul>
+    <li>Reviews always use a question the student hasn't seen recently, never the same question again.</li>
+    <li>All time-based calculations use an app clock with an offset. The teacher's <b>Jump 7 days</b> button adds a week, so the demo can show reviews coming due without waiting.</li>
+  </ul>
+</div>
+
+<!-- ============ 9. STUDENT EXPERIENCE ============ -->
+<div class="section">
+  <h2>9. Student experience</h2>
+  <h3>9.1 The student's flow</h3>
+  <figure class="keep">
+  <svg viewBox="0 0 760 120" width="100%">
+    <defs><marker id="a4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#5b6668"/></marker></defs>
+    <g font-size="11">
+      <rect x="5" y="20" width="110" height="64" rx="10" fill="#e3f0ef" stroke="#0f5a60"/><text x="60" y="47" text-anchor="middle" font-weight="700">Sign in</text><text x="60" y="64" text-anchor="middle" fill="#5b6668" font-size="10">student account</text>
+      <rect x="133" y="20" width="110" height="64" rx="10" fill="#fff" stroke="#0f5a60"/><text x="188" y="47" text-anchor="middle" font-weight="700">8-question</text><text x="188" y="62" text-anchor="middle" font-weight="700">diagnostic</text>
+      <rect x="261" y="20" width="110" height="64" rx="10" fill="#fff" stroke="#0f5a60"/><text x="316" y="44" text-anchor="middle" font-weight="700">Answer +</text><text x="316" y="59" text-anchor="middle" font-weight="700">reasoning +</text><text x="316" y="74" text-anchor="middle" font-weight="700">confidence</text>
+      <rect x="389" y="20" width="110" height="64" rx="10" fill="#fbefd6" stroke="#8a5a00"/><text x="444" y="47" text-anchor="middle" font-weight="700">Result card</text><text x="444" y="64" text-anchor="middle" fill="#5b6668" font-size="10">diagnosis + mastery</text>
+      <rect x="517" y="20" width="110" height="64" rx="10" fill="#fff" stroke="#0f5a60"/><text x="572" y="47" text-anchor="middle" font-weight="700">Thinking panel</text><text x="572" y="64" text-anchor="middle" fill="#5b6668" font-size="10">why this question</text>
+      <rect x="645" y="20" width="110" height="64" rx="10" fill="#fff" stroke="#0f5a60"/><text x="700" y="47" text-anchor="middle" font-weight="700">Concept map</text><text x="700" y="64" text-anchor="middle" fill="#5b6668" font-size="10">+ reviews due</text>
+      <g stroke="#5b6668" stroke-width="1.6" marker-end="url(#a4)">
+        <line x1="115" y1="52" x2="131" y2="52"/><line x1="243" y1="52" x2="259" y2="52"/><line x1="371" y1="52" x2="387" y2="52"/><line x1="499" y1="52" x2="515" y2="52"/><line x1="627" y1="52" x2="643" y2="52"/>
+      </g>
+      <path d="M572,84 L572,108 L316,108 L316,86" fill="none" stroke="#5b6668" stroke-width="1.4" stroke-dasharray="4 3" marker-end="url(#a4)"/>
+      <text x="444" y="104" text-anchor="middle" fill="#5b6668" font-size="10">Next question, chosen by code</text>
+    </g>
+  </svg>
+  </figure>
+
+  <figure>
+    <img src="images/student_q.jpg" alt="Student question screen">
+    <figcaption>Figure 7. The question screen. Every answer needs the student's own reasoning ("How did you work it out?") and a confidence tap. The right panel shows what the agent is thinking, and "Reviews due" lists spaced reviews.</figcaption>
+  </figure>
+</div>
+
+<div class="section">
+  <figure>
+    <img src="images/student_map.jpg" alt="Student concept map">
+    <figcaption>Figure 8. The student's concept map, drawn from the concept graph. Each node is coloured by displayed mastery (red, amber, green), or grey when not yet assessed. Arrows run from a prerequisite to the concept that needs it.</figcaption>
+  </figure>
+
+  <h3>9.2 What the student sees after answering</h3>
+  <ul>
+    <li><b>Right or wrong</b>, decided by code.</li>
+    <li><b>The diagnosis</b> in plain words, with the student's own words quoted back ("You wrote…").</li>
+    <li><b>Mastery before and after</b> for the concept, such as "30% → 5%".</li>
+    <li><b>The explanations still open</b> and their probabilities, such as "72% range includes the stop".</li>
+    <li><b>Why the next question was chosen</b>, such as "This question best tests the current explanations".</li>
+  </ul>
+  <p>A "Right answer, wrong reason" result explains that the answer was correct but the reasoning wouldn't hold for other cases, so mastery doesn't move.</p>
+
+  <h3>9.3 Accounts and roles</h3>
+  <p>The app has mock sign-in with one teacher and four demo students. The server checks the role on every API request: students can only see and answer their own questions, only the teacher can see the class dashboard or use the demo controls, and the teacher can read a student's progress but can't answer for them.</p>
+  <figure>
+    <img src="images/login.jpg" alt="Sign-in page">
+    <figcaption>Figure 9. Sign-in page, with one-click demo accounts.</figcaption>
+  </figure>
+</div>
+
+<!-- ============ 10. TEACHER ============ -->
+<div class="section">
+  <h2>10. Teacher dashboard</h2>
+  <p>The dashboard turns every student's learner model into a view of class-wide gaps. To show how it works at scale, it uses a <b>simulated class of 30 made-up students</b>, and it says so in a banner at the top of the page.</p>
+
+  <figure>
+    <img src="images/teacher_top.jpg" alt="Teacher dashboard top">
+    <figcaption>Figure 10. Top of the dashboard: the "Simulated class" banner, demo controls (Jump 7 days, Reset demo), the four live demo students, class totals, the biggest class gaps and reviews due per concept.</figcaption>
+  </figure>
+</div>
+
+<div class="section">
+  <figure>
+    <img src="images/teacher_mid.jpg" alt="Teacher dashboard middle">
+    <figcaption>Figure 11. Shared misconceptions (students grouped by the false belief they share), root causes (the earliest weak prerequisite behind low scores), "What to teach on Monday", and the mastery heatmap by student and concept.</figcaption>
+  </figure>
+  <figure>
+    <img src="images/teacher_bot.jpg" alt="Difficulty surprises">
+    <figcaption>Figure 12. Difficulty surprises: questions whose Elo rating has moved away from the predicted difficulty, based on class results.</figcaption>
+  </figure>
+</div>
+
+<div class="section">
+  <h3 style="margin-top:0">What each panel tells the teacher</h3>
+  <table>
+    <thead><tr><th style="width:24%">Panel</th><th>What it shows</th><th style="width:30%">How it's computed</th></tr></thead>
+    <tbody>
+      <tr><td><b>Class totals</b></td><td>Students, average mastery, how many hold an active misconception, reviews due</td><td>Aggregated from each student's learner model</td></tr>
+      <tr><td><b>Biggest class gaps</b></td><td>Python concepts ranked weakest first, with how many students are below 40%</td><td>Average displayed mastery per concept</td></tr>
+      <tr><td><b>Reviews due</b></td><td>How many students need a review on each concept</td><td>Forgetting curve, recall below 85%</td></tr>
+      <tr><td><b>Shared misconceptions</b></td><td>Each active false belief and the students who share it</td><td>Misconception status = active</td></tr>
+      <tr><td><b>Root causes</b></td><td>The prerequisite that holds the most students back, and what it blocks</td><td>For each weak score, the deepest prerequisite also below 50%</td></tr>
+      <tr><td><b>Mastery heatmap</b></td><td>Every student against every concept, weakest first</td><td>Displayed mastery, coloured red, amber or green</td></tr>
+      <tr><td><b>Difficulty surprises</b></td><td>Questions harder or easier than predicted</td><td>Elo moved 150+ points after 10+ attempts</td></tr>
+      <tr><td><b>What to teach on Monday</b></td><td>A short draft lesson plan: a title, a board demonstration and a check question from the bank</td><td>LLM draft for the most common misconception; the teacher reviews it</td></tr>
+    </tbody>
+  </table>
+
+  <h3>How the simulated class is built</h3>
+  <p><code>scripts/seed_class.py</code> creates 30 students with a fixed random seed. Each has up to two hidden misconceptions and gets 12 to 15 scripted answers. When a question has an option for a hidden misconception, the student picks it 80% of the time; otherwise they answer correctly with the probability Elo predicts. Every answer goes through the real engine, without LLM calls. This data shows how the dashboard works. It isn't evidence that diagnosis works; that comes from the evaluation in section 11.</p>
+</div>
+
+<!-- ============ 11. EVALUATION ============ -->
+<div class="section">
+  <h2>11. Evaluation and testing</h2>
+  <h3>11.1 Diagnosis accuracy</h3>
+  <p>We wrote <b>40 labelled reasoning samples</b> as test cases. We used 10 to tune the prompt and <b>held out 30</b>, which were used only for the reported result. <code>scripts/evaluate.py</code> runs them against the local model and saves results to <code>eval/results.json</code>.</p>
+  <table>
+    <thead><tr><th>Measure (30 held-out cases)</th><th>Thinking off (used)</th><th>Thinking on</th></tr></thead>
+    <tbody>
+      <tr><td>Error type correct</td><td><b>30 of 30 (100%)</b></td><td>30 of 30 (100%)</td></tr>
+      <tr><td>Misconception identified, where one was expected</td><td><b>18 of 18 (100%)</b></td><td>18 of 18 (100%)</td></tr>
+      <tr><td>Average time per diagnosis</td><td><b>0.84 seconds</b></td><td>3.84 seconds</td></tr>
+    </tbody>
+  </table>
+  <p>Turning the model's thinking mode on gave the same accuracy at about 4.5 times the time, so we kept it off. All 8 misconceptions were covered in the held-out set.</p>
+  <div class="callout warn"><b>Being honest about this result.</b> These are written test cases, not real student data. The same AI assistant that helped write the misconception catalogue also wrote the test cases, in fairly clear wording. Real students will be harder to read, so we treat this as a check that the system works, not as evidence of accuracy with real students.</div>
+
+  <h3>11.2 Automated tests</h3>
+  <p>The project has <b>302 automated tests, all passing</b>, plus a separate live-model suite (<code>pytest -m llm</code>) that runs the demo cases against the real model.</p>
+  <table>
+    <thead><tr><th style="width:30%">Level</th><th>What is covered</th></tr></thead>
+    <tbody>
+      <tr><td>Engine unit tests</td><td>Every formula value in section 5, clamping, misconception statuses, recall, Elo</td></tr>
+      <tr><td>Graph and content tests</td><td>No cycles, valid references, exactly one correct option per question, solver accuracy</td></tr>
+      <tr><td>Selection tests</td><td>Each priority rule and repeatable tie-breaks</td></tr>
+      <tr><td>Agent tests (fake LLM)</td><td>Quote validation, retries, failure handling, rejected generated questions</td></tr>
+      <tr><td>Demo tests (fake LLM)</td><td>Students A, B and C get the expected mastery outcomes and next questions</td></tr>
+      <tr><td>API and sign-in tests</td><td>Answering changes state; role checks block the wrong accounts</td></tr>
+      <tr><td>Live LLM tests</td><td>The demo cases against <code>qwen3.5:9b</code></td></tr>
+    </tbody>
+  </table>
+
+  <h3>11.3 Reliability for the demo</h3>
+  <ul>
+    <li>Every LLM reply is cached by a hash of the model, prompt and schema. <code>scripts/warm_demo.py</code> runs the scripted demo answers through the real model beforehand, so the demo keeps working even if Ollama stops. It fails loudly if the tutor stops following the script.</li>
+    <li>The UI shows the diagnosis status (<code>ok</code>, <code>cached</code> or <code>failed</code>), so it never hides where a result came from.</li>
+  </ul>
+</div>
+
+<!-- ============ 12. DEMO ============ -->
+<div class="section">
+  <h2>12. Guided demo walkthrough</h2>
+  <p>Clicking <b>Start guided demo</b> on the landing page resets the four demo students and opens a step bar at the bottom of the page. It switches accounts automatically and fills in answers from <code>content/demo_script.json</code>. Each answer still goes through the same diagnosis and scoring as a typed one. The whole demo takes about 4 minutes.</p>
+  <table>
+    <thead><tr><th style="width:5%">Step</th><th style="width:15%">Account</th><th>What happens</th><th style="width:25%">Requirement shown</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>Student A</td><td>Answers "5 times… up to and including 5". Diagnosed with <code>range_includes_stop</code>; mastery 30% → 5%. The next question tests that belief; A gets it right and the probability falls from 72% to 36%.</td><td>Misconception from reasoning, learner model</td></tr>
+      <tr><td>2</td><td>Student B</td><td>Same wrong answer, different reason ("the 5 says how many times"). Gets a different diagnosis and a different next question.</td><td>Misconception from reasoning</td></tr>
+      <tr><td>3</td><td>Student C</td><td>Right answer, wrong reason: mastery stays at 30%. When the reasoning holds on a different start value, mastery rises to 69%.</td><td>Learner model</td></tr>
+      <tr><td>4</td><td>Student D</td><td>Takes the 8-question diagnostic ("question N of 8"), then the concept map shows a red weak spot.</td><td>Diagnostic test, concept graph</td></tr>
+      <tr><td>5</td><td>Student D</td><td>Gets a "Generated question" on the weakest concept, picked for about 60% expected success.</td><td>Targeted generation, calibration</td></tr>
+      <tr><td>6</td><td>Teacher</td><td>Clicks <b>Jump 7 days</b>; reviews due rise across the class.</td><td>Spaced repetition</td></tr>
+      <tr><td>7</td><td>Student C</td><td>"for loops with range" has faded to 3% recall, so the tutor brings it back as a review; mastery 69% → 92%.</td><td>Spaced repetition</td></tr>
+      <tr><td>8</td><td>Teacher</td><td>Shows the biggest gaps, shared misconceptions and root causes, drafts the Monday plan, and shows Elo difficulty moves (e.g. 1350 → 1476).</td><td>Teacher dashboard, calibration</td></tr>
+      <tr><td>9</td><td>Close</td><td>Shows the accuracy result and how it was measured.</td><td>Evaluation</td></tr>
+    </tbody>
+  </table>
+  <p class="small muted">The generated question in step 5 was created ahead of time by <code>scripts/pregenerate.py</code> and is served to any student who needs it; it isn't written live for Student D.</p>
+
+  <figure>
+    <img src="images/landing.jpg" alt="Landing page">
+    <figcaption>Figure 13. The landing page, with <b>Start guided demo</b>. The concept graph on the right shows mastery across prerequisites for one example student.</figcaption>
+  </figure>
+</div>
+
+<!-- ============ 13. RUN ============ -->
+<div class="section">
+  <h2>13. Running the project</h2>
+  <p>You need Python 3.12 or later, Node 20 or later, and <b>Ollama</b> running locally. The commands below are for Windows; on macOS or Linux use <code>.venv/bin</code> instead of <code>.venv/Scripts</code>.</p>
+  <h3>Set up once</h3>
+  <pre>ollama pull qwen3.5:9b
+python -m venv .venv
+.venv/Scripts/pip install -r requirements.txt
+npm --prefix web install
+npm --prefix web run build</pre>
+  <h3>Run</h3>
+  <pre>.venv/Scripts/python -m scripts.seed_class      # creates the simulated class of 30
+.venv/Scripts/python -m scripts.warm_demo       # caches the demo answers
+.venv/Scripts/python -m uvicorn api.main:app --port 8000</pre>
+  <p>Then open <b>http://localhost:8000</b> and click <b>Start guided demo</b>, or sign in with a demo account.</p>
+
+  <h3>Demo accounts (mock, local only)</h3>
+  <table>
+    <thead><tr><th>Role</th><th>Username</th><th>Password</th></tr></thead>
+    <tbody>
+      <tr><td>Teacher</td><td><code>teacher</code></td><td><code>Teacher-Demo-2026</code></td></tr>
+      <tr><td>Student A</td><td><code>student.a</code></td><td><code>Student-A-2026</code></td></tr>
+      <tr><td>Student B</td><td><code>student.b</code></td><td><code>Student-B-2026</code></td></tr>
+      <tr><td>Student C</td><td><code>student.c</code></td><td><code>Student-C-2026</code></td></tr>
+      <tr><td>Student D (takes the diagnostic)</td><td><code>student.d</code></td><td><code>Student-D-2026</code></td></tr>
+    </tbody>
+  </table>
+
+  <h3>Tests</h3>
+  <pre>.venv/Scripts/python -m pytest          # 302 tests, fake LLM
+.venv/Scripts/python -m pytest -m llm   # demo cases against the real model</pre>
+
+  <h3>Main API routes</h3>
+  <table>
+    <thead><tr><th style="width:42%">Route</th><th>Purpose</th></tr></thead>
+    <tbody>
+      <tr><td><code>GET /api/students/{id}/next</code></td><td>Next question with the trace, or "all caught up"</td></tr>
+      <tr><td><code>POST /api/students/{id}/answers</code></td><td>Submit option, reasoning and confidence; runs the agent loop</td></tr>
+      <tr><td><code>POST /api/clock/advance</code> / <code>reset</code></td><td>Move the demo clock (teacher only)</td></tr>
+      <tr><td><code>GET /api/class/summary</code></td><td>Dashboard data (teacher only)</td></tr>
+      <tr><td><code>POST /api/class/plan</code></td><td>Draft the Monday lesson plan (teacher only)</td></tr>
+      <tr><td><code>POST /api/demo/reset</code></td><td>Restore the demo students and clock (teacher only)</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ============ 14. LIMITS ============ -->
+<div class="section">
+  <h2>14. Limits and next steps</h2>
+  <h3>Current limits</h3>
+  <ul>
+    <li>Questions cover <b>Python Programming only</b>. Computer Networks, Web Pages with HTML and Cyber Ethics appear in the graph as "not assessed".</li>
+    <li>Comparison and logic, if and else, and functions have no questions yet.</li>
+    <li>New questions can be generated for arithmetic, running totals, nested loops and list traversal only. Other concepts cycle through their existing questions.</li>
+    <li>Sign-in is mock (passwords in code, sessions in memory). This is a local demo and shouldn't be exposed to the internet as it is.</li>
+    <li>No real student has used it yet, and the accuracy figure comes from written test cases.</li>
+    <li>The AI-written lesson plan is a draft for a teacher to review.</li>
+  </ul>
+
+  <h3>Next steps</h3>
+  <ol>
+    <li><b>Real classroom pilot:</b> test with Class 10 students and teachers, and measure diagnosis accuracy on real reasoning.</li>
+    <li><b>Wider content:</b> questions and misconceptions for the remaining Python concepts, then the other chapters and other subjects such as Class 10 physics.</li>
+    <li><b>More templates</b> so more concepts can get safely generated questions.</li>
+    <li><b>Real accounts</b> with several classes and teachers.</li>
+    <li><b>Teaching impact:</b> let teachers record "I taught this" and see the class before and after.</li>
+    <li><b>Handwritten working:</b> let students upload a photo of their reasoning.</li>
+  </ol>
+
+  <h3>Summary</h3>
+  <p>Differential meets all seven requirements of the brief in one running app. What sets it apart is that it diagnoses <i>why</i> a student is wrong from their own words, treats a right answer with wrong reasoning as no evidence of mastery, and chooses the question that best separates competing explanations. Throughout, the LLM only interprets and tested code makes every decision, and everything runs locally on one PC.</p>
+
+  <div class="card" style="margin-top:8mm">
+    <h4>Team Works Locally</h4>
+    Karthikeyan · Nandini<br>
+    <span class="muted small">Product Space AI Hackathon · Adaptive exam-prep tutor with a learner model</span>
+  </div>
+</div>
+
+</body>
+</html>
