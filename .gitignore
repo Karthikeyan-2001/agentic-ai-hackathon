@@ -1,8 +1,23 @@
+# Python
 .venv/
-.env
 __pycache__/
+.pytest_cache/
+
+# Node
 node_modules/
 web/dist/
+
+# Local configuration and data
+.env
 *.db
-.pytest_cache/
+
+# AI assistant and editor configuration
+.claude/
 .superpowers/
+CLAUDE.md
+
+# Internal planning and recording files
+docs/superpowers/
+docs/submission/
+docs/demo-video-script*.md
+demo-video/
